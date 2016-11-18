@@ -10,6 +10,9 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { spawn } from 'child_process';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
+
 
 import config from './webpack.config.development';
 
@@ -29,6 +32,17 @@ const wdm = webpackDevMiddleware(compiler, {
 app.use(wdm);
 
 app.use(webpackHotMiddleware(compiler));
+
+//Morgan logging middleware
+app.use(morgan('dev'));
+
+// Body parsing middleware
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+ // Serve static files from ../public
+app.use(express.static(resolve(__dirname, 'public')))
+
 
 const server = app.listen(PORT, 'localhost', serverError => {
   if (serverError) {
