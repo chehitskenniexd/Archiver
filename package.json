@@ -156,6 +156,8 @@
     "electron-debug": "^1.0.1",
     "font-awesome": "^4.7.0",
     "morgan": "^1.7.0",
+    "pg": "^6.1.0",
+    "pg-native": "^1.10.0",
     "photon": "^2.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
