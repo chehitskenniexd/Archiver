@@ -63,17 +63,18 @@ describe('Actions', function () {
             expect(stat).to.exist;
             expect(stat.isDirectory()).to.be.true;
 
-            // Test the object created
+            // Test the object created (TODO: Isolate this test)
             const objDirName = hash.slice(0, 2);
             const objFileName = hash.slice(2);
 
             const statDir = fs.statSync(`${dirPath}/.archive/objects/${objDirName}`);
-            const fileDir = fs.statSync(`${dirPath}/.archive/objects/${objDirName}/${objFileName}`);
+            const statFile = fs.statSync(`${dirPath}/.archive/objects/${objDirName}/${objFileName}`);
+            console.log(`${dirPath}/.archive/objects/${objDirName}/${objFileName}`);
             expect(statDir).to.exist;
             expect(statDir.isDirectory()).to.be.true;
 
-            expect(fileDir).to.exist;
-            expect(fileDir.isFile()).to.be.true;
+            expect(statFile).to.exist;
+            expect(statFile.isFile()).to.be.true;
         })
 
         it('Creates a spot in the index to track the file', function () {

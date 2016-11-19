@@ -8,6 +8,33 @@ export function getSha1Hash(data) {
         .digest('hex');
 }
 
+function createNewArchiveObject(filePath, hashContent, fileContents, dirPath) {
+    // create a hash for the file
+    const fileHash = getSha1Hash(`${hashContent}`);
+
+    // create .archive/objects and create a new 'object' based on the file
+    const objectPath = `${dirPath}/.archive/objects`;
+    try {
+        fs.statSync(objectPath);
+    } catch (err) {
+        fs.mkdirSync(objectPath);
+    }
+
+    // check to see if the object exists already
+    // directory
+    const objDirName = fileHash.slice(0, 2);
+    try {
+        fs.statSync(`${objectPath}/${objDirName}`);
+    } catch (err) {
+        fs.mkdirSync(`${objectPath}/${objDirName}`);
+    }
+
+    const objFileName = fileHash.slice(2);
+    // TODO: Check if exists because there should not be a collision
+    fs.writeFileSync(`${objectPath}/${objDirName}/${objFileName}`, fileContents, 'utf-8');
+    return fileHash;
+}
+
 export function initNewProject(dirPath) {
     // Sets the owner/author of this project 
 
@@ -32,35 +59,14 @@ export function initNewProject(dirPath) {
 
 export function addNewFile(filePath) {
     // check for valid file 
-    if(!fs.statSync(filePath).isFile()) { return false; }
+    if (!fs.statSync(filePath).isFile()) { return false; }
 
-    // create a hash for the file
     const fileContents = fs.readFileSync(filePath);
     const fileName = filePath.split('/').pop().split('.').shift();
-    const fileHash = getSha1Hash(`${fileName}${fileContents}`);
-
-    // create .archive/objects and create a new 'object' based on the file
+    const hashContents = `${fileName}${fileContents}`;
     const splitPath = filePath.split('/');
     const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
-    const objectPath = `${dirPath}/.archive/objects`;
-    try {
-        fs.statSync(objectPath);
-    } catch (err) {
-        fs.mkdirSync(objectPath);
-    }
-
-    // check to see if the object exists already
-    // directory
-    const objDirName = fileHash.slice(0, 2);
-    try {
-        fs.statSync(`${objectPath}/${objDirName}`);
-    } catch (err) {
-        fs.mkdirSync(`${objectPath}/${objDirName}`);
-    }
-
-    const objFileName = fileHash.slice(2);
-    // TODO: Check if exists because there should not be a collision
-    fs.writeFileSync(`${objectPath}/${objDirName}/${objFileName}`, fileContents, 'utf-8');
+    const fileHash = createNewArchiveObject(filePath, hashContents, fileContents, dirPath);
 
     // create .archive/index.txt that adds it as a tracked object
     const indexInfo = `${fileHash}/${fileName}\n`
@@ -74,4 +80,13 @@ export function addNewFile(filePath) {
     }
 
     return fileHash;
+}
+
+// TODO: Look to add more parameters (e.g. user_id)
+export function commitFileChanges(message) {
+    // Project has been added and initialized at this point
+    // Create a new object for the commit 
+    // file hash is pulled from the index
+    // parent will be from the refs
+    // Create a new ref to point at the new commit
 }
