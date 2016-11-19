@@ -87,10 +87,12 @@ export function commitFileChanges(filePath, message) {
     // Project has been added and initialized at this point
     // Create a new object for the commit 
     // file hash is pulled from the index
-    const fileContents = '';
+    let objContents = '';
+    const fileContents = fs.readFileSync(filePath);
+    const splitPath = filePath.split('/');
     const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
     const fileName = filePath.split('/').pop().split('.').shift();
-    const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`);
+    const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`, 'utf-8');
     const splitIndexContents = indexContents.split('\n');
     const content = splitIndexContents.filter((content, index) => {
         return content.split('/')[1] === fileName;
@@ -99,24 +101,27 @@ export function commitFileChanges(filePath, message) {
     const datetime = new Date().toString();
     // parent will be from the refs (/.archive/refs/fileName)
     const refsPath = `${dirPath}/.archive/refs`;
-    fileContents = `date: ${datetime}/msg: ${message}/committer: /file: ${fileHash}`;
+    objContents = `date: ${datetime}/msg: ${message}/committer: /file: ${fileHash}`;
     try {
-        fs.statSync(refsPath)
+        fs.statSync(refsPath);
     } catch (err) {
         fs.mkdirSync(refsPath);
-    } finally {
+    }
+
+    if (fs.access(`${refsPath}/${fileName}`, () => { })) {
         const parent = fs.readFileSync(`${refsPath}/${fileName}`, 'utf-8')
-        if(parent.length > 0){
-            fileContents += `parent: ${parent}/`;
+        if (parent.length > 0) {
+            objContents += `parent: ${parent}/`;
         }
     }
 
     const hashContents = `${fileName}${fileContents}${message}`;
-    const splitPath = filePath.split('/');
-    const commitHash = createNewArchiveObject(filePath, hashContents, fileContents, dirPath);
-    
+    const commitHash = createNewArchiveObject(filePath, hashContents, objContents, dirPath);
+
     // Create a new ref to point at the new commit
-    if(!fs.statSync(`${refsPath}/${fileName}`)){
+    if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
         fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
     }
+
+    return commitHash;
 }

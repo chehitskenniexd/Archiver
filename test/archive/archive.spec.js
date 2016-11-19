@@ -5,11 +5,18 @@ const actions = require('../../utilities/actions');
 
 describe('Actions', function () {
     const dirPath = `./ArchiveTest`;
+    const fileName = 'File'
+    const filePath = `${dirPath}/File.txt`;
+    const contents = 'banana peel';
+    const message = 'ayyyyy commit!';
+    const _initNewProject = actions.initNewProject;
+    const _addNewFile = actions.addNewFile;
+    const _commitFileChanges = actions.commitFileChanges;
+
     beforeEach(function () { rmdir(dirPath) });
     afterEach(function () { rmdir(dirPath) });
 
     describe('Initialize A New Project:', function () {
-        const _initNewProject = actions.initNewProject;
         it('Returns false when directory does not exist', function () {
             const returnValue = _initNewProject(dirPath);
             expect(returnValue).to.be.false;
@@ -32,11 +39,6 @@ describe('Actions', function () {
     }) // end initialize functionality
 
     describe('Add A New File To The Archive:', function () {
-        const fileName = 'File'
-        const filePath = `${dirPath}/File.txt`;
-        const _initNewProject = actions.initNewProject;
-        const contents = 'banana peel';
-
         beforeEach(function () {
             fs.mkdirSync(dirPath);
             _initNewProject(dirPath);
@@ -51,7 +53,6 @@ describe('Actions', function () {
 
         it('Returns a valid hash of the file if successful', function () {
             const hash = _addNewFile(filePath);
-            const fileName = filePath.split('/').pop().split('.').shift();
             expect(hash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}`));
         })
 
@@ -69,7 +70,6 @@ describe('Actions', function () {
 
             const statDir = fs.statSync(`${dirPath}/.archive/objects/${objDirName}`);
             const statFile = fs.statSync(`${dirPath}/.archive/objects/${objDirName}/${objFileName}`);
-            console.log(`${dirPath}/.archive/objects/${objDirName}/${objFileName}`);
             expect(statDir).to.exist;
             expect(statDir.isDirectory()).to.be.true;
 
@@ -95,7 +95,29 @@ describe('Actions', function () {
         })
     }) // end add functionality
 
-    describe('', function () {
+    describe('Commit a file to the archive: ', function () {
+        beforeEach(function () {
+            fs.mkdirSync(dirPath);
+            _initNewProject(dirPath);
+            fs.writeFileSync(filePath, contents, 'utf-8');
+            _addNewFile(filePath);
+        })
 
+        it('Returns a valid hash of the commit if successful', function () {
+            const commitHash = _commitFileChanges(filePath, message);
+            expect(commitHash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}${message}`))
+        })
+
+        it('Creates a valid archive object to store the commit information', function () {
+
+        })
+
+        it('Creates a valid refs folder to store versioning position', function () {
+            const commitHash = _commitFileChanges(filePath, message);
+        })
+
+        it('Creates a file with the correct information about the commit', function () {
+
+        })
     }) // end commit functionality
 })
