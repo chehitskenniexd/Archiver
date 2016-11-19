@@ -1,4 +1,5 @@
-
+const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 export function initNewProject(dirName) {
     // Sets the owner/author of this project 
