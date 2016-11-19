@@ -29,7 +29,7 @@ describe('Actions', function () {
             expect(stat).to.exist;
             expect(stat.isDirectory()).to.be.true;
         })
-    })
+    }) // end initialize functionality
 
     describe('Add A New File To The Archive:', function () {
         const fileName = 'File'
@@ -93,5 +93,9 @@ describe('Actions', function () {
             expect(indexHash).to.be.equal(hash);
             expect(indexFileName).to.be.equal(fileName);
         })
-    })
+    }) // end add functionality
+
+    describe('', function () {
+
+    }) // end commit functionality
 })

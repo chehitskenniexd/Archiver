@@ -83,10 +83,40 @@ export function addNewFile(filePath) {
 }
 
 // TODO: Look to add more parameters (e.g. user_id)
-export function commitFileChanges(message) {
+export function commitFileChanges(filePath, message) {
     // Project has been added and initialized at this point
     // Create a new object for the commit 
     // file hash is pulled from the index
-    // parent will be from the refs
+    const fileContents = '';
+    const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
+    const fileName = filePath.split('/').pop().split('.').shift();
+    const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`);
+    const splitIndexContents = indexContents.split('\n');
+    const content = splitIndexContents.filter((content, index) => {
+        return content.split('/')[1] === fileName;
+    })
+    const fileHash = content[0]; // this is the file hash from the index;
+    const datetime = new Date().toString();
+    // parent will be from the refs (/.archive/refs/fileName)
+    const refsPath = `${dirPath}/.archive/refs`;
+    fileContents = `date: ${datetime}/msg: ${message}/committer: /file: ${fileHash}`;
+    try {
+        fs.statSync(refsPath)
+    } catch (err) {
+        fs.mkdirSync(refsPath);
+    } finally {
+        const parent = fs.readFileSync(`${refsPath}/${fileName}`, 'utf-8')
+        if(parent.length > 0){
+            fileContents += `parent: ${parent}/`;
+        }
+    }
+
+    const hashContents = `${fileName}${fileContents}${message}`;
+    const splitPath = filePath.split('/');
+    const commitHash = createNewArchiveObject(filePath, hashContents, fileContents, dirPath);
+    
     // Create a new ref to point at the new commit
+    if(!fs.statSync(`${refsPath}/${fileName}`)){
+        fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
+    }
 }
