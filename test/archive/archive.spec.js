@@ -4,11 +4,11 @@ const rmdir = require('rimraf').sync;
 const actions = require('../../utilities/actions');
 
 describe('Actions', function () {
-    describe('Initialize A New Project', function () {
-        const dirPath = `./ArchiveTest`;
-        beforeEach(function () { rmdir(dirPath) });
-        afterEach(function () { rmdir(dirPath) });
+    const dirPath = `./ArchiveTest`;
+    beforeEach(function () { rmdir(dirPath) });
+    afterEach(function () { rmdir(dirPath) });
 
+    describe('Initialize A New Project', function () {
         const _initNewProject = actions.initNewProject;
         it('Returns false when directory does not exist', function () {
             const returnValue = _initNewProject(dirPath);
@@ -29,5 +29,16 @@ describe('Actions', function () {
             expect(stat).to.exist;
             expect(stat.isDirectory()).to.be.true;
         })
+    })
+
+    describe('Add A New File To The Archive', function () {
+        const filePath = `./ArchiveTest/File.txt`;
+        beforeEach(function () { _initNewProject(dirPath) });
+        it('Returns false if a directory is passed in', function () {
+            const returnValue = addNewFile(dirPath);
+            expect(returnValue).to.be.false;
+        })
+
+        
     })
 })
