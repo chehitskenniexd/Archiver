@@ -8,7 +8,7 @@ describe('Actions', function () {
     beforeEach(function () { rmdir(dirPath) });
     afterEach(function () { rmdir(dirPath) });
 
-    describe('Initialize A New Project', function () {
+    describe('Initialize A New Project:', function () {
         const _initNewProject = actions.initNewProject;
         it('Returns false when directory does not exist', function () {
             const returnValue = _initNewProject(dirPath);
@@ -31,14 +31,66 @@ describe('Actions', function () {
         })
     })
 
-    describe('Add A New File To The Archive', function () {
-        const filePath = `./ArchiveTest/File.txt`;
-        beforeEach(function () { _initNewProject(dirPath) });
+    describe('Add A New File To The Archive:', function () {
+        const fileName = 'File'
+        const filePath = `${dirPath}/File.txt`;
+        const _initNewProject = actions.initNewProject;
+        const contents = 'banana peel';
+
+        beforeEach(function () {
+            fs.mkdirSync(dirPath);
+            _initNewProject(dirPath);
+            fs.writeFileSync(filePath, contents, 'utf-8');
+        });
+
+        const _addNewFile = actions.addNewFile;
         it('Returns false if a directory is passed in', function () {
-            const returnValue = addNewFile(dirPath);
+            const returnValue = _addNewFile(dirPath);
             expect(returnValue).to.be.false;
         })
 
-        
+        it('Returns a valid hash of the file if successful', function () {
+            const hash = _addNewFile(filePath);
+            const fileName = filePath.split('/').pop().split('.').shift();
+            expect(hash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}`));
+        })
+
+        it('Creates an object directory with the object in the hidden archive', function () {
+            const hash = _addNewFile(filePath);
+
+            // Test the directory created
+            const stat = fs.statSync(`${dirPath}/.archive/objects`);
+            expect(stat).to.exist;
+            expect(stat.isDirectory()).to.be.true;
+
+            // Test the object created
+            const objDirName = hash.slice(0, 2);
+            const objFileName = hash.slice(2);
+
+            const statDir = fs.statSync(`${dirPath}/.archive/objects/${objDirName}`);
+            const fileDir = fs.statSync(`${dirPath}/.archive/objects/${objDirName}/${objFileName}`);
+            expect(statDir).to.exist;
+            expect(statDir.isDirectory()).to.be.true;
+
+            expect(fileDir).to.exist;
+            expect(fileDir.isFile()).to.be.true;
+        })
+
+        it('Creates a spot in the index to track the file', function () {
+            const hash = _addNewFile(filePath);
+
+            // Test to make sure index was created
+            const stat = fs.statSync(`${dirPath}/.archive/index.txt`);
+            expect(stat).to.exist;
+            expect(stat.isFile()).to.be.true;
+
+            // Test the contents of the file
+            const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`, 'utf-8');
+            const indexHash = indexContents.split('/').shift();
+            const indexFileName = indexContents.split('/').pop().replace(/\n$/, "");
+
+            expect(indexHash).to.be.equal(hash);
+            expect(indexFileName).to.be.equal(fileName);
+        })
     })
 })

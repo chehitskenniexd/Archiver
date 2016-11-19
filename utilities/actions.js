@@ -1,7 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-function getSha1Hash(data) {
+export function getSha1Hash(data) {
     return crypto
         .createHash('sha1')
         .update(data)
@@ -16,7 +16,6 @@ export function initNewProject(dirPath) {
     try {
         fs.statSync(dirPath).isDirectory();
     } catch (err) {
-        console.log('Invalid directory: ', err);
         return false;
     }
 
@@ -33,12 +32,7 @@ export function initNewProject(dirPath) {
 
 export function addNewFile(filePath) {
     // check for valid file 
-    try {
-        fs.statSync(filePath).isFile();
-    } catch (err) {
-        console.log('Invalid file: ', err);
-        return false;
-    }
+    if(!fs.statSync(filePath).isFile()) { return false; }
 
     // create a hash for the file
     const fileContents = fs.readFileSync(filePath);
@@ -46,8 +40,9 @@ export function addNewFile(filePath) {
     const fileHash = getSha1Hash(`${fileName}${fileContents}`);
 
     // create .archive/objects and create a new 'object' based on the file
-    const dirPath = filePath.split('/').pop().join('/');
-    const objectPath = `${dirPath}.archive/objects`;
+    const splitPath = filePath.split('/');
+    const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
+    const objectPath = `${dirPath}/.archive/objects`;
     try {
         fs.statSync(objectPath);
     } catch (err) {
@@ -65,18 +60,18 @@ export function addNewFile(filePath) {
 
     const objFileName = fileHash.slice(2);
     // TODO: Check if exists because there should not be a collision
-    fs.writeFile(`${objectPath}/${objDirName}/${objFileName}`, fileContents);
+    fs.writeFileSync(`${objectPath}/${objDirName}/${objFileName}`, fileContents, 'utf-8');
 
     // create .archive/index.txt that adds it as a tracked object
-    const indexInfo = `${fileHash} ${fileName}\n`
-    const indexPath = `${dirPath}.archive/index.txt`;
+    const indexInfo = `${fileHash}/${fileName}\n`
+    const indexPath = `${dirPath}/.archive/index.txt`;
     try {
         fs.statSync(indexPath)
     } catch (err) {
-        fs.writeFile(indexPath, indexInfo);
+        fs.writeFileSync(indexPath, indexInfo, 'utf-8');
     } finally {
-        fs.appendFileSync(indexPath, indexInfo);
+        fs.appendFileSync(indexPath, indexInfo, 'utf-8');
     }
 
-    return true;
+    return fileHash;
 }
