@@ -10,11 +10,11 @@ const Commit = require('./commit');
 const File = require('./file');
 const Project = require('./project');
 const User = require('./user');
+const UserProject = require('./user_project');
 
 // Form the associations
-User.hasMany(Project);
-Project.hasMany(User);
-Project.hasOne(User, {as: 'creator'});
+User.belongsToMany(Project, {through: UserProject});
+Project.belongsToMany(User, {through: UserProject});
 
 Project.hasMany(Commit);
 Commit.belongsTo(Project);
@@ -30,5 +30,6 @@ module.exports = {
   Commit,
   File,
   Project,
-  User
+  User,
+  UserProject
 };
