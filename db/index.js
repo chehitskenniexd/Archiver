@@ -17,7 +17,7 @@ const db = new Sequelize(url, {
 });
 
 // pull in our models
-require('./models');
+//require('./models');
 
 console.log("DB??????", db)
 
