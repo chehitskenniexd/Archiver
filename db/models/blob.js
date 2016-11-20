@@ -3,7 +3,6 @@
 const Sequelize = require('sequelize');
 const db = require('../index.js');
 
-
 const Blob = db.define('blob', {
   author: {
     type: Sequelize.STRING,

@@ -1,8 +1,9 @@
-'use strict'
-const Sequelize = require('sequelize')
-const db = require('../db')
+'use strict';
 
-const Project = db.define('projects', {
+const Sequelize = require('sequelize');
+const db = require('../index.js');
+
+const Project = db.define('project', {
   name: Sequelize.STRING
 })
 
