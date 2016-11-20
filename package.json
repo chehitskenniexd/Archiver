@@ -15,6 +15,7 @@
     "build": "npm run build-main && npm run build-renderer",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.development",
+    "seed": "node db/seed.js",
     "postinstall": "concurrently \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "dev": "npm run hot-server -- --start-hot",
     "package": "npm run build && build --publish never",
@@ -156,8 +157,6 @@
     "electron-debug": "^1.0.1",
     "font-awesome": "^4.7.0",
     "morgan": "^1.7.0",
-    "pg": "^6.1.0",
-    "pg-native": "^1.10.0",
     "photon": "^2.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -168,7 +167,8 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.27.0",
-    "source-map-support": "^0.4.6"
+    "source-map-support": "^0.4.6",
+    "sqlite3": "^3.1.8"
   },
   "devEngines": {
     "node": ">=6.x",

@@ -36,8 +36,11 @@ const db = module.exports = new Sequelize(url, {
   native: true // lets Sequelize know we can use pg-native for ~30% more speed
 });
 
+console.log("DB??????", db)
+
 // sync the db, creating it if necessary
 db.sync({force: true})
     .then(ok => console.log(chalk.green(`Synced models to db ${url}`)))
     .catch(fail => {
-      console.error(chalk.red('Failed db sync' + fail));
+      console.error(chalk.red('Failed db sync' + fail))
+    });
