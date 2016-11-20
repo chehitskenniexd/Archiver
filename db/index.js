@@ -9,7 +9,7 @@ const name = (process.env.DATABASE_NAME || 'archiver')
 const url = process.env.DATABASE_URL || `postgres://localhost:5432/${name}`
 
 console.log(chalk.yellow(`Hello, Opening database connection to ${url}`));
-console.log("url?", url)
+
 // create the database instance
 const db = module.exports = new Sequelize(url, {
   // logging: true, // set to console.log to see the raw SQL queries
