@@ -30,5 +30,5 @@ db.sync({ force: true })
     console.log(`Creating database ${name}...`)
     return new Promise((resolve, reject) =>
       require('child_process').exec(`createdb "${name}"`, resolve)
-    ).then(() => db.sync(true))
+    ).then(() => db.sync({ force: true }))
   });
