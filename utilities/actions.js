@@ -101,7 +101,7 @@ export function commitFileChanges(filePath, message) {
     const datetime = new Date().toString();
     // parent will be from the refs (/.archive/refs/fileName)
     const refsPath = `${dirPath}/.archive/refs`;
-    objContents = `date: ${datetime}/msg: ${message}/committer: /file: ${fileHash}`;
+    objContents = `date:${datetime}/msg:${message}/committer:/fileHash:${fileHash}`;
     try {
         fs.statSync(refsPath);
     } catch (err) {
@@ -111,7 +111,7 @@ export function commitFileChanges(filePath, message) {
     if (fs.access(`${refsPath}/${fileName}`, () => { })) {
         const parent = fs.readFileSync(`${refsPath}/${fileName}`, 'utf-8')
         if (parent.length > 0) {
-            objContents += `parent: ${parent}/`;
+            objContents += `parent:${parent}/`;
         }
     }
 
