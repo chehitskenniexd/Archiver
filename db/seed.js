@@ -10,20 +10,20 @@ const blob = seeds.blob,
 
 dbRun.didSync
   .then(() => dbRun.sync({force: true}))
-  .then(user)
+  .then(seedUser)
   .then(users => {
-    dbRun.query(alterSequence('users', users.length));
+    // db.query(alterSequence('users', users.length));
     console.log(`Seeded ${users.length} users OK`)
   })
-  .then(project)
+  .then(seedProject)
   .then(projects => {
-      dbRun.query(alterSequence('projects', projects.length));
+      // db.query(alterSequence('projects', projects.length));
       console.log(`Seeded ${projects.length} projects OK`);
     })
   .then(user_project)
-  .then(commit)
+  .then(seedCommit)
   .then(commits => {
-    dbRun.query(alterSequence('product', commits.length));
+    // db.query(alterSequence('product', commits.length));
     console.log(`Seeded ${commits.length} commits OK`);
   })
   .then(blob)

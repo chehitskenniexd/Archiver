@@ -18,7 +18,7 @@ const db = new Sequelize(url
 );
 
 
-module.exports = db;  
+module.exports = db;
 const seeds = require('./seeds');
 const blob = seeds.blob,
       commits = seeds.commit,
@@ -42,9 +42,9 @@ const seedCommit = () => db.Promise.map(commits,commit => db.model('commit').cre
 
 
 // sync the db, creating it if necessary
-db.sync({ force: false })
+db.sync({ force: true })
   .then(ok => console.log(chalk.green(`Synced models to db ${url}`)))
-  /*------------UNCOMMENT TO RESEED DB -----------*/ 
+  /*------------UNCOMMENT TO RESEED DB -----------*/
   // .then(seedUser)
   // .then(users => {
   //   // db.query(alterSequence('users', users.length));
@@ -64,7 +64,7 @@ db.sync({ force: false })
   // .then(blob)
   // .then(file)
   // .then(files => console.log(`Seeded ${files.length} files OK`))
-    /*------------UNCOMMENT TO RESEED DB -----------*/ 
+    /*------------UNCOMMENT TO RESEED DB -----------*/
   .catch(fail => {
     console.error(chalk.red('Failed db sync' + fail))
     // Otherwise, do this autocreate nonsense

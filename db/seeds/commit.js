@@ -9,7 +9,7 @@ var doTimes = (n, fn) => {
   return results;
 }
 
-//create random hashes 
+//create random hashes
 var hashArray = doTimes(35, function (){
     return chance.hash();
 })
@@ -58,14 +58,20 @@ let commits = commitArray.map((instance, i) => {
     instance.hash = hashArray[i];
     instance.projectId = chance.integer({min: 1, max: 15});
     if (randomHash !== hashArray[i]) {
-            instance.previous_commit = randomHash;
+      if (Math.random() * 20 < 8) {
+        instance.previous_commit = `${randomHash}, ${hashArray[i + 2]}`;
+      } else {
+        instance.previous_commit = randomHash;
+      }
     } else {
-        instance.previous_commit = hashArray[i+1];
+      if (Math.random() * 20 < 8) {
+        instance.previous_commit = `${hashArray[i + 1]}, ${hashArray[i + 5]}`;
+      } else {
+        instance.previous_commit = hashArray[i + 1];
+      }
     }
     return instance;
 })
-
-console.log("COMMITS", commits);
 
 module.exports = {
     commits,
