@@ -10,6 +10,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { spawn } from 'child_process';
+import { resolve } from 'path';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 

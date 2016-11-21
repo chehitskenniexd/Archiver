@@ -15,13 +15,15 @@
     "build": "npm run build-main && npm run build-renderer",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.development",
+    "seed": "node db/seed.js",
     "postinstall": "concurrently \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "dev": "npm run hot-server -- --start-hot",
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
-    "cleanup": "mop -v"
+    "cleanup": "mop -v",
+    "rebuild": "node ./node_modules/.bin/electron-rebuild"
   },
   "build": {
     "appId": "org.develar.ElectronReact",
@@ -115,6 +117,7 @@
     "electron-builder": "^8.3.0",
     "electron-devtools-installer": "^2.0.1",
     "electron-react-devtools": "^0.4.0",
+    "electron-rebuild": "^1.4.0",
     "enzyme": "^2.5.1",
     "eslint": "^3.9.1",
     "eslint-config-airbnb": "^13.0.0",
@@ -157,6 +160,8 @@
     "electron-debug": "^1.0.1",
     "font-awesome": "^4.7.0",
     "morgan": "^1.7.0",
+    "pg": "^6.1.0",
+    "pg-native": "^1.10.0",
     "photon": "^2.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -167,7 +172,8 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.27.0",
-    "source-map-support": "^0.4.6"
+    "source-map-support": "^0.4.6",
+    "sqlite3": "^3.1.8"
   },
   "devEngines": {
     "node": ">=6.x",
