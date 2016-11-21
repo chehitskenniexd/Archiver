@@ -1,5 +1,21 @@
+var chance = require('chance').Chance();
 
-let commits = [
+//performs a function n times, and returns an array of the results
+var doTimes = (n, fn) => {
+  var results = [];
+  while (n--) {
+    results.push(fn());
+  }
+  return results;
+}
+
+//create random hashes 
+var hashArray = doTimes(35, function (){
+    return chance.hash();
+})
+
+
+var commitArray = [
     {date: Date.UTC(2016, 10, 6, 21, 30), message: 'edited second paragraph', previous_commit: ''},
     {date: Date.UTC(2016, 10, 6, 22, 28), message: 'removed run-on sentence', previous_commit: ''},
     {date: Date.UTC(2016, 10, 7, 7, 5), message: 'fixed capitalization', previous_commit: ''},
@@ -37,4 +53,22 @@ let commits = [
     {date: Date.UTC(2016, 11, 4, 13, 15), message: 'clarified confusing wording', previous_commit: ''},
 ]
 
-module.exports = commits
+let commits = commitArray.map((instance, i) => {
+    var randomHash = chance.pick(hashArray)
+    instance.hash = hashArray[i];
+    instance.projectId = chance.integer({min: 1, max: 15});
+    if (randomHash !== hashArray[i]) {
+            instance.previous_commit = randomHash;
+    } else {
+        instance.previous_commit = hashArray[i+1];
+    }
+    return instance;
+})
+
+console.log("COMMITS", commits);
+
+module.exports = {
+    commits,
+    hashArray
+}
+
