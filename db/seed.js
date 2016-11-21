@@ -1,4 +1,4 @@
-const db = require('./index.js');
+let dbRun = require('./index.js');
 const seeds = require('./seeds');
 const blob = seeds.blob,
       commit = seeds.commit,
@@ -8,26 +8,26 @@ const blob = seeds.blob,
       user_project = seeds.user_project;
 
 
-db.didSync
-  .then(() => db.sync({force: true}))
-// commented out for syncing later
-  // .then(seedUsers)
-  // .then(users => {
-  //   db.query(alterSequence('users', users.length));
-  //   console.log(`Seeded ${users.length} users OK`)
-  // })
-  // .then(seedCategories)
-  // .then(categories => {
-  //     db.query(alterSequence('category', categories.length));
-  //     console.log(`Seeded ${categories.length} categories OK`)
-  //   })
-  // .then(seedProducts)
-  // .then(products => {
-  //   db.query(alterSequence('product', products.length));
-  //   console.log(`Seeded ${products.length} products OK`);
-  // })
-  // .then(seedProductCategoryJoin)
-  // .then(seedReviews)
-  // .then(reviews => console.log(`Seeded ${reviews.length} reviews OK`))
-  // .catch(error => console.error(error))
-  // .finally(() => db.close())
+dbRun.didSync
+  .then(() => dbRun.sync({force: true}))
+  .then(user)
+  .then(users => {
+    dbRun.query(alterSequence('users', users.length));
+    console.log(`Seeded ${users.length} users OK`)
+  })
+  .then(project)
+  .then(projects => {
+      dbRun.query(alterSequence('projects', projects.length));
+      console.log(`Seeded ${projects.length} projects OK`);
+    })
+  .then(user_project)
+  .then(commit)
+  .then(commits => {
+    dbRun.query(alterSequence('product', commits.length));
+    console.log(`Seeded ${commits.length} commits OK`);
+  })
+  .then(blob)
+  .then(file)
+  .then(files => console.log(`Seeded ${files.length} files OK`))
+  .catch(error => console.error(error))
+  .finally(() => dbRun.close())

@@ -5,7 +5,7 @@ const db = require('../index.js');
 
 
 const File = db.define('file', {
-  name: {
+  file_name: {
     type: Sequelize.STRING,
     allowNull: false
   },

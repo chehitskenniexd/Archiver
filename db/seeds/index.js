@@ -1,6 +1,6 @@
 module.exports = {
   blob: require('./blob'),
-  commit: require('./commit'),
+  commit: require('./commit').commits,
   file: require('./file'),
   project: require('./project'),
   user: require('./user'),
