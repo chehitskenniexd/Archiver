@@ -83,7 +83,7 @@ export function addNewFile(filePath) {
 }
 
 // TODO: Look to add more parameters (e.g. user_id)
-export function commitFileChanges(filePath, message) {
+export function commitFileChanges(filePath, message, mergeHash) {
     // Project has been added and initialized at this point
     // Create a new object for the commit 
     // file hash is pulled from the index
@@ -113,6 +113,9 @@ export function commitFileChanges(filePath, message) {
         if (parent.length > 0) {
             objContents += `parent:${parent}/`;
         }
+        if(mergeHash){
+            objContents += `parent:${parent}/`;
+        }
     }
 
     const hashContents = `${fileName}${fileContents}${message}`;
@@ -127,15 +130,50 @@ export function commitFileChanges(filePath, message) {
 }
 
 // This is specifically for file changes
-export function mergeFileChanges(filePath, localHash, serverHash) {
+export function mergeFileChanges(filePath, localHash, serverHash, serverContents) {
     // Find the common ancestor of the local and merge hashes
-        // If user is forced to pull first, just check the serverHash parents
+    // Common ancestor will always be the current local hash
+
+    // If the local ancestor and the server ancestor are the same, no need to merge
+    if (localHash === serverHash) {
+        return false;
+    }
+
+    const splitPath = filePath.split('/');
+    const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
+
+    const archiveDir = localHash.slice(0, 2);
+    const archiveFilename = localHash.slice(2);
+    const ancestorContents = fs.readFileSync(`${dirPath}/.archive/objects/${archiveDir}/${archiveFilename}`);
+    console.log(ancestorContents);
 
     // Check for changes between local/ancestor, and server/ancestor
-    // Case 1: if local has no changes and server does, then update local
-    // Case 2: if local AND server has changes, user picks one
-        // DEFAULT: take the server one (implement user after GUI updated)
-        // Commit the new changes with a message (automated for now)
+    const localContents = fs.readFileSync(`${filePath}`);
+    const bLocalChanges = !(localContents === ancestorContents); // if equal, then no changes
+    const bServerChanges = !(serverContents === ancestorContents); // if equal, then no changes
+    // Case 1: changes on local and no changes on server
+    if (bLocalChanges && !bServerChanges) {
+        // no need to merge since no new changes
+        return false;
+    }
+    // Case 2: if local has no changes and server does, then overwrite local
+    else if (!bLocalChanges && bServerChanges) {
+        fs.writeFileSync(`${filePath}`, serverContents, 'utf-8');
+        return true;
+    }
+    // Case 3: if local AND server has changes, user picks one
+    // DEFAULT: take the server one (implement user after GUI updated)
+    // Commit the new changes with a message (automated for now)
+    else if (bLocalChanges && bServerChanges) {
+        // TODO: remove this string?
+        const message = `updating local ${fileName} to match the server ${fileName}`;
+        // store the local content just in case
+        const newHash = commitFileChanges(filePath, 'storing local before merge');
+        fs.writeFileSync(`${filePath}`, serverContents, 'utf-8');
+        // create the commit info with new parent and server parent
+        const finalMergeHash = commitFileChange(filePath, 'updating and saving all files', serverHash);
+        return true;
+    }
 }
 
 // Update the .archive directory

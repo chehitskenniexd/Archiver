@@ -12,6 +12,7 @@ describe('Actions', function () {
     const _initNewProject = actions.initNewProject;
     const _addNewFile = actions.addNewFile;
     const _commitFileChanges = actions.commitFileChanges;
+    const _mergeFileChanges = actions.mergeFileChanges;
 
     beforeEach(function () { rmdir(dirPath) });
     afterEach(function () { rmdir(dirPath) });
@@ -126,7 +127,6 @@ describe('Actions', function () {
             const fileUrl = `${directoryUrl}/${commitHash.slice(2)}`;
             const fileName = filePath.split('/').pop().split('.').shift();
 
-            console.log(fs.readFileSync(fileUrl, 'utf-8'));
             // date: Mon Nov 21 2016 12:02:39 GMT-0500 (EST)/
             // msg: ayyyyy commit!/
             // committer: /
@@ -172,4 +172,20 @@ describe('Actions', function () {
             expect(refHash).to.be.equal(commitHash);
         })
     }) // end commit functionality
+
+    describe('Merge a file with and without conflicts: ', function () {
+        beforeEach(function () {
+            fs.mkdirSync(dirPath);
+            _initNewProject(dirPath);
+            fs.writeFileSync(filePath, contents, 'utf-8');
+            _addNewFile(filePath);
+            _commitFileChanges(filePath, message);
+        })
+
+        it('If the local and server are at the same commit, nothing happens', function () {
+            const hashes = actions.getSha1Hash(`${fileName}${contents}${message}`);
+            const merged = _mergeFileChanges(filePath, hashes, hashes, contents);
+            expect(merged).to.be.false;
+        })
+    }) // end merge functionality
 })
