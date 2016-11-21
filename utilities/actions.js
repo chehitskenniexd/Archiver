@@ -125,3 +125,20 @@ export function commitFileChanges(filePath, message) {
 
     return commitHash;
 }
+
+// This is specifically for file changes
+export function mergeFileChanges(filePath, localHash, serverHash) {
+    // Find the common ancestor of the local and merge hashes
+        // If user is forced to pull first, just check the serverHash parents
+
+    // Check for changes between local/ancestor, and server/ancestor
+    // Case 1: if local has no changes and server does, then update local
+    // Case 2: if local AND server has changes, user picks one
+        // DEFAULT: take the server one (implement user after GUI updated)
+        // Commit the new changes with a message (automated for now)
+}
+
+// Update the .archive directory
+export function pullDataFromServer() {
+
+}

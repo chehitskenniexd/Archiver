@@ -154,7 +154,7 @@ describe('Actions', function () {
             expect(filename).to.be.equal(fileName);
             // TODO: Check the committer when it is actually being used
         })
-        
+
         it('Creates a valid refs folder to store versioning position', function () {
             const commitHash = _commitFileChanges(filePath, message);
             const fileName = filePath.split('/').pop().split('.').shift();
