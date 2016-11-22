@@ -5,6 +5,31 @@ import styles from './Home.css';
 
 
 export default class Home extends Component {
+  constructor(props) {
+    super(props)
+
+    this.onUserSubmit = this.onUserSubmit.bind(this);
+  }
+
+  onUserSubmit(event) {
+    event.preventDefault();
+    const userCred = {
+        email: event.target.email.value,
+        password: event.target.password.value
+    }
+    if (event.target.id === 'login-form') {
+      this.props.login(userCred)
+      hashHistory.push('/')
+    } else {
+      if (event.target.user_name.value){
+        var name = event.target.user_name.value.split(' ').map(word => word[0].toUpperCase() + word.substr(1)).join(' ')
+        userCred.name = name
+      }
+        this.props.registerUser(userCred);
+        hashHistory.push('/profile')
+    }
+  }
+
   render() {
     return (
       <div className={styles.container} >
@@ -19,8 +44,7 @@ export default class Home extends Component {
               <div className="col s3"></div>
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text text-darken-2">account_circle</i>
-                <input id="icon_prefix" type="text" className="validate" />
-                <label htmlFor="icon_prefix">Username</label>
+                <input placeholder="Username" id="icon_prefix" type="text" className="validate" />
               </div>
               <div className="col s3"></div>
             </div>
@@ -28,8 +52,7 @@ export default class Home extends Component {
               <div className="col s3"></div>
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text">vpn_key</i>
-                <input id="vpn_key" type="text" className="validate" />
-                <label htmlFor="vpn_key">Password</label>
+                <input placeholder="Password" id="vpn_key" type="text" className="validate" />
               </div>
               <div className="col s3"></div>
               <div className="col s12">
@@ -49,3 +72,16 @@ export default class Home extends Component {
     );
   }
 }
+
+// const mapStateToProps = () => ({
+
+// });
+
+// const mapDispatchToProps = () => ({
+
+// });
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )();
