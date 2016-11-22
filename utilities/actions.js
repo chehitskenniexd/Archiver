@@ -3,13 +3,18 @@ const crypto = require('crypto');
 
 const Commit = require('../db/models/index').Commit;
 const Project = require('../db/models/index').Project;
-console.log(__dirname)
 
 export function getSha1Hash(data) {
   return crypto
     .createHash('sha1')
     .update(data)
     .digest('hex');
+}
+
+function newRefForNewCommit(refsPath, fileName, commitHash) {
+  if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
+    fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
+  }
 }
 
 function createNewArchiveObject(filePath, hashContent, fileContents, dirPath) {
@@ -87,7 +92,7 @@ export function addNewFile(filePath) {
 }
 
 // TODO: Look to add more parameters (e.g. user_id)
-export function commitFileChanges(filePath, message, mergeHash) {
+export function commitFileChanges(filePath, message, mergeHash, date) {
   // Project has been added and initialized at this point
   // Create a new object for the commit 
   // file hash is pulled from the index
@@ -126,9 +131,10 @@ export function commitFileChanges(filePath, message, mergeHash) {
   const commitHash = createNewArchiveObject(filePath, hashContents, objContents, dirPath);
 
   // Create a new ref to point at the new commit
-  if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
-    fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
-  }
+  // if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
+  //   fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
+  // }
+  newRefForNewCommit(refsPath, fileName, commitHash);
 
   return commitHash;
 }
@@ -193,6 +199,7 @@ export function pullDataFromServer(filePath) {
     return content.split('/')[1] === fileName;
   });
   const localHash = content[0].split('/')[0];
+  const refsPath = `${dirPath}/.archive/refs`;
 
   // Find projectId
   const projectName = dirPath.slice(2);
@@ -208,7 +215,7 @@ export function pullDataFromServer(filePath) {
       hash: localHash
     }
   });
-  const localCommitTime = localCommit.createdAt;
+  const localCommitTime = localCommit.date;
 
   // FindAll Commits with project id
   // And after local commit date
@@ -221,11 +228,17 @@ export function pullDataFromServer(filePath) {
         $gt: new Date(localCommitTime)
       }
     },
-    order: [Commit, 'createdAt', 'ASC']
+    order: [Commit, 'date', 'ASC']
   });
 
+  // save commits to local (.archive)
+  newCommits.forEach(function(commit) {
+    newRefForNewCommit(refsPath, fileName, commit.hash);
+  });
+
+  const serverHash = newCommits[0].hash;
+  const serverContents = newCommits[0].blob.file.file_contents;
   // run mergeFileChanges
-
-
+  mergeFileChanges(filePath, localHash, serverHash, serverContents);
 
 }

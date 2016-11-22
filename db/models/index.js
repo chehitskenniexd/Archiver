@@ -25,6 +25,13 @@ Blob.belongsTo(Commit);
 Blob.hasMany(File);
 File.belongsTo(Blob);
 
+Commit.addScope('defaultScope', {
+  include: [{ model: Blob,
+    include: [{ model: File }] }]
+}, {
+  override: true
+});
+
 module.exports = {
   Blob,
   Commit,
