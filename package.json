@@ -159,6 +159,7 @@
     "chance": "^1.0.4",
     "electron-debug": "^1.0.1",
     "express-session": "^1.14.2",
+    "electron-rebuild": "^1.4.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
     "morgan": "^1.7.0",
