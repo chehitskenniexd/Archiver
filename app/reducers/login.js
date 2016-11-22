@@ -7,18 +7,26 @@ const initialState = { loggedIn: false };
 const LOGIN_USER = 'LOGIN_USER';
 
 /*----------  ACTION CREATORS  ----------*/
-export const loginUser = () => ({
+export const loginUser = (user) => ({
   type: LOGIN_USER,
-  categories
+  payload: user
 });
 
-/*----------  THUNKS  ----------*/
-export const loadAllCategories = () => dispatch => {
-   axios.get('/api/categories')
-   .then(res => dispatch(receiveAllCategories(res.data)))
-   .catch( (err) => console.error(err));
+export const newUser = (user) => ({
+    type: REGISTER_USER,
+    payload: user
+})
 
-};
+
+/*----------  THUNKS  ----------*/
+export const createUser = (userCred) => {
+    const thunk = (dispatch) => {
+        axios.post('../backend_routes/api/register', userCred)
+            .then(res => dispatch(newUser(res.data)))
+            .catch(err => console.error('Error creating user: ', err))
+    }
+    return thunk;
+}
 
 
 /*----------  REDUCER  ----------*/

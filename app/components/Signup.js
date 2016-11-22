@@ -1,37 +1,23 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { Link } from 'react-router';
 import styles from './Signup.css';
+import {createUser} from '../reducers/login';
 
 
-export default class Signup extends Component {
+export class Signup extends Component {
   constructor(props) {
     super(props)
-    // this.state = {
-    //   password: "",
-    //   confirmPassword: ""
-    // }
-
-    // this.changePassword = this.changePassword.bind(this);
-    // this.changeConfirmPassword = this.changeConfirmPassword.bind(this);
     this.checkPasswordMatch = this.checkPasswordMatch.bind(this);
+    this.onUserSubmit = this.onUserSubmit.bind(this);
   }
-
-  // changePassword (evt) {
-  //   evt.preventDefault();
-  //   this.setState({password: evt.target.value})
-  // }
-
-  // changeConfirmPassword(evt) {
-  //   evt.preventDefault();
-  //   this.setState({confirmPassword: evt.target.value})
-  // }
 
 
   checkPasswordMatch() {
     var password = $("#new_password").val();
     var confirmPassword = $("#confirm_password").val();
     if (password !== confirmPassword)
-        $("#password_message").html("Passwords do not match!");
+        $("#password_message").html("Passwords do not match");
     else
         $("#password_message").html("");
   }
@@ -53,7 +39,7 @@ export default class Signup extends Component {
     return (
       <div className={styles.container} >
           <div className="row col s12">
-            <form className="col s12" >
+            <form className="col s12" onSubmit={this.onUserSubmit}>
               <div className="row">
                 <div className="col 12">
                   <Link to="/"><button className="btn-floating btn-large waves-effect waves-light cyan"><i className="material-icons">chevron_left</i></button></Link>
@@ -96,6 +82,12 @@ export default class Signup extends Component {
 
 /* ---------------- CONTAINER --------------------*/
 
+function mapStateToProps(state){
+  return {
+    counter: state.counter
+  }
+}
+
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -107,8 +99,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
-)(Login);
+)(Signup);
 
 

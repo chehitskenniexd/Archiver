@@ -15,6 +15,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 
 
+
 import config from './webpack.config.development';
 
 const argv = require('minimist')(process.argv.slice(2));
@@ -42,7 +43,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
  // Serve static files from ../public
-app.use(express.static(resolve(__dirname, 'public')))
+app
+  .use(express.static(resolve(__dirname, '..', 'public')))
+  .use('/materialize-css', express.static(resolve(__dirname, '..', 'node_modules', 'materialize-css', 'dist')))
+  .use('/jquery', express.static(resolve(__dirname, '..', 'node_modules', 'jquery', 'dist')))
+  .use('/material-icons', express.static(resolve(__dirname, '..', 'node_modules', 'material-design-icons', 'dist')))
+  .use('/api', require(__dirname + '/backend_routes/api'))
 
 
 const server = app.listen(PORT, 'localhost', serverError => {
