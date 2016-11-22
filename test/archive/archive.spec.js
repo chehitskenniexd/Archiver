@@ -107,6 +107,7 @@ describe('Actions', function () {
 
     it('Returns a valid hash of the commit if successful', function () {
       const commitHash = _commitFileChanges(filePath, message);
+      console.log(commitHash)
       expect(commitHash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}${message}`))
     })
 
