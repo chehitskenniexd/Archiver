@@ -13,6 +13,7 @@ describe('Actions', function () {
   const _addNewFile = actions.addNewFile;
   const _commitFileChanges = actions.commitFileChanges;
   const _mergeFileChanges = actions.mergeFileChanges;
+  const _pullDataFromServer = actions.pullDataFromServer;
 
   beforeEach(function () { rmdir(dirPath) });
   afterEach(function () { rmdir(dirPath) });
@@ -219,4 +220,18 @@ describe('Actions', function () {
       expect(refHash).to.be.equal(newHash);
     });
   }); // end merge functionality
+
+ describe('pull a file from the database: ', function () {
+    beforeEach(function () {
+      fs.mkdirSync(dirPath);
+      _initNewProject(dirPath);
+      fs.writeFileSync(filePath, contents, 'utf-8');
+      _addNewFile(filePath);
+      _commitFileChanges(filePath, message);
+    });
+
+    it('If the local and server are at the same commit, nothing happens', function () {
+      _pullDataFromServer('./Predictions/we');
+    });
+ });
 });

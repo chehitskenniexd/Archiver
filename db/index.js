@@ -42,7 +42,7 @@ const seedCommit = () => db.Promise.map(commits,commit => db.model('commit').cre
 
 
 // sync the db, creating it if necessary
-db.sync({ force: true })
+db.sync({ force: false})
   .then(ok => console.log(chalk.green(`Synced models to db ${url}`)))
   /*------------UNCOMMENT TO RESEED DB -----------*/
   // .then(seedUser)

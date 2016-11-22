@@ -1,6 +1,10 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
+const Commit = require('../db/models/index').Commit;
+const Project = require('../db/models/index').Project;
+console.log(__dirname)
+
 export function getSha1Hash(data) {
   return crypto
     .createHash('sha1')
@@ -147,7 +151,6 @@ export function mergeFileChanges(filePath, localHash, serverHash, serverContents
   const archiveDir = localHash.slice(0, 2);
   const archiveFilename = localHash.slice(2);
   const ancestorContents = fs.readFileSync(`${dirPath}/.archive/objects/${archiveDir}/${archiveFilename}`, 'utf-8');
-  
 
   // Check for changes between local/ancestor, and server/ancestor
   const localContents = fs.readFileSync(`${filePath}`);
@@ -177,6 +180,52 @@ export function mergeFileChanges(filePath, localHash, serverHash, serverContents
 }
 
 // Update the .archive directory
-export function pullDataFromServer() {
+export function pullDataFromServer(filePath) {
+  // Find localHash
+
+  //const fileContents = fs.readFileSync(filePath);
+  const splitPath = filePath.split('/');
+  const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
+  const fileName = filePath.split('/').pop().split('.').shift();
+  const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`, 'utf-8');
+  const splitIndexContents = indexContents.split('\n');
+  const content = splitIndexContents.filter((content, index) => {
+    return content.split('/')[1] === fileName;
+  });
+  const localHash = content[0].split('/')[0];
+
+  // Find projectId
+  const projectName = dirPath.slice(2);
+  const project = Project.findOne({
+    where: { name: projectName }
+  });
+  const projectID = project.id;
+
+  // Find local's commit time
+  const localCommit = Commit.findOne({
+    where: {
+      projectId: project.id,
+      hash: localHash
+    }
+  });
+  const localCommitTime = localCommit.createdAt;
+
+  // FindAll Commits with project id
+  // And after local commit date
+  // Sort by date (use most recent)
+
+  const newCommits = Commit.findAll({
+    where: {
+      projectId: projectID,
+      createdAt: {
+        $gt: new Date(localCommitTime)
+      }
+    },
+    order: [Commit, 'createdAt', 'ASC']
+  });
+
+  // run mergeFileChanges
+
+
 
 }
