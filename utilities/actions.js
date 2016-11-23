@@ -302,10 +302,10 @@ function createNewCommitFromServer(filePath, commit) {
   const hashContents = `${fileName}${fileContent}${message}`;
   const newCommitHash = createNewArchiveObject(filePath, hashContents, objContents, dirPath);
 
-  // Create a new ref to point at the new commit
-  // if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
-  //   fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
-  // }
+  // Create a new ref to point at the new commit IF it doesn't exist
+  if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
+    fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
+  }
 
   return newCommitHash;
 }
