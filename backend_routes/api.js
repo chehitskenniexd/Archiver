@@ -4,7 +4,8 @@ const db = require('../db');
 const api = module.exports = require('express').Router();
 
 api
-  .use('/register', require('./register'))
+	.use('/register', require('./register'))
+	.use('/login', require('./login'))
 
 // Send along any errors
 api.use((err, req, res, next) => {

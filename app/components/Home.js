@@ -2,35 +2,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import styles from './Home.css';
+import {authenticateUser} from '../reducers/login';
+import {connect} from 'react-redux';
 
 
-export default class Home extends Component {
+export class Home extends Component {
   constructor(props) {
     super(props)
-
     this.onUserSubmit = this.onUserSubmit.bind(this);
   }
 
   onUserSubmit(event) {
+    console.log("GOT HERE!!!")
     event.preventDefault();
     const userCred = {
         email: event.target.email.value,
-        password: event.target.password.value
+        password: event.target.password.value,
     }
-    if (event.target.id === 'login-form') {
-      this.props.login(userCred)
-      hashHistory.push('/')
-    } else {
-      if (event.target.user_name.value){
-        var name = event.target.user_name.value.split(' ').map(word => word[0].toUpperCase() + word.substr(1)).join(' ')
-        userCred.name = name
-      }
-        this.props.registerUser(userCred);
-        hashHistory.push('/profile')
-    }
+      this.props.loginUser(userCred);
+      // hashHistory.push('/profile')
+
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className={styles.container} >
         <div className="row">
@@ -39,12 +34,14 @@ export default class Home extends Component {
           </div>
           <br />
           <br />
-          <form className="col s12 valign">
+          <form className="col s12 valign" onSubmit={this.onUserSubmit}>
             <div className="row">
               <div className="col s3"></div>
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text text-darken-2">account_circle</i>
-                <input placeholder="Username" id="icon_prefix" type="text" className="validate" />
+                <input placeholder="Username" id="email" type="text" className="validate" />
+                {this.props.login.incorrectUser ? <h6>user does not exist</h6> : ""}
+              
               </div>
               <div className="col s3"></div>
             </div>
@@ -52,36 +49,48 @@ export default class Home extends Component {
               <div className="col s3"></div>
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text">vpn_key</i>
-                <input placeholder="Password" id="vpn_key" type="text" className="validate" />
+                <input placeholder="Password" id="password" type="password" className="validate" />
+                 {this.props.login.incorrectPassword ? <h6>incorrect password</h6> : ""}
+               
               </div>
               <div className="col s3"></div>
               <div className="col s12">
-                <a className="waves-effect waves-light btn cyan">submit</a>
+                <button className="waves-effect waves-light btn cyan">submit</button>
                 <br />
               </div>
               <div className="col s12">
                 <h6>OR</h6>
               </div>
-              <div className="col s12">
-                <Link to="/signup"><button className="waves-effect waves-light btn orange darken-3">signup</button></Link>
-              </div>
             </div>
           </form>
+          <div className="col s12">
+                <Link to="/signup"><button className="waves-effect waves-light btn orange darken-3">signup</button></Link>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-// const mapStateToProps = () => ({
+/* ---------------- CONTAINER --------------------*/
 
-// });
+function mapStateToProps(state){
+  return {
+    login: state.login
+  }
+}
 
-// const mapDispatchToProps = () => ({
 
-// });
+function mapDispatchToProps(dispatch) {
+    return {
+        loginUser: (userCred) => {
+            dispatch(authenticateUser(userCred))
+        }
+        
+    }
+}
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )();
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Home);

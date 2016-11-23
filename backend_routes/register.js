@@ -8,9 +8,10 @@ const User = require('../db/models/user');
 module.exports = router;
 
 router.post('/', (req, res, next) => {
-    console.log("WE GOT INTO THE ROUTE!", req.body)
     User.findOrCreate({
-        where {email: req.body.email}, 
+        where: {
+            email: req.body.email
+        }, 
         defaults: {
             password: req.body.password,
             first_name: req.body.first_name,
@@ -18,19 +19,19 @@ router.post('/', (req, res, next) => {
         }
     })
     .spread((foundUser, created) => {
+        let resObj = {};
         if (!created) {
-            res.send("User already exists");
+            resObj.message = "that user already exists";
         }
-        console.log("ABOUT TO LOGIN NEW USER")
-        return Promise.all([foundUser.authenticate(req.body.password), foundUser]);
+     
+        return Promise.all([foundUser.authenticate(req.body.password), foundUser, resObj])  
     })
-    .spread((isUser, foundUser) => {
-        if (isUser){
-            console.log("WE ARE SETTING A SESSION FOR, ", foundUser)
+    .spread((isAuthUser, foundUser, resObj) => {
+        if (isAuthUser){
             req.session.user = foundUser;
-            res.send(foundUser);
-        }    
+            resObj.foundUser = foundUser;
+            res.json(resObj);
+        } 
     })
     .catch(next);
 })
-

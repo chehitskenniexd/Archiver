@@ -13,6 +13,8 @@ import { spawn } from 'child_process';
 import { resolve } from 'path';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+import session from 'express-session';
 
 
 
@@ -38,9 +40,26 @@ app.use(webpackHotMiddleware(compiler));
 //Morgan logging middleware
 app.use(morgan('dev'));
 
+
+module.exports = app
+  // We'll store the whole session in a cookie
+  app.use(require('cookie-session') ({
+    name: 'session',
+    keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
+  }))
+
+
 // Body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+// Authentication middleware
+app.use(session({
+  secret: 'anotherwordfortongs'
+}))
+.use(passport.initialize())
+.use(passport.session())
+
 
  // Serve static files from ../public
 app
@@ -48,7 +67,8 @@ app
   .use('/materialize-css', express.static(resolve(__dirname, '..', 'node_modules', 'materialize-css', 'dist')))
   .use('/jquery', express.static(resolve(__dirname, '..', 'node_modules', 'jquery', 'dist')))
   .use('/material-icons', express.static(resolve(__dirname, '..', 'node_modules', 'material-design-icons', 'dist')))
-  .use('/api', require(__dirname + '/backend_routes/api'))
+
+app.use('/api', require('./backend_routes/api'))
 
 
 const server = app.listen(PORT, 'localhost', serverError => {
@@ -61,7 +81,6 @@ const server = app.listen(PORT, 'localhost', serverError => {
       .on('close', code => process.exit(code))
       .on('error', spawnError => console.error(spawnError));
   }
-
   console.log(`Listening at http://localhost:${PORT}`);
 });
 

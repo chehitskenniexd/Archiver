@@ -58,6 +58,9 @@ export class Signup extends Component {
                 <div className="input-field col s12">
                   <input placeholder="Email" id="email" type="email" className="validate" />
                 </div>
+                <div>
+                  {this.props.login.userExists ? <h6>That user already exists</h6> : ""}
+                </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
@@ -84,7 +87,7 @@ export class Signup extends Component {
 
 function mapStateToProps(state){
   return {
-    counter: state.counter
+    login: state.login
   }
 }
 

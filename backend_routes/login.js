@@ -14,32 +14,23 @@ router.post('/', (req, res, next) => {
         }
     })
         .then(foundUser => {
+            let resObj = {};
             if (!foundUser) {
-                res.sendStatus(401);
-            }
-            else {
-                return Promise.all([foundUser.authenticate(req.body.password), foundUser]);
+                resObj.notFound = "user not found";
+                res.json(resObj);
+            } else {
+                return Promise.all([foundUser.authenticate(req.body.password), foundUser, resObj]);
             }
         })
-        .spread((isUser, foundUser) => { //loggedInUser = boolean
+        .spread((isUser, foundUser, resObj) => { //loggedInUser = boolean
             if (isUser) {
                 req.session.user = foundUser;
-                res.send(foundUser);
+                resObj.foundUser = foundUser;
+                res.json(resObj);
+            } else {
+                resObj.message ='Wrong password';
+                res.json(resObj);
             }
-            else res.send('Wrong password')
         })
         .catch(next)
-});
-
-router.get('/', function (req, res, next) {
-    req.session = null;
-    res.status(200).end();
-});
-
-router.get('/me', function (req, res, next) {
-    if (req.session.user) {
-        res.send(req.session.user);
-    } else {
-        res.sendStatus(401);
-    }
 });
