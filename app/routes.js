@@ -6,11 +6,14 @@ import Home from './components/Home';
 import Signup from './components/Signup';
 import Main from './components/Main';
 
+import Add from './components/Add';
+
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
     <Route path="/signup" component={Signup} />
     <Route path="/main" component={Main} />
+    <Route path="/add" component={Add} />
   </Route>
 );
