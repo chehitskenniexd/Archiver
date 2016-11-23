@@ -107,7 +107,7 @@ describe('Actions', function () {
 
     it('Returns a valid hash of the commit if successful', function () {
       const commitHash = _commitFileChanges(filePath, message);
-      console.log(commitHash)
+      
       expect(commitHash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}${message}`))
     })
 
@@ -221,18 +221,4 @@ describe('Actions', function () {
       expect(refHash).to.be.equal(newHash);
     });
   }); // end merge functionality
-
- describe('pull a file from the database: ', function () {
-    beforeEach(function () {
-      fs.mkdirSync(dirPath);
-      _initNewProject(dirPath);
-      fs.writeFileSync(filePath, contents, 'utf-8');
-      _addNewFile(filePath);
-      _commitFileChanges(filePath, message);
-    });
-
-    it('If the local and server are at the same commit, nothing happens', function () {
-      _pullDataFromServer('./Predictions/we');
-    });
- });
 });
