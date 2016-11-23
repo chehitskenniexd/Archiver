@@ -76,7 +76,7 @@ export const authenticateUser = (userCred) => {
 /*----------  REDUCER  ----------*/
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_ALREADY_EXISTS: 
+    case USER_ALREADY_EXISTS:
       return Object.assign({}, state, {userExists: action.userExists, user: action.payload});
     case REGISTER_USER:
       return action.payload;

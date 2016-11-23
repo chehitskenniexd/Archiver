@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import styles from './Home.css';
 import {authenticateUser} from '../reducers/login';
 import {connect} from 'react-redux';
+import { Router, hashHistory } from 'react-router';
 
 
 export class Home extends Component {
@@ -13,19 +14,18 @@ export class Home extends Component {
   }
 
   onUserSubmit(event) {
-    console.log("GOT HERE!!!")
     event.preventDefault();
     const userCred = {
         email: event.target.email.value,
         password: event.target.password.value,
     }
       this.props.loginUser(userCred);
-      // hashHistory.push('/profile')
+      // this.props.router.push('/main')
 
   }
 
   render() {
-    console.log(this.props)
+    console.log("SIGH", this.props)
     return (
       <div className={styles.container} >
         <div className="row">
@@ -41,7 +41,7 @@ export class Home extends Component {
                 <i className="material-icons prefix cyan-text text-darken-2">account_circle</i>
                 <input placeholder="Username" id="email" type="text" className="validate" />
                 {this.props.login.incorrectUser ? <h6>user does not exist</h6> : ""}
-              
+
               </div>
               <div className="col s3"></div>
             </div>
@@ -51,11 +51,14 @@ export class Home extends Component {
                 <i className="material-icons prefix cyan-text">vpn_key</i>
                 <input placeholder="Password" id="password" type="password" className="validate" />
                  {this.props.login.incorrectPassword ? <h6>incorrect password</h6> : ""}
-               
+
               </div>
               <div className="col s3"></div>
               <div className="col s12">
-                <button className="waves-effect waves-light btn cyan">submit</button>
+                <Link to={this.props.login.user ? "/main" : ""}>
+                  <button className="waves-effect waves-light btn cyan">submit</button>
+                }
+                </Link>
                 <br />
               </div>
               <div className="col s12">
@@ -63,8 +66,12 @@ export class Home extends Component {
               </div>
             </div>
           </form>
-          <div className="col s12">
-                <Link to="/signup"><button className="waves-effect waves-light btn orange darken-3">signup</button></Link>
+          <div className="row">
+            <div className="col s12">
+              <Link to="/signup">
+                <button className="waves-effect waves-light btn orange darken-3">signup</button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -86,7 +93,7 @@ function mapDispatchToProps(dispatch) {
         loginUser: (userCred) => {
             dispatch(authenticateUser(userCred))
         }
-        
+
     }
 }
 

@@ -42,7 +42,9 @@ export class Signup extends Component {
             <form className="col s12" onSubmit={this.onUserSubmit}>
               <div className="row">
                 <div className="col 12">
-                  <Link to="/"><button className="btn-floating btn-large waves-effect waves-light cyan"><i className="material-icons">chevron_left</i></button></Link>
+                  <Link to="/">
+                    <button className="btn-floating btn-large waves-effect waves-light cyan"><i className="material-icons">chevron_left</i></button>
+                  </Link>
                 </div>
                 <br />
                 <br />
@@ -74,7 +76,9 @@ export class Signup extends Component {
                 </div>
               </div>
               <div className="row">
-                <button className="waves-effect waves-light btn cyan">submit</button>
+                <Link to="/main">
+                  <button className="waves-effect waves-light btn cyan">submit</button>
+                </Link>
               </div>
             </form>
           </div>
@@ -97,7 +101,7 @@ function mapDispatchToProps(dispatch) {
         registerUser: (userCred) => {
             dispatch(createUser(userCred))
         }
-        
+
     }
 }
 
