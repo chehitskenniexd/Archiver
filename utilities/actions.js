@@ -233,7 +233,7 @@ export function pullDataFromServer(filePath) {
       refsExist = false;
     }
 
-    if(refsExist){ // not being tested yet
+    if(refsExist){ 
       // if a commit exists, pull the MOST RECENT COMMITS from db
       const localHash = fs.readFileSync(refsUrl, 'utf-8');
       const localCommit = data.commits.find(commit => commit.hash === localHash);
@@ -241,28 +241,29 @@ export function pullDataFromServer(filePath) {
       projectCommits = data.commits.filter(commit => {
         return commit.date > localCommit.date
       })
-      console.log(projectCommits);
     }
 
     // save all the contents from the server onto the local archive
     projectCommits.forEach(commit => {
-      const commitFilename = commit.blob && commit.blob.files[0] ? commit.blob.files[0].file_name : '';
-      if(commitFilename !== ''){
+      const commitFilename = commit.blob && commit.blob.files[0] 
+        ? commit.blob.files[0].dataValues.file_name : null;
+      if(commitFilename){
         const commitFilePath = `${dirPath}/${commitFilename}`;
         createNewCommitFromServer(commitFilePath, commit);
       }
     })
 
     // check for a merge, just in case
+    if(refsExist){
+      const localHash = fs.readFileSync(refsUrl, 'utf-8');
+      const serverHash = projectCommits.sort((a, b) => a.id > b.id ? a : b).pop();
+      if(serverHash){
+        const serverContents = projectCommits.find(commit => commit.hash === serverHash)
+          .blob.files[0].dataValues.file_contents;
+        mergeFileChanges(filePath, localHash, serverHash, serverContents);
+      }
+    }
   })
-
-  const serverHash = projectCommits.reduce((a, b) => a.id > b.id ? a : b);
-  console.log(severHash);
-  // const serverHash = newCommits[0].hash;
-  // const serverContents = newCommits[0].blob.file.file_contents;
-  // // run mergeFileChanges
-  // mergeFileChanges(filePath, localHash, serverHash, serverContents);
-
 }
 
 function createNewCommitFromServer(filePath, commit) {
@@ -302,9 +303,9 @@ function createNewCommitFromServer(filePath, commit) {
   const newCommitHash = createNewArchiveObject(filePath, hashContents, objContents, dirPath);
 
   // Create a new ref to point at the new commit
-  if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
-    fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
-  }
+  // if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
+  //   fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
+  // }
 
   return newCommitHash;
 }
