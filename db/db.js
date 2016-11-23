@@ -10,6 +10,6 @@ console.log(chalk.yellow(`Hello, Opening database connection to ${url}`));
 
 // create the database instance
 module.exports = new Sequelize(url, {
-  logging: true, // set to console.log to see the raw SQL queries
+  logging: false, // set to console.log to see the raw SQL queries
   // native: true // lets Sequelize know we can use pg-native for ~30% more speed
 });

@@ -107,7 +107,6 @@ describe('Actions', function () {
 
     it('Returns a valid hash of the commit if successful', function () {
       const commitHash = _commitFileChanges(filePath, message);
-      console.log(commitHash)
       expect(commitHash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}${message}`))
     })
 
@@ -231,8 +230,11 @@ describe('Actions', function () {
       _commitFileChanges(filePath, message);
     });
 
-    it('If the local and server are at the same commit, nothing happens', function () {
-      _pullDataFromServer('./Predictions/we');
+    it.only('If the local and server are at the same commit, nothing happens', function () {
+      return _pullDataFromServer('./Recipes/zaz')
+        .then(res => {
+          fs.writeFileSync(`./dbInfo.txt`, JSON.stringify(res), 'utf-8');
+        });
     });
  });
 });
