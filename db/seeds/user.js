@@ -1,126 +1,135 @@
+var bcrypt = require('bcrypt');
 
 let users = [
     {
         first_name: 'Bob',
         last_name: 'Williams',
         email: 'bob@williams.com',
-        password: 'green'
+        password_digest: 'green',
     },
     {
         first_name: 'Barry',
         last_name: 'Smith',
         email: 'barry@smith.com',
-        password: 'blue'
+        password_digest: 'blue'
+
     },
     {
         first_name: 'Bernard',
         last_name: 'Jones',
         email: 'bernard@jones.com',
-        password: 'purple'
+        password_digest: 'purple'
     },
     {
         first_name: 'Beatrice',
         last_name: 'Johnson',
         email: 'red',
-        password: 'beatrice@johnson.com'
+        password_digest: 'beatrice@johnson.com'
     },
     {
         first_name: 'Billy',
         last_name: 'Browne',
         email: 'billy@browne.com',
-        password: 'orange'
+        password_digest: 'orange'
     },
     {
         first_name: 'Bella',
         last_name: 'Miller',
         email: 'bella@miller.com',
-        password: 'yellow'
+        password_digest: 'yellow'
     },
     {
         first_name: 'Bethany',
         last_name: 'Davis',
         email: 'bethany@davis.com',
-        password: 'black'
+        password_digest: 'black'
     },
     {
         first_name: 'Brian',
         last_name: 'Taylor',
         email: 'brian@taylor.com',
-        password: 'white'
+        password_digest: 'white'
     },
     {
         first_name: 'Bernadette',
         last_name: 'Wilson',
         email: 'bernadette@wilson.com',
-        password: 'brown'
+        password_digest: 'brown'
     },
     {
         first_name: 'Betsy',
         last_name: 'White',
         email: 'betsey@white.com',
-        password: 'indigo'
+        password_digest: 'indigo'
     },
     {
         first_name: 'Bertha',
         last_name: 'Hill',
         email: 'bertha@hill.com',
-        password: 'pink'
+        password_digest: 'pink'
     },
     {
         first_name: 'Brittany',
         last_name: 'Thomas',
         email: 'brittany@thomas.com',
-        password: 'aqua'
+        password_digest: 'aqua'
     },
     {
         first_name: 'Bailey',
         last_name: 'Clark',
         email: 'bailey@clarke.com',
-        password: 'fuschia'
+        password_digest: 'fuschia'
     },
     {
         first_name: 'Brooke',
         last_name: 'Jackson',
         email: 'brooke@jackson.com',
-        password: 'turquoise'
+        password_digest: 'turquoise'
     },
     {
         first_name: 'Brenda',
         last_name: 'Allen',
         email: 'brenda@allen.com',
-        password: 'chartreuse'
+        password_digest: 'chartreuse'
     },
     {
         first_name: 'Barb',
         last_name: 'Evans',
         email: 'barb@evans.com',
-        password: 'lavender'
+        password_digest: 'lavender'
     },
     {
         first_name: 'Ben',
         last_name: 'Martin',
         email: 'ben@martin.com',
-        password: 'lilac'
+        password_digest: 'lilac'
     },
     {
         first_name: 'Brad',
         last_name: 'Wright',
         email: 'brad@wright.com',
-        password: 'magenta'
+        password_digest: 'magenta'
     },
     {
         first_name: 'Bruce',
         last_name: 'King',
         email: 'bruce@king.com',
-        password: 'vermilion'
+        password_digest: 'vermilion'
     },
     {
         first_name: 'Brett',
         last_name: 'Adams',
         email: 'brett@adams.com',
-        password: 'violet'
+        password_digest: 'violet'
     }
 
 ]
 
-module.exports = users;
+var newUsers = users.map(user => {
+    bcrypt.hash(user.password_digest, 10, function(err, hash) {
+        user.password_digest = hash;
+    })
+    return user;
+})
+
+module.exports = newUsers;

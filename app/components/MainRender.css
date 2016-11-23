@@ -1,0 +1,12 @@
+.container {
+  position: center;
+  top: 20%;
+  text-align: center;
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.container h2 {
+  font-size: 5rem;
+  color: #000000;
+}
