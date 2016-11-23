@@ -20,7 +20,7 @@ export class Home extends Component {
         password: event.target.password.value,
     }
       this.props.loginUser(userCred);
-      // this.props.router.push('/main')
+      this.props.router.push('/main')
 
   }
 
@@ -55,7 +55,7 @@ export class Home extends Component {
               </div>
               <div className="col s3"></div>
               <div className="col s12">
-                <Link to={this.props.login.user ? "/main" : ""}>
+                <Link to={"/main"}>
                   <button className="waves-effect waves-light btn cyan">submit</button>
                 }
                 </Link>
