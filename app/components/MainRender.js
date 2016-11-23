@@ -8,7 +8,15 @@ export class MainRender extends Component {
     return (
       <div className={styles.container} >
         <div className="row">
-        <h2>MainRender what?</h2>
+
+        <div className="col 3"></div>
+
+        <div className="col 6">
+          <h2>MainRender what?</h2>
+        </div>
+
+        <div className="col 3"></div>
+
         </div>
       </div>
     );
