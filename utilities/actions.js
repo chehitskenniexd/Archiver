@@ -237,11 +237,11 @@ export function pullDataFromServer(filePath) {
       // if a commit exists, pull the MOST RECENT COMMITS from db
       const localHash = fs.readFileSync(refsUrl, 'utf-8');
       const localCommit = data.commits.find(commit => commit.hash === localHash);
-      console.log(localCommit);
       // update the commits if we have the previous
-      projectCommits = data.commits.map(commit => {
-        return commit.date.toString() > localCommit.date.toString()
+      projectCommits = data.commits.filter(commit => {
+        return commit.date > localCommit.date
       })
+      console.log(projectCommits);
     }
 
     // save all the contents from the server onto the local archive
@@ -303,7 +303,7 @@ function createNewCommitFromServer(filePath, commit) {
 
   // Create a new ref to point at the new commit
   if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
-    fs.writeFileSync(`${refsPath}/${fileName}`, newCommitHash, 'utf-8');
+    fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
   }
 
   return newCommitHash;
