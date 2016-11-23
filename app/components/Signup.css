@@ -1,0 +1,21 @@
+.container {
+  position: center;
+  top: 20%;
+  left: 10px;
+  color: #000000;
+}
+
+
+.container h1 {
+  font-size: 5rem;
+  color: #000000;
+}
+
+.container h5 {
+  color: #000000;
+}
+
+.container h6 {
+  color: red;
+}
+

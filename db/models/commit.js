@@ -1,6 +1,6 @@
 
 const Sequelize = require('sequelize');
-const db = require('../index.js');
+const db = require('../db');
 
 const Commit = db.define('commit', {
   date: Sequelize.DATE,
