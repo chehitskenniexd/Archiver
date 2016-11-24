@@ -39,6 +39,20 @@ a:hover {
   cursor: pointer;
 }
 
+.home_button1 {
+  padding-left: 50px;
+}
+
+.home_button2 {
+  padding-left: 46px;
+}
+
+.home_logo {
+  padding-left: 80px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+}
+
 .new_project {
   margin-top: 18px;
 }

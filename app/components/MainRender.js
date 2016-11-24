@@ -8,7 +8,7 @@ import Add from './Add';
 export class MainRender extends Component {
 
   render() {
-    console.log(this.props)
+    console.log("MAIN RENDER:", this.props)
     return (
       <div className={styles.container} >
         <div className="row">
@@ -18,7 +18,13 @@ export class MainRender extends Component {
         <div className="col s10">
 
           {
-            this.props.mainhome.onAddProject ? <Add /> : <MainHome />
+            this.props.mainhome.onMainHome ? <MainHome /> : ""
+          }
+          {
+            this.props.mainhome.onAddProject ? <Add /> : ""
+          }
+          {
+            this.props.mainhome.onCollaborator ? <Add /> : ""
           }
 
         </div>
