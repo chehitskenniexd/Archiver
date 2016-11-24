@@ -5,11 +5,13 @@ import styles from './Main_Right.css';
 import Sidebar from './Sidebar';
 import MainRender from './MainRender';
 
+
+
 export class Main_Right extends Component {
   render() {
     return (
       <div className={styles.container} >
-        <div className="row">
+        <div className="row" style={{marginBottom: 0}}>
 
           <div className="col s4" style={{paddingLeft: 0}}>
             <Sidebar />
@@ -27,19 +29,16 @@ export class Main_Right extends Component {
 
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(){
-//   // return {
-//   //   login: state.login
-//   // }
+  return {
+
+  }
 }
 
 
 function mapDispatchToProps(dispatch) {
-//     // return {
-//     //     loginUser: (userCred) => {
-//     //         dispatch(authenticateUser(userCred))
-//     //     }
-
-//     // }
+  return {
+    
+  }
 }
 
 

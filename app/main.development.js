@@ -47,8 +47,8 @@ app.on('ready', async () => {
     height: 600,
     minWidth: 950,
     minHeight: 600,
-    maxWidth: 950,
-    maxHeight: 600, 
+    titleBarStyle: 'hidden',
+    icon: __dirname + '../public/media/archiver_logo.png'
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
