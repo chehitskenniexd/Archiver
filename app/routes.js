@@ -7,9 +7,11 @@ import Signup from './components/Signup';
 import Main from './components/Main';
 
 
+// TODO: Change the IndexRoute back to Home.
+//  Main is added for the sake of trying to render things.
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={Home} />
+    <IndexRoute component={Main} />
     <Route path="/signup" component={Signup} />
     <Route path="/main" component={Main} />
   </Route>

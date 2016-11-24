@@ -10,3 +10,7 @@
   font-size: 5rem;
   color: #000000;
 }
+
+#textWindow {
+  box-shadow: 5px 5px 5px 5px #000000;
+}
