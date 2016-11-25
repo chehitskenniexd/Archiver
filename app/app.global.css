@@ -98,22 +98,22 @@ body {
   font-family: 'Nobile', sans-serif;
 }
 
-.demo-container {
+/*.demo-container {
   padding: 40px;
   width: 100%;
-}
+}*/
 
-.demo-container h1 {
+/*.project-title {
     border-bottom: 1px solid #ccc;
-    color: $primary-color;
+    color: blue;
     margin-bottom: 40px;
     padding-bottom: 40px;
     text-align: center;
-}
+}*/
 
-.demo-container h2 {
+/*.demo-container h2 {
     color: #ccc;
-}
+}*/
 
 .react-sanfona {
   border: 1px solid #ccc;
@@ -143,9 +143,13 @@ body {
     border-top: none;
   }
 
+.icon-height{
+  height: 24px;
+}
 
 
-.react-sanfona-item-expanded .react-sanfona-item-title {
+
+.react-sanfona-item-expanded .project-title {
     background-color: #03a9f4;
     color: #fff;
 

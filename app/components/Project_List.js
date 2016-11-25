@@ -49,7 +49,7 @@ export class Project_List extends Component {
                   const titleBar = (
                       <div className="project-title">
                         <span>Project { item }</span> {/* PULL IN THE PROJECT TITLE HERE */}
-                        <span style={{float: 'right'}} onClick={(evt) => {
+                        <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
                           alert('this action needs to be changed to re render the collaborators page') // ** ADD ACTION TO RENDER THE "COLLABORATORS" VIEW HERE, AKA REPLACE THE ALERT **
                           evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
                         }}><i className="small material-icons">supervisor_account</i></span>
