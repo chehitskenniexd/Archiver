@@ -50,19 +50,12 @@ export class MainRender extends Component {
 /* ---------------- CONTAINER --------------------*/
 
 function mapStateToProps() {
-  // return {
-  //   login: state.login
-  // }
+  return {};
 }
 
 
 function mapDispatchToProps(dispatch) {
-  // return {
-  //     loginUser: (userCred) => {
-  //         dispatch(authenticateUser(userCred))
-  //     }
-
-  // }
+  return {};
 }
 
 export default connect(
