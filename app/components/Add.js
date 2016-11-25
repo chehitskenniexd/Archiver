@@ -11,57 +11,62 @@ export class Add extends Component {
         <div className="row">
         <h1>Hi there</h1>
           <div className="col s1"></div>
-
+  <div className="fixed-action-btn horizontal click-to-toggle">
+    <a className="btn-floating btn-large red">
+      <i className="material-icons">menu</i>
+    </a>
+    <ul>
+      <li><a className="btn-floating red"><i className="material-icons">insert_chart</i></a></li>
+      <li><a className="btn-floating yellow darken-1"><i className="material-icons">format_quote</i></a></li>
+      <li><a className="btn-floating green"><i className="material-icons">publish</i></a></li>
+      <li><a className="btn-floating blue"><i className="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
           <div className="col s10">
             <form>
-              <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control" placeholder="Email" />
+              <div className="form-group">
+                <label className="left">Project Name</label>
+                <input type="email" className="form-control" placeholder="" />
               </div>
-              <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" placeholder="Password" />
+              <div className="form-group">
+                <label className="left">Select A File</label>
+                <input type="file" className="form-control" placeholder="Password" />
+                <br />
               </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control" rows="3"></textarea>
+              <div className="form-group">
+                <br />
+                <label className="left">Invite Collaborators</label>
+                <textarea className="form-control" rows="3"></textarea>
               </div>
-              <select class="form-control">
-                <option>Option one</option>
-                <option>Option two</option>
-                <option>Option three</option>
-                <option>Option four</option>
-                <option>Option five</option>
-                <option>Option six</option>
-                <option>Option seven</option>
-                <option>Option eight</option>
-              </select>
-              <div class="checkbox">
+              <div className="checkbox">
                 <label>
                   <input type="checkbox" /> This is a checkbox
                 </label>
               </div>
-              <div class="checkbox">
+              <div className="checkbox">
                 <label>
                   <input type="checkbox" /> This is a checkbox too
                 </label>
               </div>
-              <div class="radio">
+              <div className="radio">
                 <label>
                   <input type="radio" name="radios" checked />
                   Keep your options open
                 </label>
               </div>
-              <div class="radio">
+              <div className="radio">
                 <label>
                   <input type="radio" name="radios" />
                   Be sure to remember to check for unknown unknowns
                 </label>
               </div>
-              <div class="form-actions">
-                <button type="submit" class="btn btn-form btn-default">Cancel</button>
-                <button type="submit" class="btn btn-form btn-primary">OK</button>
+              <div className="form-actions">
+                <button type="submit" className="btn btn-form btn-default">Cancel</button>
+                <button type="submit" className="btn btn-form btn-primary">OK</button>
               </div>
+
+
+
             </form>
           </div>
 
