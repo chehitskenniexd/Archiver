@@ -16,7 +16,7 @@ export class MainRender extends Component {
     // Load in a text file with some information
     console.log('in the main component', __dirname);
     // fs.writeFileSync('./Text.txt', 'Hello!', 'utf-8');
-    const renderText = fs.readFileSync('./Text.txt', 'utf-8');
+    const renderText = fs.readFileSync('./Text2.txt', 'utf-8');
     return (
       <div className={styles.container} >
         <div className="row">
