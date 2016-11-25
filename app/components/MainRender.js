@@ -7,6 +7,10 @@ import styles from './MainRender.css';
 import * as fs from 'fs';
 
 export class MainRender extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const col6container = `col 6 ${styles.textContain}`;
     // Load in a text file with some information
@@ -18,6 +22,13 @@ export class MainRender extends Component {
         <div className="row">
 
           <div className="col 3"></div>
+
+          <div className="main-buttons-container" style={{ position: 'absolute', float: 'right' }}>
+            <a className="btn-floating btn-med waves-effect waves-light red"><i className="material-icons">add</i></a>
+            <a className="btn-floating btn-med waves-effect waves-light blue"><i className="material-icons">grade</i></a>
+            <a className="btn-floating btn-med waves-effect waves-light green"><i className="material-icons">toc</i></a>
+            <a className="btn-floating btn-med waves-effect waves-light yellow"><i className="material-icons">done</i></a>
+          </div>
 
           <div className={col6container}>
             <h2>Text File</h2>
