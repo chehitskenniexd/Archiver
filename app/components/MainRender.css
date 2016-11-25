@@ -11,6 +11,6 @@
   color: #000000;
 }
 
-#textWindow {
-  box-shadow: 5px 5px 5px 5px #000000;
+.textContain {
+  box-shadow: 0.5px 0.5px 0.5px 0.5px
 }
