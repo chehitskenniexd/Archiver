@@ -1,4 +1,6 @@
 
+var bcrypt = require('bcrypt');
+
 const users = [
   {
     first_name: 'Bob',
@@ -57,7 +59,7 @@ const users = [
   {
     first_name: 'Betsy',
     last_name: 'White',
-    email: 'betsey@white.com',
+    email: 'betsy@white.com',
     password: 'indigo'
   },
   {
@@ -122,4 +124,15 @@ const users = [
   }
 ]
 
+
 module.exports = users;
+
+var newUsers = users.map(user => {
+    bcrypt.hash(user.password_digest, 10, function(err, hash) {
+        user.password_digest = hash;
+    })
+    return user;
+})
+
+// module.exports = newUsers;
+

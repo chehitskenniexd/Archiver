@@ -14,7 +14,6 @@ export class Home extends Component {
 
   onUserSubmit(event) {
     event.preventDefault();
-    console.log("IN onUserSubmit")
     const userCred = {
         email: event.target.email.value,
         password: event.target.password.value,
