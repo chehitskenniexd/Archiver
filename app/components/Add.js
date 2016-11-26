@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Add.css';
-import { onCollaborator } from '../reducers/mainhome'
+import { onCollaborator, onPageRender } from '../reducers/mainhome'
 
 export class Add extends Component {
   constructor(props) {
@@ -98,6 +98,9 @@ export class Add extends Component {
           <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => this.props.goToCollaborator()}>
               COLLAB PG
           </button>
+          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => this.props.goToPageRender()}>
+              PG RENDER
+          </button>
         </div>
 
       </div>
@@ -116,6 +119,9 @@ function mapDispatchToProps(dispatch) {
   return {
     goToCollaborator: () => {
       dispatch(onCollaborator());
+    },
+    goToPageRender: () => {
+      dispatch(onPageRender());
     }
   }
 }
