@@ -59,7 +59,7 @@ let users = [
     {
         first_name: 'Betsy',
         last_name: 'White',
-        email: 'betsey@white.com',
+        email: 'betsy@white.com',
         password_digest: 'indigo'
     },
     {

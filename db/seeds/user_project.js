@@ -8,7 +8,7 @@ var user_project = require('../models/user_project');
 var numUserProjects = 50;
 
 // roles array
-var roles = ["collaborator", "author"];
+var roles = ["collaborator", "author", "pending"];
 
 //performs a function n times, and returns an array of the results
 var doTimes = (n, fn) => {
