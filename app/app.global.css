@@ -4,6 +4,7 @@ body {
   position: relative;
   color: black;
   height: 100vh;
+  background-color: #FFFFFF;
 /*  background-color: #FFFFFF;*/
   top: 10px;
   /*background-image: linear-gradient(45deg, rgba(0, 216, 255, .5) 10%, rgba(0, 1, 127, .7));*/
@@ -37,6 +38,160 @@ a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+}
+
+.card-panel {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+h3 {
+  font-size: 20px !important;
+  margin: 0;
+}
+
+.left-justified-text {
+  text-align: left;
+  padding: 20px;
+}
+
+.add-project-icon {
+  padding: 0 !important;
+}
+
+
+.project-title{
+  padding: 10px;
+
+}
+
+
+.item-commit{
+   border-bottom: 1px solid grey;
+   border-top:1px solid grey;
+}
+
+.commit-message{
+  padding: 0px 10px 0px 10px;
+  font-size: ;
+}
+
+.commit-color{
+  color: black;
+}
+
+.commit-info-font{
+  font-size: 12px;
+  font-color: grey;
+}
+
+.commit-date{
+  padding-right: 4px;
+}
+
+/*---------- react-sanfona accordian/collapsible library --------*/
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nobile', sans-serif;
+}
+
+/*.demo-container {
+  padding: 40px;
+  width: 100%;
+}*/
+
+/*.project-title {
+    border-bottom: 1px solid #ccc;
+    color: blue;
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+}*/
+
+/*.demo-container h2 {
+    color: #ccc;
+}*/
+
+.react-sanfona {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 70px;
+}
+
+.react-sanfona-item-title {
+    background-color: #fafafa;
+    border-top: 1px solid #ccc;
+    color: #333;
+    padding: 20px;
+    text-transform: uppercase;
+    transition: background-color .3s;
+  }
+
+.react-sanfona-item-body-wrapper {
+    color: #666;
+    position: relative;
+  }
+
+  .react-sanfona-item-body-wrapper:hover .tooltip {
+      opacity: 1;
+    }
+
+.react-sanfona-item:first-child .react-sanfona-item-title {
+    border-top: none;
+  }
+
+.icon-height{
+  height: 24px;
+}
+
+
+
+.react-sanfona-item-expanded .project-title {
+    background-color: #03a9f4;
+    color: #fff;
+
+    
+  }
+
+.react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn {
+        display: inline-block;
+        float: right;
+        color: #000;
+    }
+
+.react-sanfona-item-body-wrapper {
+    color: #666;
+    position: relative;
+  }
+
+  .react-sanfona-item-body-wrapper:hover .tooltip {
+      opacity: 1;
+    }
+
+.react-sanfona-item .title-done-btn {
+      display: none;
+  }
+
+.react-sanfona-item img {
+    display: block;
+    max-width: 100%;
+  }
+
+.tooltip {
+  background-color: #000;
+  bottom: -10px;
+  border-radius: 3px;
+  color: #fff;
+  left: 10px;
+  opacity: 0;
+  padding: 10px;
+  position: absolute;
+  transition: opacity .3s;
 }
 
 .add_logo {
@@ -74,5 +229,4 @@ a:hover {
 .select_file {
   margin-top: 10px;
 }
-
 

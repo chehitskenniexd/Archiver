@@ -4,6 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
 import Signup from './components/Signup';
+import Main_Right from './components/Main_Right';
 import Other from './components/Other';
 
 

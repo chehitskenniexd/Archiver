@@ -16,7 +16,7 @@ export class MainRender extends Component {
   render() {
     return (
       <div className={styles.container} >
-        <div className="row">
+        <div className="row" style={{marginTop: 0}}>
 
           <div className="col s1"></div>
 
