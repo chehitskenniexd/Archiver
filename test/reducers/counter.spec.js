@@ -3,7 +3,7 @@ import counter from '../../app/reducers/counter';
 import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../../app/actions/counter';
 
 
-describe('reducers', () => {
+xdescribe('reducers', () => {
   describe('counter', () => {
     it('should handle initial state', () => {
       expect(counter(undefined, {})).to.equal(0);
