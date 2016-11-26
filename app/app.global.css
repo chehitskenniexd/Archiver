@@ -39,6 +39,16 @@ a:hover {
   cursor: pointer;
 }
 
+.add_logo {
+  padding-left: 20px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+}
+
+.add_ok_btn {
+  margin-top: 2px;
+}
+
 .home_button1 {
   padding-left: 50px;
 }
@@ -60,4 +70,9 @@ a:hover {
 .semi_trans {
   margin-top: 100px;
 }
+
+.select_file {
+  margin-top: 10px;
+}
+
 

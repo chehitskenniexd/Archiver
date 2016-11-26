@@ -10,7 +10,6 @@ export class MainHome extends Component {
   }
 
   render() {
-    console.log("is this working?", this.props)
     return (
       <div className={styles.container} >
         <div className="row semi_trans">

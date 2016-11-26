@@ -25,7 +25,7 @@ export const onAddProject = () => ({
 });
 
 export const onCollaborator = () => ({
-  type: ON_MAIN_HOME,
+  type: ON_COLLABORATOR,
   payload: true
 });
 

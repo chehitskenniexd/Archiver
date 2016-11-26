@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styles from './MainRender.css';
 import MainHome from './MainHome';
 import Add from './Add';
+import Collaborator from './Collaborator';
 
 export class MainRender extends Component {
 
@@ -24,7 +25,7 @@ export class MainRender extends Component {
             this.props.mainhome.onAddProject ? <Add /> : ""
           }
           {
-            this.props.mainhome.onCollaborator ? <Add /> : ""
+            this.props.mainhome.onCollaborator ? <Collaborator /> : ""
           }
 
         </div>
