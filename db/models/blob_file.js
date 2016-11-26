@@ -1,5 +1,5 @@
 
-const db = require('../index.js');
+const db = require('../../db');
 
 const BlobFile = db.define('blobFile');
 

@@ -45,23 +45,6 @@ const userProjects = [
   { role: 'collaborator', userId: '20', projectId: '6' },
 ];
 
-
-
-<<<<<<< HEAD
-const fs = require('fs');
-
-var generateUserProjects = function () {
-  return doTimes(numUserProjects, function () {
-    const upObject = {
-      role: chance.pick(roles),
-      userId: chance.integer({ min: 1, max: 20 }),
-      projectId: chance.integer({ min: 1, max: 15 }),
-    }
-    fs.appendFileSync('./UPObjects.text', JSON.stringify(upObject) + '\n', 'utf-8');
-    return user_project.create(upObject)
-  })
-}
-=======
 // MULTIPLE FILES PER PROJECT
 
 // const userprojects = [
@@ -97,7 +80,6 @@ var generateUserProjects = function () {
 //   { role: '', userId: '', projectId: '3' },
 //   { role: '', userId: '', projectId: '3' },
 // ];
->>>>>>> bug-db-commits
 
 
 module.exports = userProjects;
