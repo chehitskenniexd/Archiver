@@ -26,7 +26,7 @@ var generateUserProjects = function () {
     const upObject = {
       role: chance.pick(roles),
       userId: chance.integer({ min: 1, max: 20 }),
-      projectId: chance.integer({ min: 1, max: 15 })
+      projectId: chance.integer({ min: 1, max: 15 }),
     }
     fs.appendFileSync('./UPObjects.text', JSON.stringify(upObject) + '\n', 'utf-8');
     return user_project.create(upObject)

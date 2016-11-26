@@ -11,7 +11,7 @@ const blob = seeds.blob,
 // seed functions
 const seedUser = () => db.Promise.map(users, user => models.User.create(user));
 const seedProject = () => db.Promise.map(projects, project => models.Project.create(project));
-const seedCommit = () => db.Promise.map(commits, commit => models.UserProject.create(commit));
+const seedCommit = () => db.Promise.map(commits, commit => models.Commit.create(commit));
 
 db.sync({ force: true })
   .then(seedUser)
@@ -19,7 +19,7 @@ db.sync({ force: true })
     console.log(`Seeded ${users.length} users OK`)
   })
   .then(seedProject)
-  .then(projects => {z
+  .then(projects => {
     console.log(`Seeded ${projects.length} projects OK`);
   })
   .then(user_project)
