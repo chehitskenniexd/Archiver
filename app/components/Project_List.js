@@ -12,34 +12,34 @@ const dummyCommitData = [
       date: "12/10"
     },
      {
-      committer: "Adam Orange",
-      commitMessage: "Made a change",
+      committer: "Adam Apple",
+      commitMessage: "Made a change 1",
       date: "12/09"
     },
      {
       committer: "Adam Orange",
-      commitMessage: "Made a change",
+      commitMessage: "Made a change 2",
       date: "12/09"
     },
      {
-      committer: "Adam Orange",
-      commitMessage: "Made a change",
+      committer: "Sarah Banana",
+      commitMessage: "Made a change 3 ",
       date: "12/09"
     },
      {
-      committer: "Adam Orange",
-      commitMessage: "Made a change",
+      committer: "Emily Potato",
+      commitMessage: "Made a change 4",
       date: "12/09"
     }
 ]
 
 
 
-export class Project_List extends Component {
+export class Project_List extends Component {  
   render() {
     return (
-        <div>
-          <div className="card-panel orange lighten-2">
+        <div className="sidebar-panel-wrapper">
+          <div className="card-panel project-add">
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
           <Accordion allowMultiple={false}>
@@ -60,9 +60,9 @@ export class Project_List extends Component {
                         <AccordionItem title={titleBar}  slug={item} key={item} className="card-panel left-justified-text">
                                 {dummyCommitData.map(commitInfo => {
                                   return (
-                                    <div className="item-commit">
+                                    <div className="item-commit-border">
                                       <div className="commit-message commit-color">{commitInfo.commitMessage}</div>
-                                      <div><span className="commit-message commit-info-font commit-date">{`On ${commitInfo.date}`}</span><span className="commit-info-font">{`by ${commitInfo.committer}`}</span></div>
+                                      <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${commitInfo.date}`}</span><span className="commit-info-font">{`by ${commitInfo.committer}`}</span></div>
                                     </div>
                                     )
                                 })}
