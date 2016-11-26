@@ -4,13 +4,15 @@ import axios from 'axios';
 const initialState = {
   onMainHome: true,
   onAddProject: false,
-  onCollaborator: false
+  onCollaborator: false,
+  onPageRender: false
 };
 
 /*----------  ACTION TYPES  ----------*/
 const ON_MAIN_HOME = 'ON_MAIN_HOME';
 const ON_ADD_PROJECT = 'ON_ADD_PROJECT';
 const ON_COLLABORATOR = 'ON_COLLABORATOR';
+const ON_PAGE_RENDER = 'ON_PAGE_RENDER';
 
 
 /*----------  ACTION CREATORS  ----------*/
@@ -26,6 +28,11 @@ export const onAddProject = () => ({
 
 export const onCollaborator = () => ({
   type: ON_COLLABORATOR,
+  payload: true
+});
+
+export const onPageRender = () => ({
+  type: ON_PAGE_RENDER,
   payload: true
 });
 
@@ -54,19 +61,29 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         onMainHome: action.payload,
         onAddProject: false,
-        onCollaborator: false
+        onCollaborator: false,
+        onPageRender: false
       });
     case ON_ADD_PROJECT:
       return Object.assign({}, state, {
         onMainHome: false,
         onAddProject: action.payload,
-        onCollaborator: false
+        onCollaborator: false,
+        onPageRender: false
       });
     case ON_COLLABORATOR:
       return Object.assign({}, state, {
         onMainHome: false,
         onAddProject: false,
-        onCollaborator: action.payload
+        onCollaborator: action.payload,
+        onPageRender: false
+      });
+    case ON_PAGE_RENDER:
+      return Object.assign({}, state, {
+        onMainHome: false,
+        onAddProject: false,
+        onCollaborator: false,
+        onPageRender: action.payload
       });
     default: return state;
   }
