@@ -4,7 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
 import Signup from './components/Signup';
-import Main from './components/Main';
+import Other from './components/Other';
 
 
 // TODO: Change the IndexRoute back to Home.
@@ -13,6 +13,6 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
     <Route path="/signup" component={Signup} />
-    <Route path="/main" component={Main} />
+    <Route path="/main" component={Other} />
   </Route>
 );

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './MainRender.css';
+import MainHome from './MainHome';
+import Add from './Add';
+import Collaborator from './Collaborator';
 
 // Additional modules for rendering a file
 import * as fs from 'fs';
@@ -17,10 +20,31 @@ export class MainRender extends Component {
     console.log('in the main component', __dirname);
     // fs.writeFileSync('./Text.txt', 'Hello!', 'utf-8');
     const renderText = fs.readFileSync('./Text2.txt', 'utf-8');
+
     return (
       <div className={styles.container} >
         <div className="row">
 
+          <div className="col s1"></div>
+
+          <div className="col s10">
+
+            {
+              this.props.mainhome.onMainHome ? <MainHome /> : ""
+            }
+            {
+              this.props.mainhome.onAddProject ? <Add /> : ""
+            }
+            {
+              this.props.mainhome.onCollaborator ? <Collaborator /> : ""
+            }
+
+          </div>
+
+          <div className="col s1"></div>
+        </div>
+
+        <div className="row">
           <div className="col 3"></div>
 
           <div className="main-buttons-container" style={{ position: 'absolute', float: 'right' }}>
@@ -34,14 +58,15 @@ export class MainRender extends Component {
             <h2>Text File</h2>
             <div id="textWindow" style={{ height: `550px`, position: `relative` }}>
               <div id="textContainer" style={{ 'maxHeight': `100%`, overflow: 'auto', border: '1px' }}>
-                <div id="textRender" style={{ height: `1500px`, border: `5px` }}>{renderText}</div>
+                <div id="textRender" style={{ height: `1500px`, border: `5px` }}>{renderText}
+                </div>
               </div>
             </div>
           </div>
 
           <div className="col 3"></div>
-
         </div>
+
       </div>
     );
   }
@@ -49,10 +74,11 @@ export class MainRender extends Component {
 
 /* ---------------- CONTAINER --------------------*/
 
-function mapStateToProps() {
-  return {};
-}
 
+function mapStateToProps(state){
+  return{
+    mainhome: state.mainhome
+  }
 
 function mapDispatchToProps(dispatch) {
   return {};
