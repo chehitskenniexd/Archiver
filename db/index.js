@@ -19,7 +19,7 @@ require('../db/models');
 
 
 // sync the db, creating it if necessary
-db.sync({ force: true })
+db.sync({ force: false })
   .then(ok => console.log(chalk.green(`Synced models to db ${url}`)))
   .catch(fail => {
     console.error(chalk.red('Failed db sync' + fail))
