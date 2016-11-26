@@ -36,9 +36,8 @@ export class Home extends Component {
           <br />
 
           <form className="col s12 valign" onSubmit={this.onUserSubmit}>
-            <div className="row">
+            <div className="row email-margin-bottom-zero">
               <div className="col s3"></div>
-
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text text-darken-2">account_circle</i>
                 <input placeholder="Username" id="email" type="text" className="validate" />
@@ -48,7 +47,7 @@ export class Home extends Component {
               <div className="col s3"></div>
             </div>
 
-            <div className="row">
+            <div className="row email-margin-bottom-zero">
               <div className="col s3"></div>
 
               <div className="input-field col s6">
@@ -68,8 +67,6 @@ export class Home extends Component {
 
               <div className="col s2"></div>
               <div className="col s8">
-                <br />
-                <hr />
               </div>
               <div className="col s2"></div>
 

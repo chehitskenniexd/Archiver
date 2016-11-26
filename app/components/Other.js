@@ -9,9 +9,9 @@ export class Other extends Component {
   render() {
     return (
       <div className={styles.container} >
-        <div className="row">
+        <div className="row" style={{marginBottom: 0}}>
 
-          <div className="col s4">
+          <div className="col s4" style={{paddingLeft: 0}}>
             <Sidebar />
           </div>
 

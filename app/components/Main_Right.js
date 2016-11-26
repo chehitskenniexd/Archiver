@@ -11,9 +11,9 @@ export class Main_Right extends Component {
   render() {
     return (
       <div className={styles.container} >
-        <div className="row" style={{marginBottom: 0}}>
+        <div className="row">
 
-          <div className="col s4" style={{paddingLeft: 0}}>
+          <div className="col s4">
             <Sidebar />
           </div>
 
