@@ -1,12 +1,14 @@
 @import "~font-awesome/css/font-awesome.css";
 
+
 body {
   position: relative;
   color: black;
   height: 100vh;
   background-color: #FFFFFF;
   /*background-image: linear-gradient(45deg, rgba(0, 216, 255, .5) 10%, rgba(0, 1, 127, .7));*/
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
+/*  font-family: Arial, Helvetica, Helvetica Neue, serif;*/
+  font-family: 'Roboto', sans-serif;
   overflow-y: visible;
 }
 
@@ -38,9 +40,18 @@ a:hover {
   cursor: pointer;
 }
 
-.card-panel {
+.sidebar-panel-wrapper .card-panel {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.project-add {
+  background-color: #ffefd5;
+}
+
+
+.project-add:hover {
+  background-color: #ef5350 ; 
 }
 
 h3 {
@@ -59,23 +70,34 @@ h3 {
 
 
 .project-title{
-  padding: 10px;
-
+  padding: 20px;
 }
 
+.project-title:hover{
+  background-color: #4dd0e1;
+}
 
-.item-commit{
-   border-bottom: 1px solid grey;
-   border-top:1px solid grey;
+.item-commit-border{
+   border-bottom: 1px solid #e0e0e0;
+}
+
+.item-commit-border:hover {
+  background-color: #fff8e1;
+
 }
 
 .commit-message{
   padding: 0px 10px 0px 10px;
   font-size: ;
+  padding-top: 10px
 }
 
 .commit-color{
   color: black;
+}
+
+.item-commit-details{
+  margin-bottom: 10px;
 }
 
 .commit-info-font{
@@ -87,6 +109,9 @@ h3 {
   padding-right: 4px;
 }
 
+
+
+
 /*---------- react-sanfona accordian/collapsible library --------*/
 *,
 *:after,
@@ -94,26 +119,10 @@ h3 {
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Nobile', sans-serif;
-}
-
-/*.demo-container {
-  padding: 40px;
-  width: 100%;
+/*body {
+  font-family: 'Roboto', sans-serif;;
 }*/
 
-/*.project-title {
-    border-bottom: 1px solid #ccc;
-    color: blue;
-    margin-bottom: 40px;
-    padding-bottom: 40px;
-    text-align: center;
-}*/
-
-/*.demo-container h2 {
-    color: #ccc;
-}*/
 
 .react-sanfona {
   border: 1px solid #ccc;
@@ -150,8 +159,10 @@ body {
 
 
 .react-sanfona-item-expanded .project-title {
-    background-color: #03a9f4;
+    background-color: #4dd0e1;
+    box-shadow: 0px 5px 2px 1px rgba(0, 0, 0, 0.2);
     color: #fff;
+    margin-bottom: 6px;
 
     
   }
