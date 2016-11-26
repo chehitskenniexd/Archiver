@@ -11,7 +11,7 @@ import Main from './components/Main';
 //  Main is added for the sake of trying to render things.
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={Main} />
+    <IndexRoute component={Home} />
     <Route path="/signup" component={Signup} />
     <Route path="/main" component={Main} />
   </Route>
