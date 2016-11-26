@@ -10,3 +10,7 @@
   font-size: 5rem;
   color: #000000;
 }
+
+.textContain {
+  box-shadow: 0.5px 0.5px 0.5px 0.5px
+}
