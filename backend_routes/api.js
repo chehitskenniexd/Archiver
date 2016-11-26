@@ -6,6 +6,7 @@ const api = module.exports = require('express').Router();
 api
 	.use('/register', require('./register'))
 	.use('/login', require('./login'))
+  .use('/user/roles', require('./invitations'))
 
 // Send along any errors
 api.use((err, req, res, next) => {
