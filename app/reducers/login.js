@@ -59,6 +59,7 @@ export const authenticateUser = (userCred) => {
     const thunk = (dispatch) => {
         axios.post('http://localhost:3000/api/login', userCred)
             .then(res => {
+              console.log("authuser", res)
               if (res.data.notFound){
                 dispatch(incorrectUser());
               } else if (res.data.message) {

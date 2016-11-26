@@ -1,10 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import styles from './Home.css';
 import {authenticateUser} from '../reducers/login';
 import {connect} from 'react-redux';
-import { Router, hashHistory } from 'react-router';
+import { Link, Router, hashHistory } from 'react-router';
 
 
 export class Home extends Component {
@@ -15,12 +14,13 @@ export class Home extends Component {
 
   onUserSubmit(event) {
     event.preventDefault();
+    console.log("IN onUserSubmit")
     const userCred = {
         email: event.target.email.value,
         password: event.target.password.value,
     }
-      this.props.loginUser(userCred);
-      this.props.router.push('/main')
+    this.props.loginUser(userCred);
+    hashHistory.push('/main');
   }
 
   render() {
@@ -62,10 +62,7 @@ export class Home extends Component {
 
             <div className="row home_button1">
               <div className="col s12">
-                <Link to={"/main"}>
-                  <button className="waves-effect waves-light btn cyan">submit</button>
-                }
-                </Link>
+                <button className="waves-effect waves-light btn cyan">submit</button>
                 <br />
               </div>
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import styles from './Signup.css';
 import {createUser} from '../reducers/login';
 
@@ -31,7 +31,7 @@ export class Signup extends Component {
         last_name: event.target.last_name.value,
     }
       this.props.registerUser(userCred);
-      // hashHistory.push('/profile')
+      hashHistory.push('/main');
   }
 
   render() {
@@ -98,9 +98,7 @@ export class Signup extends Component {
                 <div className="col s1"></div>
 
                 <div className="col s10">
-                  <Link to="/main">
-                    <button className="waves-effect waves-light btn cyan right">submit</button>
-                  </Link>
+                  <button className="waves-effect waves-light btn cyan right">submit</button>
                 </div>
 
                 <div className="col s1"></div>
