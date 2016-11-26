@@ -10,4 +10,6 @@ const UserProject = db.define('user_project', {
   }
 }, {});
 
+UserProject.removeAttribute('id');
+
 module.exports = UserProject;
