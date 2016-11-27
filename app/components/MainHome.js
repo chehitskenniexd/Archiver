@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './MainHome.css';
 import { onAddProject } from '../reducers/mainhome';
@@ -19,7 +19,7 @@ export class MainHome extends Component {
             <i className="material-icons prefix large right">create_new_folder</i>
           </div>
           <div className="col s6">
-            <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => this.props.goToAdd()}>
+            <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push("/add")}>
               New Project
             </button>
           </div>

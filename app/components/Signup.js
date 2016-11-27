@@ -10,6 +10,7 @@ export class Signup extends Component {
     super(props)
     this.checkPasswordMatch = this.checkPasswordMatch.bind(this);
     this.onUserSubmit = this.onUserSubmit.bind(this);
+    hashHistory.push("/mainHome")
   }
 
 
