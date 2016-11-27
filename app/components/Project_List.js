@@ -53,11 +53,11 @@ export class Project_List extends Component {
           </div>
           <Accordion allowMultiple={false}>
                 {/* LOOP OVER USERS PROJECTS HERE */}
-                {titleArray && titleArray.map((name, index) => {
+                {this.props.projects && this.props.projects.map((instance, index) => {
 
                   const titleBar = (
                       <div className="project-title">
-                        <span>{name}</span> {/* PULL IN THE PROJECT TITLE HERE */}
+                        <span>{instance.name}</span> {/* PULL IN THE PROJECT TITLE HERE */}
                         <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
                           alert('this action needs to be changed to re render the collaborators page') // ** ADD ACTION TO RENDER THE "COLLABORATORS" VIEW HERE, AKA REPLACE THE ALERT **
                           evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
@@ -65,10 +65,10 @@ export class Project_List extends Component {
                       </div>
                     )
                     return (
-                        <AccordionItem title={titleBar} key={index} slug={name} className="card-panel left-justified-text">
+                        <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
                                 {dummyCommitData.map((commitInfo) => {
                                   return (
-                                    <div className="item-commit-border">
+                                    <div className="item-commit-border" key={commitInfo.id}>
                                       <div className="commit-message commit-color">{commitInfo.commitMessage}</div>
                                       <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${commitInfo.date}`}</span><span className="commit-info-font">{`by ${commitInfo.committer}`}</span></div>
                                     </div>
