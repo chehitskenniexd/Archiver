@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /*----------  INITIAL STATE  ----------*/
-const initialState = {};
+const initialState = [];
 
 /*----------  ACTION TYPES  ----------*/
 const PENDING_INV = 'PENDING_INV';
@@ -10,7 +10,7 @@ const PENDING_INV = 'PENDING_INV';
 /*----------  ACTION CREATORS  ----------*/
 export const pendingInv = (projectsArray) => ({
   type: PENDING_INV,
-  payload: projectsArray
+  payload: ["checking if you work??"]
 });
 
 
@@ -20,6 +20,7 @@ export const checkPendingInv = (user) => {
         axios.post('http://localhost:3000/api/user/roles', user)
             .then(res => {
               console.log("in checkPendingInv RES", res)
+              dispatch(pendingInv(res.data))
               // if (res.data.message){
               //   dispatch(userAlreadyExists(res.data.foundUser))
               // } else {

@@ -15,6 +15,7 @@ router.get('/', (req, res, next) => {
     })
         .then(foundProjectsArray => {
           console.log("foundProjectsArray?", foundProjectsArray)
+          res.json(foundProjectsArray);
             // let resObj = {};
             // if (!foundUser) {
             //     resObj.notFound = "user not found";

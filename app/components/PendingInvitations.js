@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { checkPendingInv } from '../reducers/invitations'
+import { checkPendingInv } from '../reducers/invitations';
 
 export class PendingInvitations extends Component {
   constructor(props){
     super(props)
   }
 
-  runCheckPendingInv() {
-    if (this.props.login.id) {
+  componentWillUpdate() {
+    if (this.props.login.id && !Object.keys(this.props.login).length) {
       console.log("LOGiN?", this.props.login)
-      checkPendingInv(this.props.login.id)
+      checker(this.props.login)
     }
   }
 
@@ -92,12 +92,17 @@ export class PendingInvitations extends Component {
 function mapStateToProps(state) {
   return {
     login: state.login,
-    mainhome: state.mainhome
+    mainhome: state.mainhome,
+    invite: state.invite
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    checker: (user) => {
+      dispatch(checkPendingInv(user))
+    }
+  }
 }
 
 
