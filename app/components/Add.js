@@ -23,7 +23,6 @@ export class Add extends Component {
   }
 
   render() {
-    console.log("please go to COLLABS", this.props)
     return (
       <div className={styles.container} >
 
@@ -94,7 +93,7 @@ export class Add extends Component {
           <div className="col s1"></div>
         </div>
 
-        <div className="row TO-REMOVE-JUST-TEST-COLLABS">
+        <div className="row TO-REMOVE-JUST-TO-TEST">
           <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push('/collabs')}>
               COLLAB PG
           </button>

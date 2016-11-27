@@ -1,27 +1,27 @@
 import axios from 'axios';
 
 /*----------  INITIAL STATE  ----------*/
-const initialState = [];
+const initialState = {};
 
 /*----------  ACTION TYPES  ----------*/
-const CURRENT_COLLABS = 'CURRENT_COLLABS';
+const CURRENT_PROJECT_INFO = 'CURRENT_PROJECT_INFO';
 
 
 /*----------  ACTION CREATORS  ----------*/
-export const currentCollabs = (pendingArray) => ({
-  type: CURRENT_COLLABS,
-  payload: pendingArray
+export const currentProject = (projectInfo) => ({
+  type: CURRENT_PROJECT_INFO,
+  payload: projectInfo
 });
 
 
 /*----------  THUNKS  ----------*/
-export const checkCurrentCollabs = (user) => {
+export const fetchCurrentProjectInfo = (project) => {
   const thunk = (dispatch) => {
-  axios.get(`http://localhost:3000/api/users/${user.id}/collabs`, user)
+  axios.get(`http://localhost:3000/api/projects/${project.id}`, project)
     .then(res => {
-      dispatch(currentCollabs(res.data))
+      dispatch(currentProject(res.data))
     })
-    .catch(err => console.error('Error finding current collaborators ', err));
+    .catch(err => console.error('Error finding current project data ', err));
   };
   return thunk;
 };
@@ -29,7 +29,7 @@ export const checkCurrentCollabs = (user) => {
 /*----------  REDUCER  ----------*/
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CURRENT_COLLABS:
+    case CURRENT_PROJECT_INFO:
       return action.payload;
     default: return state;
   }

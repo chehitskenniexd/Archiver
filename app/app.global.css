@@ -46,13 +46,17 @@ a:hover {
   margin: 0 !important;
 }
 
+.collab_button {
+  padding-bottom: 10px;
+}
+
 .project-add {
   background-color: #ffefd5;
 }
 
 
 .project-add:hover {
-  background-color: #ef5350 ; 
+  background-color: #ef5350 ;
 }
 
 h3 {
@@ -169,7 +173,7 @@ h3 {
     color: #fff;
     margin-bottom: 6px;
 
-    
+
   }
 
 .react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn {

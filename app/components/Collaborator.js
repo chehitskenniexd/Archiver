@@ -10,15 +10,18 @@ export class Collaborator extends Component {
     super(props)
   }
 
-  componentDidUpdate() {
-    if (this.props.login.id && !Object.keys(this.props.collabs).length) {
-      this.props.checker(this.props.login);
-    };
-  }
+  // componentDidUpdate() {
+  //   if (this.props.login.id && !Object.keys(this.props.collabs).length) {
+  //     this.props.checker(this.props.login);
+  //   };
+  // }
 
   render() {
-    const collabs = this.props.collabs;
-    const invites = this.props.invite;
+    console.log("hahaha!!!!!", this.props)
+    const projectUsers = this.props.collabs.projects[0].users;
+    console.log("PUUUU", projectUsers)
+    const projects = [];
+
     return (
       <div className={styles.container} >
 
@@ -35,21 +38,18 @@ export class Collaborator extends Component {
                 </tr>
               </thead>
               {
-                collabs && collabs.map((item, i) => {
+                projectUsers && projectUsers.map((collab, i) => {
 
-                let collab = item[0];
-                let projectCollab;
+                let userC;
 
-                item[0].users.filter((user => {
-                  if (user.userProject.role === 'collaborator') {
-                    projectCollab = `${user.first_name} ${user.last_name}`
-                  }
-                }))
+                if (collab.userProject.role === 'collaborator') {
+                  userC = `${collab.first_name} ${collab.last_name}`
+                }
 
                   return (
                     <tbody key={i}>
                       <tr>
-                        <td>{projectCollab}</td>
+                        <td>{userC}</td>
                         <td>
                           <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action">
                           x
@@ -57,7 +57,7 @@ export class Collaborator extends Component {
                         </td>
                       </tr>
                     </tbody>
-                  )
+                  );
                 })
               }
             </table>
@@ -65,24 +65,6 @@ export class Collaborator extends Component {
 
           <div className="col s1"></div>
         </div>
-
-        <hr />
-
-        <form>
-          <div className="input-field row">
-            <br />
-            <div className="col s12">
-              <u><h4>Invite Collaborators</h4></u>
-              <br />
-            </div>
-
-            <div className="col s12">
-              <textarea className="form-control validate" id="collaborators"placeholder="Please enter emails separated by commas"></textarea>
-              <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan right">submit
-              </button>
-            </div>
-          </div>
-        </form>
 
         <br />
         <hr />
@@ -108,22 +90,18 @@ export class Collaborator extends Component {
                 <th data-field="price">Status</th>
             </tr>
           </thead>
-          {
-            invites && invites.map((item, i) => {
-              console.log(item)
-              let invite = item[0];
-              // let projectAuthor;
+            {
+              projectUsers && projectUsers.map((collab, i) => {
 
-              // item[0].users.filter((user => {
-              //   if (user.userProject.role === 'author') {
-              //     projectAuthor = `${user.first_name} ${user.last_name}`
-              //   }
-              // }))
+              let userI;
 
+              if (collab.userProject.role === 'pending') {
+                userI = `${collab.first_name} ${collab.last_name}`
+              }
               return(
-                <tbody key={i}>
+                <tbody key={`${i}2`}>
                   <tr>
-                    <td>{invite.name}</td>
+                    <td>{userI}</td>
                     <td>
                       <button className="btn waves-effect waves-light cyan" type="submit" name="action">
                       + Join
@@ -140,6 +118,24 @@ export class Collaborator extends Component {
         <div className="col s1"></div>
         </div>
 
+        <hr />
+
+        <form>
+          <div className="input-field row">
+            <br />
+            <div className="col s12">
+              <u><h4>Invite Collaborators</h4></u>
+              <br />
+            </div>
+
+            <div className="col s12">
+              <textarea className="form-control validate" id="collaborators"placeholder="Please enter emails separated by commas"></textarea>
+              <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan right">submit
+              </button>
+            </div>
+          </div>
+        </form>
+
       </div>
     );
   }
@@ -151,17 +147,17 @@ function mapStateToProps(state) {
   return {
     login: state.login,
     mainhome: state.mainhome,
-    collabs: state.collabs,
-    invite: state.invite
+    collabs: state.collabs
+    // projects: state.projects.projects
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    checker: (user) => {
-      dispatch(checkCurrentCollabs(user));
-      dispatch(checkPendingInv(user));
-    }
+    // checker: (user) => {
+    //   dispatch(checkCurrentCollabs(user));
+    //   dispatch(checkPendingInv(user));
+    // }
   };
 }
 
