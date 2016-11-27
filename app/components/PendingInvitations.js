@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { checkPendingInv } from '../reducers/invitations'
+import { checkPendingInv } from '../reducers/invitations';
 
 export class PendingInvitations extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
-  runCheckPendingInv() {
-    if (this.props.login.id) {
-      console.log("LOGiN?", this.props.login)
-      checkPendingInv(this.props.login.id)
-    }
+  componentDidUpdate() {
+    if (this.props.login.id && !Object.keys(this.props.invite).length) {
+      this.props.checker(this.props.login);
+    };
   }
 
 
   render() {
-    console.log("in PI props", this.props)
+    const invites = this.props.invite;
+    const user = this.props.login;
+
     return (
       <div>
 
@@ -47,36 +48,33 @@ export class PendingInvitations extends Component {
                 <th data-field="price">Status</th>
             </tr>
           </thead>
+          {
+            invites && invites.map((item, i) => {
 
-          <tbody>
-            <tr>
-              <td>Alvin</td>
-              <td>Eclair</td>
-              <td>
-                <button className="btn waves-effect waves-light cyan" type="submit" name="action">
-                + Join
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Alan</td>
-              <td>Jellybean</td>
-              <td>
-                <button className="btn waves-effect waves-light cyan" type="submit" name="action">
-                + Join
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Jonathan</td>
-              <td>Lollipop</td>
-              <td>
-                <button className="btn waves-effect waves-light cyan" type="submit" name="action">
-                + Join
-                </button>
-              </td>
-            </tr>
-          </tbody>
+              let invite = item[0];
+              let projectAuthor;
+
+              item[0].users.filter((user => {
+                if (user.userProject.role === 'author') {
+                  projectAuthor = `${user.first_name} ${user.last_name}`
+                }
+              }))
+
+              return(
+                <tbody key={i}>
+                  <tr>
+                    <td>{projectAuthor}</td>
+                    <td>{invite.name}</td>
+                    <td>
+                      <button className="btn waves-effect waves-light cyan" type="submit" name="action">
+                      + Join
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })
+          }
         </table>
         </div>
 
@@ -92,12 +90,17 @@ export class PendingInvitations extends Component {
 function mapStateToProps(state) {
   return {
     login: state.login,
-    mainhome: state.mainhome
-  }
+    mainhome: state.mainhome,
+    invite: state.invite
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    checker: (user) => {
+      dispatch(checkPendingInv(user))
+    }
+  };
 }
 
 
