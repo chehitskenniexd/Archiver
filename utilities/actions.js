@@ -3,6 +3,7 @@ const crypto = require('crypto');
 
 const Commit = require('../db/models/index').Commit;
 const Project = require('../db/models/index').Project;
+const File = require('../db/models/index').File;
 
 export function getSha1Hash(data) {
   return crypto
@@ -63,6 +64,14 @@ export function initNewProject(dirPath) {
   } catch (err) {
     fs.mkdirSync(archiveDir);
   }
+
+  const objectPath = `${dirPath}/.archive/objects`;
+  try {
+    fs.statSync(objectPath).isDirectory();
+  } catch (err) {
+    fs.mkdirSync(objectPath);
+  }
+
   return true;
 }
 
@@ -188,57 +197,115 @@ export function mergeFileChanges(filePath, localHash, serverHash, serverContents
 // Update the .archive directory
 export function pullDataFromServer(filePath) {
   // Find localHash
+  const splitPath = filePath.split('/');
+  const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
+  const projectName = dirPath.split('/').pop();
+  const fileName = filePath.split('/').pop().split('.').shift();
 
-  //const fileContents = fs.readFileSync(filePath);
+  // check if the directory exists as well as the .archive
+  try {
+    fs.statSync(dirPath);
+  } catch (err) {
+    fs.mkdirSync(dirPath);
+  }
+
+  try {
+    fs.statSync(`${dirPath}/.archive`);
+  } catch (err) {
+    initNewProject(dirPath);    
+  }
+
+  return Project.findOne({
+      where:{
+        name: projectName
+      },
+      include: [{all: true}]
+  }).then(data => {
+    //return data;
+    let projectCommits = data.commits;
+
+    // see if a commit already exists
+    let refsExist = true;
+    const refsUrl = `${dirPath}/.archive/refs/${fileName}`;
+    try {
+      fs.statSync(refsUrl);
+    } catch (err) {
+      refsExist = false;
+    }
+
+    if(refsExist){ 
+      // if a commit exists, pull the MOST RECENT COMMITS from db
+      const localHash = fs.readFileSync(refsUrl, 'utf-8');
+      const localCommit = data.commits.find(commit => commit.hash === localHash);
+      // update the commits if we have the previous
+      projectCommits = data.commits.filter(commit => {
+        return commit.date > localCommit.date
+      })
+    }
+
+    // save all the contents from the server onto the local archive
+    projectCommits.forEach(commit => {
+      const commitFilename = commit.blob && commit.blob.files[0] 
+        ? commit.blob.files[0].dataValues.file_name : null;
+      if(commitFilename){
+        const commitFilePath = `${dirPath}/${commitFilename}`;
+        createNewCommitFromServer(commitFilePath, commit);
+      }
+    })
+
+    // check for a merge, just in case
+    if(refsExist){
+      const localHash = fs.readFileSync(refsUrl, 'utf-8');
+      const serverHash = projectCommits.sort((a, b) => a.id > b.id ? a : b).pop();
+      if(serverHash){
+        const serverContents = projectCommits.find(commit => commit.hash === serverHash)
+          .blob.files[0].dataValues.file_contents;
+        mergeFileChanges(filePath, localHash, serverHash, serverContents);
+      }
+    }
+  })
+}
+
+function createNewCommitFromServer(filePath, commit) {
+  // This is like a commit, but it generates it with commit information
+  const message = commit.message;
+  const date = commit.date;
+  const fileContent = commit.blob && commit.blob.files[0] 
+    ? commit.blob.files[0].dataValues.file_contents : '';
+  const commitHash = commit.hash;
+  
+  if(fileContent === ''){
+    return false;
+  }
+
   const splitPath = filePath.split('/');
   const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
   const fileName = filePath.split('/').pop().split('.').shift();
-  const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`, 'utf-8');
-  const splitIndexContents = indexContents.split('\n');
-  const content = splitIndexContents.filter((content, index) => {
-    return content.split('/')[1] === fileName;
-  });
-  const localHash = content[0].split('/')[0];
+
   const refsPath = `${dirPath}/.archive/refs`;
+  let objContents = `date:${date}/msg:${message}/committer:/fileHash:${commitHash}`;
 
-  // Find projectId
-  const projectName = dirPath.slice(2);
-  const project = Project.findOne({
-    where: { name: projectName }
-  });
-  const projectID = project.id;
+  try {
+    fs.statSync(refsPath);
+  } catch (err) {
+    fs.mkdirSync(refsPath);
+  }
+  
+  if (commit.previous_commit > 0) {
+    objContents += `parent:${commit.previous_commit}/`;
+  }
+  // TODO: Need to implement this for merges
+  // if (mergeHash) {
+  //   objContents += `parent:${parent}/`;
+  // }
 
-  // Find local's commit time
-  const localCommit = Commit.findOne({
-    where: {
-      projectId: project.id,
-      hash: localHash
-    }
-  });
-  const localCommitTime = localCommit.date;
+  const hashContents = `${fileName}${fileContent}${message}`;
+  const newCommitHash = createNewArchiveObject(filePath, hashContents, objContents, dirPath);
 
-  // FindAll Commits with project id
-  // And after local commit date
-  // Sort by date (use most recent)
+  // Create a new ref to point at the new commit IF it doesn't exist
+  if (!fs.access(`${refsPath}/${fileName}`, () => { })) {
+    fs.writeFileSync(`${refsPath}/${fileName}`, commitHash, 'utf-8');
+  }
 
-  const newCommits = Commit.findAll({
-    where: {
-      projectId: projectID,
-      createdAt: {
-        $gt: new Date(localCommitTime)
-      }
-    },
-    order: [Commit, 'date', 'ASC']
-  });
-
-  // save commits to local (.archive)
-  newCommits.forEach(function(commit) {
-    newRefForNewCommit(refsPath, fileName, commit.hash);
-  });
-
-  const serverHash = newCommits[0].hash;
-  const serverContents = newCommits[0].blob.file.file_contents;
-  // run mergeFileChanges
-  mergeFileChanges(filePath, localHash, serverHash, serverContents);
-
+  return newCommitHash;
 }

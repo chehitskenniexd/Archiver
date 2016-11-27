@@ -9,8 +9,8 @@ const Commit = db.define('commit', {
   // we store previous commits as a str and not an association
   // to allow 2 previous commits in the case of merging
   previous_commit: Sequelize.STRING,
-
-  hash: Sequelize.STRING
+  hash: Sequelize.STRING,
+  committer: Sequelize.STRING
 });
 
 module.exports = Commit;

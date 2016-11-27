@@ -42,15 +42,15 @@ const dummyCommitData = [
 
 export class Project_List extends Component {  
   render() {
-      console.log(this.props.projects)
-          return (
+      console.log("THIS PROPS USER", this.props.user)
+      return (
         <div className="sidebar-panel-wrapper">
           <div className="card-panel project-add">
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
           <Accordion allowMultiple={false}>
                 {/* LOOP OVER USERS PROJECTS HERE */}
-                {this.props.projects && this.props.projects.map((instance, index) => {
+                {this.props.user.projects && this.props.user.projects.map((instance, index) => {
 
                   const titleBar = (
                       <div className="project-title">
@@ -63,11 +63,12 @@ export class Project_List extends Component {
                     )
                     return (
                         <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
-                                {dummyCommitData.map((commitInfo) => {
+                        {console.log('INSTANCE COMMITS', instance.commits)}
+                                {instance.commits && instance.commits.map((commit) => {
                                   return (
-                                    <div className="item-commit-border" key={commitInfo.id}>
-                                      <div className="commit-message commit-color">{commitInfo.commitMessage}</div>
-                                      <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${commitInfo.date}`}</span><span className="commit-info-font">{`by ${commitInfo.committer}`}</span></div>
+                                    <div className="item-commit-border" key={commit.id}>
+                                      <div className="commit-message commit-color">{commit.message.slice(0, 20)}</div>
+                                      <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${commit.date}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
                                     </div>
                                     )
                                 })}
@@ -85,8 +86,7 @@ export class Project_List extends Component {
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state){
   return {
-    loginUser: state.login,
-    projects: state.projects
+    user: state.login
   }
 }
 
