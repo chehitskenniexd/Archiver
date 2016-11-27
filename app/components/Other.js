@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Other.css';
-import Sidebar from './Sidebar';
+import SidebarContainer from '../containers/SidebarContainer';
 import MainRender from './MainRender';
 
 
@@ -14,7 +14,7 @@ export class Other extends Component {
         <div className="row" style={{marginBottom: 0}}>
 
           <div className="col s4" style={{paddingLeft: 0}}>
-            <Sidebar />
+            <SidebarContainer />
           </div>
           <div className="col s8">
             {this.props.children}
