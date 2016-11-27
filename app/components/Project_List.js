@@ -16,13 +16,6 @@ export class Project_List extends Component {
     hashHistory.push('/add')
   }
 
-
-
-export class Project_List extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidUpdate() {
     if (this.props.user.projects && !Object.keys(this.props.collabs).length) {
       this.props.setDefaultCollabs(this.props.user.projects[0]);
