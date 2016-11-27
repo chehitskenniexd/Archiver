@@ -1,9 +1,10 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const Commit = require('../db/models/index').Commit;
-const Project = require('../db/models/index').Project;
-const File = require('../db/models/index').File;
+const Models = require('../db/models');
+const Commit = Models.Commit;
+const Project = Models.Project;
+const File = Models.File;
 
 export function getSha1Hash(data) {
   return crypto
