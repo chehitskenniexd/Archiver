@@ -230,7 +230,7 @@ describe('Actions', function () {
       _commitFileChanges(filePath, message);
     });
 
-    it.only('If the local and server are at the same commit, nothing happens', function () {
+    it('If the local and server are at the same commit, nothing happens', function () {
       return _pullDataFromServer('./Recipes/zaz')
         .then(res => {
           fs.writeFileSync(`./dbInfo.txt`, JSON.stringify(res), 'utf-8');
