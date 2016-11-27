@@ -122,17 +122,17 @@ const users = [
     email: 'brett@adams.com',
     password: 'violet'
   }
-]
+];
 
 
 module.exports = users;
 
-var newUsers = users.map(user => {
-    bcrypt.hash(user.password_digest, 10, function(err, hash) {
-        user.password_digest = hash;
-    })
-    return user;
-})
+// var newUsers = users.map(user => {
+//     bcrypt.hash(user.password_digest, 10, function(err, hash) {
+//         user.password_digest = hash;
+//     })
+//     return user;
+// })
 
 // module.exports = newUsers;
 
