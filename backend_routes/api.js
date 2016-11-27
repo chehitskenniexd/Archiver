@@ -7,6 +7,7 @@ api
 	.use('/register', require('./register'))
 	.use('/login', require('./login'))
 	.use('/users', require('./users'))
+    .use('/user/roles', require('./invitations'))
 
 // Send along any errors
 api.use((err, req, res, next) => {

@@ -1,20 +1,22 @@
 
-let projects = [
-    {name: 'Recipes'},
-    {name: 'Newsletter'},
-    {name: 'Ideas'},
-    {name: 'Memos'},
-    {name: 'Minutes'},
-    {name: 'Lectures'},
-    {name: 'Campaigns'},
-    {name: 'Reports'},
-    {name: 'Summeries'},
-    {name: 'Suggestions'},
-    {name: 'Predictions'},
-    {name: 'Scripts'},
-    {name: 'Statements'},
-    {name: 'Letters'},
-    {name: 'Requests'}
-]
 
-module.exports = projects
+// ONE FILE PER PROJECT
+
+const projects = [
+    { name: 'Inferno' },
+    { name: 'Macbeth' },
+    { name: 'The Importance of Being Earnest' },
+    { name: 'The Jungle' },
+    { name: 'Lord of the Flies' },
+    { name: 'Heart of Darkness' }
+];
+
+// MULTIPLE FILES PER PROJECT
+
+// const projects = [
+//     { name: 'Poetry' },
+//     { name: 'Plays' },
+//     { name: 'Novels' }
+// ];
+
+module.exports = projects;

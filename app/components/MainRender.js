@@ -48,7 +48,8 @@ export class MainRender extends Component {
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state){
   return{
-    mainhome: state.mainhome
+    mainhome: state.mainhome,
+    login: state.login
   }
 }
 

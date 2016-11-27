@@ -1,25 +1,98 @@
-// Load and instantiate Chance
-var chance = require('chance').Chance();
-
-var user_project = require('../models/user_project');
 
 
-//setting number of instances for each model
-var numUserProjects = 50;
+// ONE FILE PER PROJECT
+
+const userProjects = [
+  { role: 'author', userId: '1', projectId: '1' },
+  { role: 'pending', userId: '2', projectId: '1' },
+  { role: 'pending', userId: '2', projectId: '3' },
+  { role: 'pending', userId: '2', projectId: '4' },
+  { role: 'collaborator', userId: '2', projectId: '5' },
+  { role: 'collaborator', userId: '2', projectId: '6' },
+  { role: 'collaborator', userId: '3', projectId: '1' },
+  { role: 'collaborator', userId: '4', projectId: '1' },
+  { role: 'collaborator', userId: '5', projectId: '1' },
+  { role: 'collaborator', userId: '6', projectId: '1' },
+  { role: 'collaborator', userId: '7', projectId: '1' },
+  { role: 'collaborator', userId: '8', projectId: '1' },
+  { role: 'collaborator', userId: '9', projectId: '1' },
+  { role: 'collaborator', userId: '10', projectId: '1' },
+  { role: 'pending', userId: '1', projectId: '2' },
+  { role: 'collaborator', userId: '1', projectId: '3' },
+  { role: 'collaborator', userId: '1', projectId: '4' },
+  { role: 'author', userId: '2', projectId: '2' },
+  { role: 'collaborator', userId: '3', projectId: '2' },
+  { role: 'collaborator', userId: '4', projectId: '2' },
+  { role: 'collaborator', userId: '5', projectId: '2' },
+  { role: 'author', userId: '6', projectId: '3' },
+  { role: 'collaborator', userId: '7', projectId: '3' },
+  { role: 'collaborator', userId: '8', projectId: '3' },
+  { role: 'collaborator', userId: '9', projectId: '3' },
+  { role: 'collaborator', userId: '10', projectId: '3' },
+  { role: 'author', userId: '11', projectId: '4' },
+  { role: 'collaborator', userId: '12', projectId: '4' },
+  { role: 'collaborator', userId: '13', projectId: '4' },
+  { role: 'collaborator', userId: '14', projectId: '4' },
+  { role: 'collaborator', userId: '15', projectId: '4' },
+  { role: 'collaborator', userId: '16', projectId: '4' },
+  { role: 'collaborator', userId: '17', projectId: '4' },
+  { role: 'collaborator', userId: '18', projectId: '4' },
+  { role: 'collaborator', userId: '19', projectId: '4' },
+  { role: 'collaborator', userId: '20', projectId: '4' },
+  { role: 'collaborator', userId: '11', projectId: '5' },
+  { role: 'author', userId: '12', projectId: '5' },
+  { role: 'collaborator', userId: '13', projectId: '5' },
+  { role: 'collaborator', userId: '14', projectId: '5' },
+  { role: 'collaborator', userId: '15', projectId: '5' },
+  { role: 'author', userId: '16', projectId: '6' },
+  { role: 'collaborator', userId: '17', projectId: '6' },
+  { role: 'collaborator', userId: '18', projectId: '6' },
+  { role: 'collaborator', userId: '19', projectId: '6' },
+  { role: 'collaborator', userId: '20', projectId: '6' }
+];
+
+
+// MULTIPLE FILES PER PROJECT
 
 // roles array
-var roles = ["collaborator", "author"];
+var roles = ["collaborator", "author", "pending"];
 
-//performs a function n times, and returns an array of the results
-var doTimes = (n, fn) => {
-  var results = [];
-  while (n--) {
-    results.push(fn());
-  }
-  return results;
-}
+// const userprojects = [
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '1' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '2' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+//   { role: '', userId: '', projectId: '3' },
+// ];
 
-const fs = require('fs');
+
+module.exports = userProjects;
 
 var generateUserProjects = function () {
   return doTimes(numUserProjects, function () {
@@ -38,4 +111,5 @@ var userProjectsSeed = () => {
 }
 
 
-module.exports = userProjectsSeed;
+// module.exports = userProjectsSeed;
+
