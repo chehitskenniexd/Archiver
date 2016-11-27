@@ -10,7 +10,6 @@ const Project = require('../db/models/project');
 module.exports = router;
 
 // FIND ALL USER INFO ON CURRENT PROJECT
-
 router.get('/:projectId', (req, res, next) => {
   Project.findAll({
     where: {
@@ -21,7 +20,6 @@ router.get('/:projectId', (req, res, next) => {
   .then(projects => res.json({projects}))
   .catch(next)
 })
-
     // UserProject.findAll({
     //   where: {
     //     projectId: req.params.projectId,
@@ -30,3 +28,27 @@ router.get('/:projectId', (req, res, next) => {
     //     }
     //   }
     // })
+
+// DELETE CURRENT COLLABS
+router.delete('/:projectId/:userId', (req, res, next) => {
+  UserProject.destroy({
+    where: {
+      projectId: req.body.projectId,
+      userId: req.body.userId
+    }
+  })
+  .then(deletedProject => {
+    console.log("Collab delete successful");
+
+    return Project.findAll({
+      where: {
+        id: req.params.projectId
+      },
+      include: [User]
+    })
+  })
+  .then(project => {
+    res.json(project)
+  })
+  .catch(next)
+});
