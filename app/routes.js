@@ -14,6 +14,6 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
     <Route path="/signup" component={Signup} />
-    <Route path="/main" component={Other} />
+    <Route path="/main" component={Other}/>
   </Route>
 );
