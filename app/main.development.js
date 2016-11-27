@@ -43,8 +43,12 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    width: 950,
+    height: 600,
+    minWidth: 950,
+    minHeight: 600,
+    titleBarStyle: 'hidden',
+    icon: __dirname + '../public/media/archiver_logo.png'
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);

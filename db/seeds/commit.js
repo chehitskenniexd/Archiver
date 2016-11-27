@@ -1,80 +1,94 @@
-var chance = require('chance').Chance();
-
-//performs a function n times, and returns an array of the results
-var doTimes = (n, fn) => {
-  var results = [];
-  while (n--) {
-    results.push(fn());
-  }
-  return results;
-}
-
-//create random hashes
-var hashArray = doTimes(35, function (){
-    return chance.hash();
-})
 
 
-var commitArray = [
-    {date: Date.UTC(2016, 10, 6, 21, 30), message: 'edited second paragraph', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 6, 22, 28), message: 'removed run-on sentence', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 7, 7, 5), message: 'fixed capitalization', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 7, 11, 25), message: 'final draft', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 7, 14), message: 'edited intro', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 8, 16, 21), message: 'added conclusion', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 10, 10, 24), message: 'fixed grammar', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 13, 17, 11), message: 'first draft', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 14, 12, 14), message: 'first attempt', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 14, 14, 3), message: 'added additional explanation', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 14, 17, 8), message: 'expanded third paragraph', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 18, 10, 15), message: 'improved word choice', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 18, 13, 17), message: 'second attempt', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 19, 8, 12), message: 'edited third sentence', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 19, 10, 45), message: 'added example', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 19, 14, 42), message: 'removed fourth paragraph', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 20, 12, 33), message: 'added additional examples', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 21, 16, 39), message: 'second draft', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 22, 12, 53), message: 'fixed spelling ', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 22, 14, 57), message: 'added an oxford comma', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 22, 16, 51), message: 'minor edits', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 23, 10, 47), message: 'fixed punctuation', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 23, 15, 4), message: 'removed potentially objectionable content', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 24, 14, 11), message: 'switched from AP to MLA', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 25, 17, 2), message: 'removed redundancies', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 26, 9, 49), message: 'corrected dates', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 26, 12, 17), message: 'added file', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 26, 14, 4), message: 'added sources', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 27, 13, 27), message: 'removed second paragraph', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 28, 19, 46), message: 'rewrote first paragraph', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 29, 16, 41), message: 'edited conclusion', previous_commit: ''},
-    {date: Date.UTC(2016, 10, 31, 20, 52), message: 'edited wording', previous_commit: ''},
-    {date: Date.UTC(2016, 11, 2, 21, 26), message: 'expanded explanation', previous_commit: ''},
-    {date: Date.UTC(2016, 11, 3, 18, 29), message: 'corrected tense in first paragraph', previous_commit: ''},
-    {date: Date.UTC(2016, 11, 4, 13, 15), message: 'clarified confusing wording', previous_commit: ''},
-]
+// ONE FILE PER PROJECT
 
-let commits = commitArray.map((instance, i) => {
-    var randomHash = chance.pick(hashArray)
-    instance.hash = hashArray[i];
-    instance.projectId = chance.integer({min: 1, max: 15});
-    if (randomHash !== hashArray[i]) {
-      if (Math.random() * 20 < 8) {
-        instance.previous_commit = `${randomHash}, ${hashArray[i + 2]}`;
-      } else {
-        instance.previous_commit = randomHash;
-      }
-    } else {
-      if (Math.random() * 20 < 8) {
-        instance.previous_commit = `${hashArray[i + 1]}, ${hashArray[i + 5]}`;
-      } else {
-        instance.previous_commit = hashArray[i + 1];
-      }
-    }
-    return instance;
-})
+const commits = [
+  { date: Date.UTC(2016, 10, 6, 21, 30), message: 'Dante1', previous_commit: '', hash: 'Dantecommithash1', projectId: 1 },
+  { date: Date.UTC(2016, 10, 6, 22, 28), message: 'Dante2', previous_commit: 'Dantecommithash1', hash: 'Dantecommithash2', projectId: 1 },
+  { date: Date.UTC(2016, 10, 7, 7, 5), message: 'Dante3', previous_commit: 'Dantecommithash1', hash: 'Dantecommithash3', projectId: 1 },
+  { date: Date.UTC(2016, 10, 7, 11, 25), message: 'Dante4', previous_commit: 'Dantecommithash2, Dantecommithash3', hash: 'Dantecommithash4', projectId: 1 },
+  { date: Date.UTC(2016, 10, 7, 14), message: 'Dante5', previous_commit: 'Dantecommithash4', hash: 'Dantecommithash5', projectId: 1 },
+  { date: Date.UTC(2016, 10, 8, 16, 21), message: 'Dante6', previous_commit: 'Dantecommithash5', hash: 'Dantecommithash6', projectId: 1 },
+  { date: Date.UTC(2016, 10, 10, 10, 24), message: 'Dante7', previous_commit: 'Dantecommithash7', hash: 'Dantecommithash7', projectId: 1 },
+  { date: Date.UTC(2016, 10, 13, 17, 11), message: 'Shakespeare1', previous_commit: '', hash: 'Shakespearecommithash1', projectId: 2 },
+  { date: Date.UTC(2016, 10, 14, 12, 14), message: 'Shakespeare2', previous_commit: 'Shakespearecommithash1', hash: 'Shakespearecommithash2', projectId: 2 },
+  { date: Date.UTC(2016, 10, 14, 14, 3), message: 'Shakespeare3', previous_commit: 'Shakespearecommithash2', hash: 'Shakespearecommithash3', projectId: 2 },
+  { date: Date.UTC(2016, 10, 14, 17, 8), message: 'Shakespeare4', previous_commit: 'Shakespearecommithash3', hash: 'Shakespearecommithash4', projectId: 2 },
+  { date: Date.UTC(2016, 10, 18, 10, 15), message: 'Shakespeare5', previous_commit: 'Shakespearecommithash4', hash: 'Shakespearecommithash5', projectId: 2 },
+  { date: Date.UTC(2016, 10, 18, 13, 17), message: 'Shakespeare6', previous_commit: 'Shakespearecommithash5', hash: 'Shakespearecommithash6', projectId: 2 },
+  { date: Date.UTC(2016, 10, 19, 8, 12), message: 'Wilde1', previous_commit: '', hash: 'Wildecommithash1', projectId: 3 },
+  { date: Date.UTC(2016, 10, 19, 10, 45), message: 'Wilde2', previous_commit: 'Wildecommithash1', hash: 'Wildecommithash2', projectId: 3 },
+  { date: Date.UTC(2016, 10, 19, 14, 42), message: 'Wilde3', previous_commit: 'Wildecommithash2', hash: 'Wildecommithash3', projectId: 3 },
+  { date: Date.UTC(2016, 10, 20, 12, 33), message: 'Wilde4', previous_commit: 'Wildecommithash3', hash: 'Wildecommithash4', projectId: 3 },
+  { date: Date.UTC(2016, 10, 21, 16, 39), message: 'Sinclair1', previous_commit: '', hash: 'Sinclaircommithash1', projectId: 4 },
+  { date: Date.UTC(2016, 10, 22, 12, 53), message: 'Sinclair2', previous_commit: 'Sinclaircommithash1', hash: 'Sinclaircommithash2', projectId: 4 },
+  { date: Date.UTC(2016, 10, 22, 14, 57), message: 'Sinclair3', previous_commit: 'Sinclaircommithash2', hash: 'Sinclaircommithash3', projectId: 4 },
+  { date: Date.UTC(2016, 10, 22, 16, 51), message: 'Sinclair4', previous_commit: 'Sinclaircommithash3', hash: 'Sinclaircommithash4', projectId: 4 },
+  { date: Date.UTC(2016, 10, 23, 10, 47), message: 'Sinclair5', previous_commit: 'Sinclaircommithash4', hash: 'Sinclaircommithash5', projectId: 4 },
+  { date: Date.UTC(2016, 10, 23, 15, 4), message: 'Sinclair6', previous_commit: 'Sinclaircommithash5', hash: 'Sinclaircommithash6', projectId: 4 },
+  { date: Date.UTC(2016, 10, 24, 14, 11), message: 'Sinclair7', previous_commit: 'Sinclaircommithash6', hash: 'Sinclaircommithash7', projectId: 4 },
+  { date: Date.UTC(2016, 10, 25, 17, 2), message: 'Golding1', previous_commit: '', hash: 'Goldingcommithash1', projectId: 5 },
+  { date: Date.UTC(2016, 10, 26, 9, 49), message: 'Golding2', previous_commit: 'Goldingcommithash1', hash: 'Goldingcommithash2', projectId: 5 },
+  { date: Date.UTC(2016, 10, 26, 12, 17), message: 'Golding3', previous_commit: 'Goldingcommithash2', hash: 'Goldingcommithash3', projectId: 5 },
+  { date: Date.UTC(2016, 10, 26, 14, 4), message: 'Golding4', previous_commit: 'Goldingcommithash3', hash: 'Goldingcommithash4', projectId: 5 },
+  { date: Date.UTC(2016, 10, 27, 13, 27), message: 'Golding5', previous_commit: 'Goldingcommithash4', hash: 'Goldingcommithash5', projectId: 5 },
+  { date: Date.UTC(2016, 10, 28, 19, 46), message: 'Golding6', previous_commit: 'Goldingcommithash5', hash: 'Goldingcommithash6', projectId: 5 },
+  { date: Date.UTC(2016, 10, 29, 16, 41), message: 'Golding7', previous_commit: 'Goldingcommithash6', hash: 'Goldingcommithash7', projectId: 5 },
+  { date: Date.UTC(2016, 10, 31, 20, 52), message: 'Conrad1', previous_commit: '', hash: 'Conradcommithash1', projectId: 6 },
+  { date: Date.UTC(2016, 11, 2, 21, 26), message: 'Conrad2', previous_commit: 'Conradcommithash1', hash: 'Conradcommithash2', projectId: 6 },
+  { date: Date.UTC(2016, 11, 3, 18, 29), message: 'Conrad3', previous_commit: 'Conradcommithash2', hash: 'Conradcommithash3', projectId: 6 },
+  { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Conrad4', previous_commit: 'Conradcommithash3', hash: 'Conradcommithash4', projectId: 6 },
+  { date: Date.UTC(2016, 10, 29, 16, 41), message: 'Conrad5', previous_commit: 'Conradcommithash4', hash: 'Conradcommithash5', projectId: 6 },
+  { date: Date.UTC(2016, 10, 31, 20, 52), message: 'Conrad6', previous_commit: 'Conradcommithash5', hash: 'Conradcommithash6', projectId: 6 },
+  { date: Date.UTC(2016, 11, 2, 21, 26), message: 'Conrad7', previous_commit: 'Conradcommithash6', hash: 'Conradcommithash7', projectId: 6 },
+  { date: Date.UTC(2016, 11, 3, 18, 29), message: 'Conrad8', previous_commit: 'Conradcommithash7', hash: 'Conradcommithash8', projectId: 6 },
+  { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Conrad9', previous_commit: 'Conradcommithash8', hash: 'Conradcommithash9', projectId: 6 }
+];
 
-module.exports = {
-    commits,
-    hashArray
-}
+// MULTIPLE FILES PER PROJECT
 
+// const commits = [
+  // { date: Date.UTC(2016, 10, 6, 21, 30), message: 'Dante1', previous_commit: '', hash: 'thisispoetrycommithashnumber1', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 6, 22, 28), message: 'Dante2', previous_commit: 'thisispoetrycommithashnumber1', hash: 'thisispoetrycommithashnumber2', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 7, 7, 5), message: 'Dante3', previous_commit: 'thisispoetrycommithashnumber1', hash: 'thisispoetrycommithashnumber3', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 7, 11, 25), message: 'Dante4', previous_commit: 'thisispoetrycommithashnumber2, thisispoetrycommithashnumber3', hash: 'thisispoetrycommithashnumber4', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 7, 14), message: 'Dante5', previous_commit: 'thisispoetrycommithashnumber4', hash: 'thisispoetrycommithashnumber5', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 8, 16, 21), message: 'Dante6', previous_commit: 'thisispoetrycommithashnumber5', hash: 'thisispoetrycommithashnumber6', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 10, 10, 24), message: 'Dante7', previous_commit: 'thisispoetrycommithashnumber7', hash: 'thisispoetrycommithashnumber7', projectId: 1 },
+  // { date: Date.UTC(2016, 10, 13, 17, 11), message: 'Shakespeare1', previous_commit: '', hash: 'thisisplaycommithashnumber1', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 14, 12, 14), message: 'Wilde1', previous_commit: 'thisisplaycommithashnumber1', hash: 'thisisplaycommithashnumber2', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 14, 14, 3), message: 'Shakespeare2', previous_commit: 'thisisplaycommithashnumber2', hash: 'thisisplaycommithashnumber3', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 14, 17, 8), message: 'Shakespeare3', previous_commit: 'thisisplaycommithashnumber3', hash: 'thisisplaycommithashnumber4', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 18, 10, 15), message: 'Shakespeare4', previous_commit: 'thisisplaycommithashnumber4', hash: 'thisisplaycommithashnumber5', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 18, 13, 17), message: 'Shakespeare5', previous_commit: 'thisisplaycommithashnumber5', hash: 'thisisplaycommithashnumber6', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 19, 8, 12), message: 'Wilde2', previous_commit: 'thisisplaycommithashnumber6', hash: 'thisisplaycommithashnumber7', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 19, 10, 45), message: 'Wilde3', previous_commit: 'thisisplaycommithashnumber7', hash: 'thisisplaycommithashnumber8', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 19, 14, 42), message: 'Shakespeare6', previous_commit: 'thisisplaycommithashnumber8', hash: 'thisisplaycommithashnumber9', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 20, 12, 33), message: 'Wilde4', previous_commit: 'thisisplaycommithashnumber9', hash: 'thisisplaycommithashnumber10', projectId: 2 },
+  // { date: Date.UTC(2016, 10, 21, 16, 39), message: 'Sinclair1', previous_commit: '', hash: 'thisisnovelcommitnumber1', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 22, 12, 53), message: 'Golding1', previous_commit: 'thisisnovelcommitnumber1', hash: 'thisisnovelcommitnumber2', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 22, 14, 57), message: 'Sinclair2', previous_commit: 'thisisnovelcommitnumber2', hash: 'thisisnovelcommitnumber3', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 22, 16, 51), message: 'Conrad1', previous_commit: 'thisisnovelcommitnumber3', hash: 'thisisnovelcommitnumber4', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 23, 10, 47), message: 'Sinclair3', previous_commit: 'thisisnovelcommitnumber4', hash: 'thisisnovelcommitnumber5', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 23, 15, 4), message: 'Golding2', previous_commit: 'thisisnovelcommitnumber5', hash: 'thisisnovelcommitnumber6', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 24, 14, 11), message: 'Golding3', previous_commit: 'thisisnovelcommitnumber6', hash: 'thisisnovelcommitnumber7', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 25, 17, 2), message: 'Conrad2', previous_commit: 'thisisnovelcommitnumber7', hash: 'thisisnovelcommitnumber8', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 26, 9, 49), message: 'Sinclair4', previous_commit: 'thisisnovelcommitnumber8', hash: 'thisisnovelcommitnumber9', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 26, 12, 17), message: 'Conrad3', previous_commit: 'thisisnovelcommitnumber9', hash: 'thisisnovelcommitnumber10', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 26, 14, 4), message: 'Conrad4', previous_commit: 'thisisnovelcommitnumber10', hash: 'thisisnovelcommitnumber11', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 27, 13, 27), message: 'Conrad5', previous_commit: 'thisisnovelcommitnumber11', hash: 'thisisnovelcommitnumber12', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 28, 19, 46), message: 'Golding4', previous_commit: 'thisisnovelcommitnumber12', hash: 'thisisnovelcommitnumber13', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 29, 16, 41), message: 'Golding5', previous_commit: 'thisisnovelcommitnumber13', hash: 'thisisnovelcommitnumber14', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 31, 20, 52), message: 'Conrad6', previous_commit: 'thisisnovelcommitnumber14', hash: 'thisisnovelcommitnumber15', projectId: 3 },
+  // { date: Date.UTC(2016, 11, 2, 21, 26), message: 'Sinclair5', previous_commit: 'thisisnovelcommitnumber15', hash: 'thisisnovelcommitnumber16', projectId: 3 },
+  // { date: Date.UTC(2016, 11, 3, 18, 29), message: 'Golding6', previous_commit: 'thisisnovelcommitnumber16', hash: 'thisisnovelcommitnumber17', projectId: 3 },
+  // { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Conrad7', previous_commit: 'thisisnovelcommitnumber17', hash: 'thisisnovelcommitnumber18', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 29, 16, 41), message: 'Sinclair6', previous_commit: 'thisisnovelcommitnumber18', hash: 'thisisnovelcommitnumber19', projectId: 3 },
+  // { date: Date.UTC(2016, 10, 31, 20, 52), message: 'Sinclair7', previous_commit: 'thisisnovelcommitnumber19', hash: 'thisisnovelcommitnumber20', projectId: 3 },
+  // { date: Date.UTC(2016, 11, 2, 21, 26), message: 'Conrad8', previous_commit: 'thisisnovelcommitnumber20', hash: 'thisisnovelcommitnumber21', projectId: 3 },
+  // { date: Date.UTC(2016, 11, 3, 18, 29), message: 'Golding7', previous_commit: 'thisisnovelcommitnumber21', hash: 'thisisnovelcommitnumber22', projectId: 3 },
+  // { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Conrad9', previous_commit: 'thisisnovelcommitnumber22', hash: 'thisisnovelcommitnumber23', projectId: 3 }
+// ];
+
+
+module.exports = commits;

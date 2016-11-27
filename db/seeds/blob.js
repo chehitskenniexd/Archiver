@@ -1,39 +1,94 @@
-var users = require('./user');
-var Blob = require('../models/blob'); 
-var hashArray = require('./commit').hashArray;
-
-// Load and instantiate Chance
-var chance = require('chance').Chance();
-
-//setting number of instances for each model
-var numBlobs = 50;
-
-//performs a function n times, and returns an array of the results
-var doTimes = (n, fn) => {
-  var results = [];
-  while (n--) {
-    results.push(fn());
-  }
-  return results;
-}
-
-var generateBlobs = function(){
-  return doTimes(numBlobs, function (){
-    var author = chance.pick(users);
-    var committer = chance.pick(users);
-    return Blob.create({
-      author: author.first_name + " " + author.last_name,
-      committer: committer.first_name + " " + committer.last_name,
-      hash: chance.pick(hashArray),
-      commitId: chance.integer({min: 1, max: 35})
-    })
-  })
-}
-
-var blobSeed = () => {
-  return generateBlobs();
-}
 
 
+// ONE FILE PER PROJECT
 
-module.exports = blobSeed;
+const blobs = [
+  { authorId: 1, commiterId: 1, hash: 'Dante1', commitId: 1 },
+  { authorId: 1, commiterId: 2, hash: 'Dante2', commitId: 2 },
+  { authorId: 1, commiterId: 3, hash: 'Dante3', commitId: 3 },
+  { authorId: 1, commiterId: 4, hash: 'Dante4', commitId: 4 },
+  { authorId: 1, commiterId: 5, hash: 'Dante5', commitId: 5 },
+  { authorId: 1, commiterId: 6, hash: 'Dante6', commitId: 6 },
+  { authorId: 1, commiterId: 7, hash: 'Dante7', commitId: 7 },
+  { authorId: 2, commiterId: 5, hash: 'Shakespeare1', commitId: 8 },
+  { authorId: 2, commiterId: 6, hash: 'Shakespeare2', commitId: 9 },
+  { authorId: 2, commiterId: 7, hash: 'Shakespeare3', commitId: 10 },
+  { authorId: 2, commiterId: 8, hash: 'Shakespeare4', commitId: 11 },
+  { authorId: 2, commiterId: 9, hash: 'Shakespeare5', commitId: 12 },
+  { authorId: 2, commiterId: 10, hash: 'Shakespeare6', commitId: 13 },
+  { authorId: 6, commiterId: 11, hash: 'Wilde1', commitId: 14 },
+  { authorId: 6, commiterId: 12, hash: 'Wilde2', commitId: 15 },
+  { authorId: 6, commiterId: 13, hash: 'Wilde3', commitId: 16 },
+  { authorId: 6, commiterId: 14, hash: 'Wilde4', commitId: 17 },
+  { authorId: 11, commiterId: 11, hash: 'Sinclair1', commitId: 18 },
+  { authorId: 11, commiterId: 12, hash: 'Sinclair2', commitId: 19 },
+  { authorId: 11, commiterId: 13, hash: 'Sinclair3', commitId: 20 },
+  { authorId: 11, commiterId: 13, hash: 'Sinclair4', commitId: 21 },
+  { authorId: 11, commiterId: 13, hash: 'Sinclair5', commitId: 22 },
+  { authorId: 11, commiterId: 15, hash: 'Sinclair6', commitId: 23 },
+  { authorId: 11, commiterId: 16, hash: 'Sinclair7', commitId: 24 },
+  { authorId: 12, commiterId: 17, hash: 'Golding1', commitId: 25 },
+  { authorId: 12, commiterId: 18, hash: 'Golding2', commitId: 26 },
+  { authorId: 12, commiterId: 19, hash: 'Golding3', commitId: 27 },
+  { authorId: 12, commiterId: 20, hash: 'Golding4', commitId: 28 },
+  { authorId: 12, commiterId: 11, hash: 'Golding5', commitId: 29 },
+  { authorId: 12, commiterId: 12, hash: 'Golding6', commitId: 30 },
+  { authorId: 12, commiterId: 13, hash: 'Golding7', commitId: 31 },
+  { authorId: 16, commiterId: 14, hash: 'Conrad1', commitId: 32 },
+  { authorId: 16, commiterId: 15, hash: 'Conrad2', commitId: 33 },
+  { authorId: 16, commiterId: 16, hash: 'Conrad3', commitId: 34 },
+  { authorId: 16, commiterId: 17, hash: 'Conrad4', commitId: 35 },
+  { authorId: 16, commiterId: 18, hash: 'Conrad5', commitId: 36 },
+  { authorId: 16, commiterId: 19, hash: 'Conrad6', commitId: 37 },
+  { authorId: 16, commiterId: 20, hash: 'Conrad7', commitId: 38 },
+  { authorId: 16, commiterId: 11, hash: 'Conrad8', commitId: 39 },
+  { authorId: 16, commiterId: 12, hash: 'Conrad9', commitId: 40 },
+];
+
+// MULTIPLE FILES
+
+// const blobs = [
+//   { authorId: 1, commiterId: 1, hash: 'Dante1', commitId: 1 },
+//   { authorId: 1, commiterId: 2, hash: 'Dante2', commitId: 2 },
+//   { authorId: 1, commiterId: 3, hash: 'Dante3', commitId: 3 },
+//   { authorId: 1, commiterId: 4, hash: 'Dante4', commitId: 4 },
+//   { authorId: 1, commiterId: 5, hash: 'Dante5', commitId: 5 },
+//   { authorId: 1, commiterId: 6, hash: 'Dante6', commitId: 6 },
+//   { authorId: 1, commiterId: 7, hash: 'Dante7', commitId: 7 },
+//   { authorId: 5, commiterId: 5, hash: 'Shakespeare1', commitId: 8 },
+//   { authorId: 6, commiterId: 6, hash: 'Shakespeare1Wilde1', commitId: 9 },
+//   { authorId: 5, commiterId: 7, hash: 'Shakespeare2Wilde1', commitId: 10 },
+//   { authorId: 5, commiterId: 8, hash: 'Shakespeare3Wilde1', commitId: 11 },
+//   { authorId: 5, commiterId: 9, hash: 'Shakespeare4Wilde1', commitId: 12 },
+//   { authorId: 5, commiterId: 10, hash: 'Shakespeare5Wilde1', commitId: 13 },
+//   { authorId: 6, commiterId: 11, hash: 'Shakespeare5Wilde2', commitId: 14 },
+//   { authorId: 6, commiterId: 12, hash: 'Shakespeare5Wilde3', commitId: 15 },
+//   { authorId: 5, commiterId: 13, hash: 'Shakespeare6Wilde3', commitId: 16 },
+//   { authorId: 6, commiterId: 14, hash: 'Shakespeare6Wilde4', commitId: 17 },
+//   { authorId: 11, commiterId: 11, hash: 'Sinclair1', commitId: 18 },
+//   { authorId: 12, commiterId: 12, hash: 'Sinclair1Golding1', commitId: 19 },
+//   { authorId: 11, commiterId: 13, hash: 'Sinclair2Golding1', commitId: 20 },
+//   { authorId: 13, commiterId: 13, hash: 'Sinclair2Golding1Conrad1', commitId: 21 },
+//   { authorId: 11, commiterId: 13, hash: 'Sinclair3Golding1Conrad1', commitId: 22 },
+//   { authorId: 12, commiterId: 15, hash: 'Sinclair3Golding2Conrad1', commitId: 23 },
+//   { authorId: 12, commiterId: 16, hash: 'Sinclair3Golding3Conrad1', commitId: 24 },
+//   { authorId: 13, commiterId: 17, hash: 'Sinclair3Golding3Conrad2', commitId: 25 },
+//   { authorId: 11, commiterId: 18, hash: 'Sinclair4Golding3Conrad2', commitId: 26 },
+//   { authorId: 13, commiterId: 19, hash: 'Sinclair4Golding3Conrad3', commitId: 27 },
+//   { authorId: 13, commiterId: 20, hash: 'Sinclair4Golding3Conrad4', commitId: 28 },
+//   { authorId: 13, commiterId: 11, hash: 'Sinclair4Golding3Conrad5', commitId: 29 },
+//   { authorId: 12, commiterId: 12, hash: 'Sinclair4Golding4Conrad5', commitId: 30 },
+//   { authorId: 12, commiterId: 13, hash: 'Sinclair4Golding5Conrad5', commitId: 31 },
+//   { authorId: 13, commiterId: 14, hash: 'Sinclair4Golding5Conrad6', commitId: 32 },
+//   { authorId: 11, commiterId: 15, hash: 'Sinclair5Golding5Conrad6', commitId: 33 },
+//   { authorId: 12, commiterId: 16, hash: 'Sinclair5Golding6Conrad6', commitId: 34 },
+//   { authorId: 13, commiterId: 17, hash: 'Sinclair5Golding6Conrad7', commitId: 35 },
+//   { authorId: 11, commiterId: 18, hash: 'Sinclair6Golding6Conrad7', commitId: 36 },
+//   { authorId: 11, commiterId: 19, hash: 'Sinclair7Golding6Conrad7', commitId: 37 },
+//   { authorId: 13, commiterId: 20, hash: 'Sinclair7Golding6Conrad8', commitId: 38 },
+//   { authorId: 12, commiterId: 11, hash: 'Sinclair7Golding7Conrad8', commitId: 39 },
+//   { authorId: 13, commiterId: 12, hash: 'Sinclair7Golding7Conrad9', commitId: 40 },
+// ];
+
+
+module.exports = blobs;

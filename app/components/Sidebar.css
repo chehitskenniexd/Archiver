@@ -1,0 +1,15 @@
+.container {
+  position: center;
+  top: 20%;
+  text-align: center;
+  background-color: #48d1cc;
+  color: #000000;
+  min-height: 100vh;
+  box-shadow: 5px 0 5px -5px #333;
+  overflow:hidden;
+}
+
+.container h2 {
+  font-size: 5rem;
+  color: #000000;
+}
