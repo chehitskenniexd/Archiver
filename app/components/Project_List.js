@@ -6,36 +6,36 @@ import { Accordion, AccordionItem } from 'react-sanfona';
 
 
 const dummyCommitData = [
+  {
+    id: 1,
+    committer: "Bonnie Lee",
+    commitMessage: "I updated something",
+    date: "12/10"
+  },
     {
-      id: 1,
-      committer: "Bonnie Lee",
-      commitMessage: "I updated something",
-      date: "12/10"
-    },
-     {
-       id: 2,
-      committer: "Adam Apple",
-      commitMessage: "Made a change 1",
-      date: "12/09"
-    },
-     {
-      id: 3,
-      committer: "Adam Orange",
-      commitMessage: "Made a change 2",
-      date: "12/08"
-    },
-     {
-      id: 4,
-      committer: "Sarah Banana",
-      commitMessage: "Made a change 3 ",
-      date: "12/07"
-    },
-     {
-      id: 5,
-      committer: "Emily Potato",
-      commitMessage: "Made a change 4",
-      date: "12/06"
-    }
+      id: 2,
+    committer: "Adam Apple",
+    commitMessage: "Made a change 1",
+    date: "12/09"
+  },
+    {
+    id: 3,
+    committer: "Adam Orange",
+    commitMessage: "Made a change 2",
+    date: "12/08"
+  },
+    {
+    id: 4,
+    committer: "Sarah Banana",
+    commitMessage: "Made a change 3 ",
+    date: "12/07"
+  },
+    {
+    id: 5,
+    committer: "Emily Potato",
+    commitMessage: "Made a change 4",
+    date: "12/06"
+  }
 ]
 
 
