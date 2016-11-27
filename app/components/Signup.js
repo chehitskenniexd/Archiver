@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 import styles from './Signup.css';
-import {createUser} from '../reducers/login';
+import { createUser } from '../reducers/login';
 
 
 export class Signup extends Component {

@@ -12,16 +12,10 @@ module.exports = router;
 // FIND PROJECTS FOR THE LOGGED IN USER
 
 router.get('/:userId/projects', (req, res, next) => {
-    UserProject.findAll({
-        where: {
-            userId: req.params.userId
-        }
+    User.findById(req.params.userId)
+    .then(user => {
+        console.log(user);
+        res.json(user)
     })
-    .then(arrayOfUserProjects => {
-        return Promise.all(arrayOfUserProjects.map(instance => {
-            return Project.findById(instance.projectId)
-        }))
-    })
-    .then(projects => res.json(projects))
-    .catch(next)
+    .catch(next);
 })
