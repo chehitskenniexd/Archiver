@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import Collapsible from 'react-collapsible';
+import Moment from 'moment';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import { fetchCurrentProjectInfo } from '../reducers/collabs';
 
@@ -15,9 +15,7 @@ export class Project_List extends Component {
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
           <Accordion allowMultiple={false}>
-                {/* LOOP OVER USERS PROJECTS HERE */}
                 {this.props.user.projects && this.props.user.projects.map((instance, index) => {
-                  // console.log("HERE!!!! INSTANCE.id === projectId", instance)
                   const titleBar = (
                       <div className="project-title">
                         <span>{instance.name}</span> {/* PULL IN THE PROJECT TITLE HERE */}
@@ -36,7 +34,7 @@ export class Project_List extends Component {
                                   return (
                                     <div className="item-commit-border" key={commit.id}>
                                       <div className="commit-message commit-color">{commit.message.slice(0, 20)}</div>
-                                      <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${commit.date}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
+                                      <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(commit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
                                     </div>
                                     )
                                 })}
