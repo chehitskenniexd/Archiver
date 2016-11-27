@@ -5,7 +5,7 @@ import styles from './Sidebar.css';
 import Project_List from './Project_List';
 import { fetchUserProjects } from '../reducers/projects_list';
 
-export default class Sidebar extends Component {
+export class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
@@ -57,3 +57,23 @@ export default class Sidebar extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    loginUser: state.login,
+    projects: state.projects
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onLoadProjects: function (user) {
+      dispatch(fetchUserProjects(user));
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Sidebar);

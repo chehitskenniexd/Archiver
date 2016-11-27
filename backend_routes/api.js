@@ -8,6 +8,7 @@ api
 	.use('/login', require('./login'))
 	.use('/users', require('./users'))
   .use('/projects', require('./projects'))
+	.use('/vcontrol', require('./vcontrol'))
 
 // Send along any errors
 api.use((err, req, res, next) => {
