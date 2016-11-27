@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import Moment from 'moment';
 import { Accordion, AccordionItem } from 'react-sanfona';
@@ -7,18 +7,28 @@ import { fetchCurrentProjectInfo } from '../reducers/collabs';
 
 
 export class Project_List extends Component {
+  constructor(props){
+    super(props);
+    this.viewAdd = this.viewAdd.bind(this);
+  }
+
+  viewAdd(){
+    hashHistory.push('/add')
+  }
+
+
   render() {
       // console.log("THIS PROPS USER", this.props.user)
       return (
         <div className="sidebar-panel-wrapper">
-          <div className="card-panel project-add">
+          <div className="card-panel project-add" onClick={this.viewAdd}>
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
           <Accordion allowMultiple={false}>
                 {this.props.user.projects && this.props.user.projects.map((instance, index) => {
                   const titleBar = (
                       <div className="project-title">
-                        <span>{instance.name}</span> {/* PULL IN THE PROJECT TITLE HERE */}
+                        <span>{instance.name}</span>
                         <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
                           this.props.fetchCollabs(instance)
                           // alert('this action needs to be changed to re render the collaborators page') // ** ADD ACTION TO RENDER THE "COLLABORATORS" VIEW HERE, AKA REPLACE THE ALERT **
