@@ -9,6 +9,7 @@ const REGISTER_USER = 'REGISTER_USER';
 const USER_ALREADY_EXISTS = 'USER_ALREADY_EXISTS';
 const INCORRECT_USER = 'INCORRECT_USER';
 const INCORRECT_PASSWORD = 'INCORRECT_PASSWORD';
+const LOG_OUT = 'LOG_OUT';
 
 /*----------  ACTION CREATORS  ----------*/
 export const loginUser = (user) => ({
@@ -36,6 +37,11 @@ export const incorrectPassword = () => ({
     type: INCORRECT_PASSWORD,
     incorrectPassword: true
 })
+
+export const logUserOut = () => ({
+  type: LOG_OUT,
+  payload: {}
+});
 
 
 
@@ -86,6 +92,8 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {incorrectPassword: action.incorrectPassword});
     case LOGIN_USER:
       return action.payload;
+    case LOG_OUT:
+      return action.payload
     default: return state;
   }
 };
