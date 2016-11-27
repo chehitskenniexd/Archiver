@@ -6,6 +6,7 @@ import mainbarToggleReducer from './mainhome';
 import counter from './counter';
 import projects from './projects_list';
 import inviteReducer from './invitations';
+import collabsReducer from './collabs';
 
 const rootReducer = combineReducers({
   counter,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   login: registerReducer,
   projects: projects,
   invite: inviteReducer,
+  collabs: collabsReducer,
   routing
 });
 

@@ -14,7 +14,7 @@ export class Sidebar extends Component {
   }
 
   render() {
-    console.log("THIS DOT PROPS", this.props)
+    // console.log("THIS DOT PROPS", this.props)
     return (
         <div className={styles.container} >
             <div className="row">

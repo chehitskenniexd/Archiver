@@ -15,7 +15,7 @@ export const loadProjects = (projectsArray) => ({
 
 /*----------  THUNKS  ----------*/
 export const fetchUserProjects = (user) => {
-  console.log("USER.ID", user);
+  // console.log("USER.ID", user);
     const thunk = (dispatch) => {
         axios.get(`http://localhost:3000/api/users/${user}/projects`)
           .then(projectsArray => dispatch(loadProjects(projectsArray.data)))

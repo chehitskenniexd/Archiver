@@ -4,33 +4,32 @@ import axios from 'axios';
 const initialState = [];
 
 /*----------  ACTION TYPES  ----------*/
-const PENDING_INV = 'PENDING_INV';
+const CURRENT_COLLABS = 'CURRENT_COLLABS';
 
 
 /*----------  ACTION CREATORS  ----------*/
-export const pendingInv = (pendingArray) => ({
-  type: PENDING_INV,
+export const currentCollabs = (pendingArray) => ({
+  type: CURRENT_COLLABS,
   payload: pendingArray
 });
 
 
 /*----------  THUNKS  ----------*/
-export const checkPendingInv = (user) => {
+export const checkCurrentCollabs = (user) => {
   const thunk = (dispatch) => {
-  axios.get(`http://localhost:3000/api/users/${user.id}/invites`, user)
+  axios.get(`http://localhost:3000/api/users/${user.id}/collabs`, user)
     .then(res => {
-      dispatch(pendingInv(res.data))
+      dispatch(currentCollabs(res.data))
     })
-    .catch(err => console.error('Error finding user roles ', err));
+    .catch(err => console.error('Error finding current collaborators ', err));
   };
   return thunk;
 };
 
-
 /*----------  REDUCER  ----------*/
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PENDING_INV:
+    case CURRENT_COLLABS:
       return action.payload;
     default: return state;
   }
