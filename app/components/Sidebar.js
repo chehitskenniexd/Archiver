@@ -32,11 +32,12 @@ export class Sidebar extends Component {
         <div className={styles.container} >
             <div className="row">
               <div className="col s12">
-              <br/>
-              <br/>
+                <i className="small material-icons icon-light pull-right">info</i>
+                <br/>
+                <br/>
                 <Link onClick={this.linkToHomeView}>
                   <div className="welcome-name light-text">Welcome, {this.props.loginUser.first_name}</div>
-                  <i className="tiny material-icons large icon-light">person_pin</i>
+                  <i className="material-icons large icon-light">person_pin</i>
                 </Link>
               </div>
               <div>
