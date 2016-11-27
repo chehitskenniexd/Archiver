@@ -3,24 +3,36 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Collaborator.css';
 import PendingInvitations from './PendingInvitations';
-import { checkCurrentCollabs } from '../reducers/collabs';
+import { checkCurrentCollabs, deleteCurrentCollab, deleteCurrentInv } from '../reducers/collabs';
 
 export class Collaborator extends Component {
   constructor(props) {
     super(props)
   }
 
-  // componentDidUpdate() {
-  //   if (this.props.login.id && !Object.keys(this.props.collabs).length) {
-  //     this.props.checker(this.props.login);
-  //   };
-  // }
-
   render() {
-    console.log("hahaha!!!!!", this.props)
+    // Iterating through the arrays to get out Current Collabs and Current Invitatees
+    const project = this.props.collabs.projects[0];
     const projectUsers = this.props.collabs.projects[0].users;
-    console.log("PUUUU", projectUsers)
-    const projects = [];
+    let userC = [],
+        userI = [];
+    projectUsers && projectUsers.forEach((collab) => {
+      console.log(collab)
+      if (collab.userProject.role === 'collaborator') {
+        userC.push({
+          id: collab.id,
+          name:`${collab.first_name} ${collab.last_name}`
+        });
+      } else if (collab.userProject.role === 'pending') {
+        userI.push({
+          id: collab.id,
+          name: `${collab.first_name} ${collab.last_name}`
+        });
+      }
+    });
+
+console.log("ARE YOU PR", this.props)
+console.log("ARE YOU projects", project)
 
     return (
       <div className={styles.container} >
@@ -34,30 +46,24 @@ export class Collaborator extends Component {
               <thead>
                 <tr>
                   <th data-field="id">Collaborator Name</th>
-                  <th data-field="price"></th>
+                  <th data-field="delete">Remove</th>
                 </tr>
               </thead>
               {
-                projectUsers && projectUsers.map((collab, i) => {
-
-                let userC;
-
-                if (collab.userProject.role === 'collaborator') {
-                  userC = `${collab.first_name} ${collab.last_name}`
-                }
-
+                userC && userC.map((user, i) => {
+                  console.log("HEY USER", user)
                   return (
                     <tbody key={i}>
                       <tr>
-                        <td>{userC}</td>
+                        <td>{user.name}</td>
                         <td>
-                          <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action">
+                          <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
                           x
                           </button>
                         </td>
                       </tr>
                     </tbody>
-                  );
+                  )
                 })
               }
             </table>
@@ -87,29 +93,25 @@ export class Collaborator extends Component {
           <thead>
             <tr>
                 <th data-field="id">Invitee</th>
-                <th data-field="price">Status</th>
+                <th data-field="status">Status</th>
+                <th data-field="delete">Remove</th>
             </tr>
           </thead>
             {
-              projectUsers && projectUsers.map((collab, i) => {
-
-              let userI;
-
-              if (collab.userProject.role === 'pending') {
-                userI = `${collab.first_name} ${collab.last_name}`
-              }
+              userI && userI.map((user, i) => {
               return(
                 <tbody key={`${i}2`}>
                   <tr>
-                    <td>{userI}</td>
+                    <td>{user.name}</td>
+                    <td><i>Awaiting reply</i></td>
                     <td>
-                      <button className="btn waves-effect waves-light cyan" type="submit" name="action">
-                      + Join
+                      <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action" onClick={() => this.props.removeInvite(project, user)}>
+                      x
                       </button>
                     </td>
                   </tr>
                 </tbody>
-              );
+              )
             })
           }
         </table>
@@ -140,7 +142,6 @@ export class Collaborator extends Component {
     );
   }
 }
-// need to revise pending invitations, its only for pending invites sent out for that current project
 
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state) {
@@ -148,16 +149,17 @@ function mapStateToProps(state) {
     login: state.login,
     mainhome: state.mainhome,
     collabs: state.collabs
-    // projects: state.projects.projects
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // checker: (user) => {
-    //   dispatch(checkCurrentCollabs(user));
-    //   dispatch(checkPendingInv(user));
-    // }
+    removeCollab: (project, user) => {
+      dispatch(deleteCurrentCollab(project, user))
+    },
+    removeInvite: (project, user) => {
+      dispatch(deleteCurrentInv(project, user))
+    }
   };
 }
 

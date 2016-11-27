@@ -42,6 +42,16 @@ const dummyCommitData = [
 
 
 export class Project_List extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidUpdate() {
+    if (this.props.user.projects && !Object.keys(this.props.collabs).length) {
+      this.props.setDefaultCollabs(this.props.user.projects[0]);
+    };
+  }
+
   render() {
       // console.log("THIS PROPS USER", this.props.user)
       return (
@@ -96,6 +106,9 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch) {
   return {
+    setDefaultCollabs: (project) => {
+      dispatch(fetchCurrentProjectInfo(project))
+    },
     fetchCollabs: (project) => {
       dispatch(fetchCurrentProjectInfo(project))
     }
