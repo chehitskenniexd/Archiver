@@ -96,12 +96,12 @@ function mapStateToProps(state){
 
 
 function mapDispatchToProps(dispatch) {
-    return {
-        loginUser: (userCred) => {
-            dispatch(authenticateUser(userCred))
-        }
+  return {
+      loginUser: (userCred) => {
+          dispatch(authenticateUser(userCred))
+      }
 
-    }
+  }
 }
 
 export default connect(
