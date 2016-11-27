@@ -8,14 +8,12 @@ const User = require('../db/models/user');
 module.exports = router;
 
 router.post('/', (req, res, next) => {
-    console.log('in user post', req.body)
     User.findOne({
         where: {
             email: req.body.email
         }
     })
         .then(foundUser => {
-          console.log("foundUser?", foundUser)
             let resObj = {};
             if (!foundUser) {
                 resObj.notFound = "user not found";

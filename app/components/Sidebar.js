@@ -2,10 +2,19 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Sidebar.css';
-import Project_List from './Project_List'
+import Project_List from './Project_List';
+import {fetchUserProjects} from '../reducers/projects_list';
 
 export class Sidebar extends Component {
+
+ componentDidUpdate(){
+    if (this.props.loginUser.id && !Object.keys(this.props.projects).length){
+      this.props.onLoadProjects(this.props.loginUser.id);
+    }
+  }
+
   render() {
+    console.log("THIS DOT PROPS", this.props)
     return (
         <div className={styles.container} >
             <div className="row">
@@ -29,7 +38,7 @@ export class Sidebar extends Component {
 
 
               <div>
-                <Project_List />
+                <Project_List/>
               </div>
             </div>
         </div>
@@ -39,12 +48,19 @@ export class Sidebar extends Component {
 
 
 /* ---------------- CONTAINER --------------------*/
-function mapStateToProps(){
-  return {}
+function mapStateToProps(state){
+  return {
+    loginUser: state.login,
+    projects: state.projects
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+     onLoadProjects: function (user){
+      dispatch(fetchUserProjects(user));
+    }
+  }
 }
 
 export default connect(
