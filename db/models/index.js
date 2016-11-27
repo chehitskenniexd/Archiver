@@ -25,6 +25,7 @@ Blob.belongsTo(Commit);
 Blob.hasMany(File);
 File.belongsTo(Blob);
 
+
 module.exports = {
   Blob,
   Commit,
