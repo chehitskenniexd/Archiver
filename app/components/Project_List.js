@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import Collapsible from 'react-collapsible';
 import { Accordion, AccordionItem } from 'react-sanfona';
+import { fetchCurrentProjectInfo } from '../reducers/collabs';
 
 
 const dummyCommitData = [
@@ -40,9 +41,9 @@ const dummyCommitData = [
 
 
 
-export class Project_List extends Component {  
+export class Project_List extends Component {
   render() {
-      console.log("THIS PROPS USER", this.props.user)
+      // console.log("THIS PROPS USER", this.props.user)
       return (
         <div className="sidebar-panel-wrapper">
           <div className="card-panel project-add">
@@ -51,19 +52,21 @@ export class Project_List extends Component {
           <Accordion allowMultiple={false}>
                 {/* LOOP OVER USERS PROJECTS HERE */}
                 {this.props.user.projects && this.props.user.projects.map((instance, index) => {
-
+                  // console.log("HERE!!!! INSTANCE.id === projectId", instance)
                   const titleBar = (
                       <div className="project-title">
                         <span>{instance.name}</span> {/* PULL IN THE PROJECT TITLE HERE */}
                         <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
-                          alert('this action needs to be changed to re render the collaborators page') // ** ADD ACTION TO RENDER THE "COLLABORATORS" VIEW HERE, AKA REPLACE THE ALERT **
+                          this.props.fetchCollabs(instance)
+                          // alert('this action needs to be changed to re render the collaborators page') // ** ADD ACTION TO RENDER THE "COLLABORATORS" VIEW HERE, AKA REPLACE THE ALERT **
                           evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
                         }}><i className="small material-icons">supervisor_account</i></span>
                       </div>
                     )
                     return (
                         <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
-                        {console.log('INSTANCE COMMITS', instance.commits)}
+                        {//console.log('INSTANCE COMMITS', instance.commits)
+                        }
                                 {instance.commits && instance.commits.map((commit) => {
                                   return (
                                     <div className="item-commit-border" key={commit.id}>
@@ -86,13 +89,16 @@ export class Project_List extends Component {
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state){
   return {
-    user: state.login
+    user: state.login,
+    collabs: state.collabs
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    fetchCollabs: (project) => {
+      dispatch(fetchCurrentProjectInfo(project))
+    }
   }
 }
 

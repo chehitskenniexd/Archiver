@@ -1,35 +1,30 @@
 import axios from 'axios';
 
 /*----------  INITIAL STATE  ----------*/
-const initialState = {};
+const initialState = [];
 
 /*----------  ACTION TYPES  ----------*/
 const PENDING_INV = 'PENDING_INV';
 
 
 /*----------  ACTION CREATORS  ----------*/
-export const pendingInv = (projectsArray) => ({
+export const pendingInv = (pendingArray) => ({
   type: PENDING_INV,
-  payload: projectsArray
+  payload: pendingArray
 });
 
 
 /*----------  THUNKS  ----------*/
 export const checkPendingInv = (user) => {
-    const thunk = (dispatch) => {
-        axios.post('http://localhost:3000/api/user/roles', user)
-            .then(res => {
-              console.log("in checkPendingInv RES", res)
-              // if (res.data.message){
-              //   dispatch(userAlreadyExists(res.data.foundUser))
-              // } else {
-              //   dispatch(newUser(res.data))
-              // }
-            })
-            .catch(err => console.error('Error finding user roles ', err))
-    }
-    return thunk;
-}
+  const thunk = (dispatch) => {
+  axios.get(`http://localhost:3000/api/users/${user.id}/invites`, user)
+    .then(res => {
+      dispatch(pendingInv(res.data))
+    })
+    .catch(err => console.error('Error finding user roles ', err));
+  };
+  return thunk;
+};
 
 
 /*----------  REDUCER  ----------*/
