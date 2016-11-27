@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Add.css';
 import { onCollaborator, onPageRender } from '../reducers/mainhome'
@@ -95,10 +95,10 @@ export class Add extends Component {
         </div>
 
         <div className="row TO-REMOVE-JUST-TEST-COLLABS">
-          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => this.props.goToCollaborator()}>
+          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push('/collabs')}>
               COLLAB PG
           </button>
-          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => this.props.goToPageRender()}>
+          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push('/pageRender')}>
               PG RENDER
           </button>
         </div>

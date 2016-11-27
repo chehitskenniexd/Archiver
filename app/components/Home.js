@@ -10,6 +10,7 @@ export class Home extends Component {
   constructor(props) {
     super(props)
     this.onUserSubmit = this.onUserSubmit.bind(this);
+
   }
 
   onUserSubmit(event) {
@@ -19,7 +20,7 @@ export class Home extends Component {
         password: event.target.password.value,
     }
     this.props.loginUser(userCred);
-    hashHistory.push('/main');
+    hashHistory.push("/mainHome")
   }
 
   render() {
@@ -74,9 +75,9 @@ export class Home extends Component {
           </form>
           <div className="row home_button2">
             <div className="col s12">
-              <Link to="/signup">
-                <button className="waves-effect waves-light btn orange darken-3">signup</button>
-              </Link>
+
+                <button className="waves-effect waves-light btn orange darken-3" onClick={() => hashHistory.push("/signup")}>signup</button>
+
             </div>
           </div>
         </div>

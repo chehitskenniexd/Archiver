@@ -17,7 +17,7 @@ export class Other extends Component {
             <Sidebar />
           </div>
           <div className="col s8">
-            <MainRender />
+            {this.props.children}
           </div>
 
         </div>
