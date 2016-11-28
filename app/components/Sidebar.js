@@ -17,8 +17,7 @@ export class Sidebar extends Component {
       this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
       this.onClickAddFile = this.onClickAddFile.bind(this);
   }
-
-  onClickArchiveUpdate(event) {
+  onClickAddArchive(event) {
     console.log('enter event', this.props.currents);
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
@@ -36,16 +35,42 @@ export class Sidebar extends Component {
           fs.mkdirSync(dirPath);
         }
         // create the file if it doesn't already exist
-        const fileData = projectData.commits[0].blob.files[0];
+        // NOTE: WILL CONTAIN MOST RECENT DATA
+        const commits = projectData.commits;
+        const fileData = commits[commits.length - 1].blob.files[0];
         console.log(fileData);
         const filePath = `${dirPath}/${fileData.file_name}.txt`
         fs.writeFileSync(filePath, fileData.file_contents, 'utf-8');
         // then create the .archive file??
+        FEActions.initNewProject(dirPath);
+        
+
       })
+  }
+  
+  onClickArchiveUpdate(event) {
   }
 
   onClickAddFile(event) {
+    // Hardcode this to the current filePath since we're only doing one file
+    const project = this.props.currents && this.props.currents.currentProject
+      ? this.props.currents.currentProject : undefined;
+    const fileData = project ? project.commits[0].blob.files[0] : undefined;
+    const filePath = project && fileData 
+      ? `./${project.name}/${fileData.file_name}.txt` : undefined;
+    if(filePath){
+      // Check to make sure the file exists first
+      try {
+        fs.statSync(filePath).isFile();
+      } catch (err) {
+        console.log(`file ${filePath} does not exist!`);
+        return false;
+      }
 
+      const fileContents = fs.readFileSync(filePath, 'utf-8');
+      console.log(fileContents);
+
+    } 
   }
 
   componentDidUpdate() {
@@ -68,12 +93,22 @@ export class Sidebar extends Component {
             <div className="row">
               <div className="col s12">
                 <i className="small material-icons icon-light pull-right">info</i>
-                  <button className="btn-floating btn-large waves-effect waves-light cyan left"
-                    onClick={this.onClickArchiveUpdate}>
+                  <button className="btn-floating btn-large waves-effect waves-light pink accent-1 left"
+                    onClick={this.onClickAddArchive}>
                     <i className="material-icons">queue</i>
                   </button>
-
-                  <button className="btn-floating btn-large waves-effect waves-light cyan left"
+                  <i className="small material-icons icon-light pull-right">info</i>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <button className="btn-floating btn-large waves-effect waves-light light-green accent-3 left"
+                    onClick={this.onClickArchiveUpdate}>
+                    <i className="material-icons">play_for_work</i>
+                  </button>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <button className="btn-floating btn-large waves-effect waves-light light-blue accent-2 left"
                     onClick={this.onClickAddFile}>
                     <i className="material-icons">trending_up</i>
                   </button>
