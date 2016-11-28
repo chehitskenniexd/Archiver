@@ -53,7 +53,7 @@ a:hover {
 
 
 .project-add:hover {
-  background-color: #ef5350 ;
+  background-color: #ffe57f;
 }
 
 h3 {
@@ -126,6 +126,23 @@ i.icon-light {
 .light-text{
    color: #e0f7fa;
 }
+
+.icon-black{
+  color: #000000;
+}
+
+.red-error{
+  font-style: italic;
+  color: #f44336;
+  margin-bottom: 10px;
+}
+
+
+.remove-padding-button{
+  padding-left: 0px !important;
+  padding-right: 0px !important; 
+}
+
 
 
 
@@ -230,13 +247,6 @@ i.icon-light {
   margin-top: 2px;
 }
 
-.home_button1 {
-  padding-left: 50px;
-}
-
-.home_button2 {
-  padding-left: 46px;
-}
 
 .home_logo {
   padding-left: 80px;
