@@ -18,9 +18,14 @@ export class Sidebar extends Component {
   }
 
   onClickArchiveUpdate(event) {
-    axios.get('http://localhost:3000/api/vcontrol/1')
-      .then(projects => {
-        console.log(projects)
+    console.log('enter event', this.props.currents);
+    const project = this.props.currents && this.props.currents.currentProject
+      ? this.props.currents.currentProject : undefined;
+    console.log('project', project);
+    project && axios.get(`http://localhost:3000/api/vcontrol/${project.id}`)
+      .then(project => {
+        const projectData = project.data
+        console.log(projectData)
       })
     // this.props.projects && this.props.projects.map(project => {
     //   const dir = `./${project.name}`;
@@ -84,7 +89,8 @@ export class Sidebar extends Component {
 function mapStateToProps(state) {
   return {
     loginUser: state.login,
-    projects: state.projects
+    projects: state.projects,
+    currents: state.currents
   }
 }
 

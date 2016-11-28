@@ -11,7 +11,7 @@ router.get('/:projectId', (req, res, next) => {
         where: {id: req.params.projectId},
         include: [{all: true}]
     }).then(projects => res.json(projects))
-    .catch(next);
+    .catch(err => console.error(err));
 })
 
 module.exports = router;
