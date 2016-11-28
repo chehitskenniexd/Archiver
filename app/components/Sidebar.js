@@ -1,18 +1,39 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Sidebar.css';
 import Project_List from './Project_List';
-import { fetchUserProjects } from '../reducers/projects_list';
+import {fetchUserProjects} from '../reducers/projects_list';
+import {logUserOut} from '../reducers/login';
+import * as fs from 'fs';
+import * as FEActions from '../../utilities/vcfrontend';
+import axios from 'axios';
 
 export class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-    this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
+    constructor(props) {
+      super(props)
+      this.localLogUserOut = this.localLogUserOut.bind(this);
+      this.linkToHomeView = this.linkToHomeView.bind(this);
+      this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
   }
 
   onClickArchiveUpdate(event) {
-
+    axios.get('localhost:3000/api/vcontrol/1')
+      .then(projects => {
+        console.log(projects)
+      })
+    // this.props.projects && this.props.projects.map(project => {
+    //   const dir = `./${project.name}`;
+    //   const archive = `${dir}/.archive`;
+    //   try{
+    //     fs.statSync(dir)
+    //   } catch (err) {
+    //     FEActions.initNewProject(dir);
+    //   }
+    //   project.commits.map(commit => {
+    //     FEActions.commitFileChanges(_filePath, commit.message, undefined ,commit.date);
+    //   })
+    // })
   }
 
   componentDidUpdate() {
@@ -21,39 +42,41 @@ export class Sidebar extends Component {
     }
   }
 
+  linkToHomeView(){
+    hashHistory.push('/mainHome');
+  }
+
+  localLogUserOut(){
+    this.props.logMeOut();
+  }
+
   render() {
-    // console.log("THIS DOT PROPS", this.props)
     return (
-      <div className={styles.container} >
-        <div className="row">
-          <div className="col s12">
-            <br />
-            <br />
-            <Link to="/">
-              <button className="btn-floating btn-large waves-effect waves-light cyan left">
-                <i className="material-icons">chevron_left</i>
-              </button>
-            </Link>
-            <button className="btn-floating btn-large waves-effect waves-light cyan left"
-              onClick={this.onClickArchiveUpdate}>
-              <i className="material-icons">queue</i>
-            </button>
-            <br />
-            <br />
-          </div>
-
-          <div>
-            <i className="material-icons large">assignment_ind</i>
-            <h6>Settings</h6>
-            <h6>Logout</h6>
-          </div>
-
-
-          <div>
-            <Project_List />
-          </div>
+        <div className={styles.container} >
+            <div className="row">
+              <div className="col s12">
+                <i className="small material-icons icon-light pull-right">info</i>
+                  <button className="btn-floating btn-large waves-effect waves-light cyan left"
+                    onClick={this.onClickArchiveUpdate}>
+                    <i className="material-icons">queue</i>
+                  </button>
+                <br/>
+                <br/>
+                <Link onClick={this.linkToHomeView}>
+                  <div className="welcome-name light-text">Welcome, {this.props.loginUser.first_name}</div>
+                  <i className="material-icons large icon-light">person_pin</i>
+                </Link>
+              </div>
+              <div>
+                <Link to={'/'}>
+                  <h6 onClick={this.localLogUserOut} className="light-text">Logout</h6>
+                </Link>
+              </div>
+              <div>
+                <Project_List/>
+              </div>
+            </div>
         </div>
-      </div>
     );
   }
 }
@@ -69,6 +92,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onLoadProjects: function (user) {
       dispatch(fetchUserProjects(user));
+    },
+    logMeOut: function(){
+      dispatch(logUserOut());
     }
   }
 }
