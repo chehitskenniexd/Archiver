@@ -68,6 +68,13 @@ export function initNewProject(dirPath) {
     fs.mkdirSync(objectPath);
   }
 
+  const indexPath = `${dirPath}/.archive/index.txt`;
+  try {
+    fs.statSync(indexPath)
+  } catch (err) {
+    fs.writeFileSync(indexPath, '', 'utf-8');
+  }
+
   return true;
 }
 
@@ -97,7 +104,7 @@ export function addNewFile(filePath) {
 }
 
 // TODO: Look to add more parameters (e.g. user_id)
-export function commitFileChanges(filePath, message, mergeHash, date) {
+export function commitFileChanges(filePath, message, mergeHash, date, _fileHash) {
   // Project has been added and initialized at this point
   // Create a new object for the commit 
   // file hash is pulled from the index
@@ -106,12 +113,15 @@ export function commitFileChanges(filePath, message, mergeHash, date) {
   const splitPath = filePath.split('/');
   const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
   const fileName = filePath.split('/').pop().split('.').shift();
-  const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`, 'utf-8');
-  const splitIndexContents = indexContents.split('\n');
-  const content = splitIndexContents.filter((content, index) => {
-    return content.split('/')[1] === fileName;
-  })
-  const fileHash = content[0]; // this is the file hash from the index;
+  let fileHash = _fileHash ? _fileHash : '';
+  if(!fileHash){
+    const indexContents = fs.readFileSync(`${dirPath}/.archive/index.txt`, 'utf-8');
+    const splitIndexContents = indexContents.split('\n');
+    const content = splitIndexContents.filter((content, index) => {
+      return content.split('/')[1] === fileName;
+    })
+    fileHash = content[0]; // this is the file hash from the index;
+  }
   const datetime = new Date().toString();
   // parent will be from the refs (/.archive/refs/fileName)
   const refsPath = `${dirPath}/.archive/refs`;

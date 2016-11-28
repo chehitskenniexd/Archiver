@@ -16,7 +16,9 @@ export class Sidebar extends Component {
       this.linkToHomeView = this.linkToHomeView.bind(this);
       this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
       this.onClickAddFile = this.onClickAddFile.bind(this);
+      this.onClickAddArchive = this.onClickAddArchive.bind(this);
   }
+
   onClickAddArchive(event) {
     console.log('enter event', this.props.currents);
     const project = this.props.currents && this.props.currents.currentProject
@@ -27,13 +29,13 @@ export class Sidebar extends Component {
         // Note the object structure
         // project.commits[0].blob.files[0];
         
-        // create the firectory if it doesn't already exist
+        // create the directory if it doesn't already exist
         const dirPath = `./${projectData.name}`;
         try{
           fs.statSync(dirPath).isDirectory()
         } catch (err) {
           fs.mkdirSync(dirPath);
-        }
+        }  
         // create the file if it doesn't already exist
         // NOTE: WILL CONTAIN MOST RECENT DATA
         const commits = projectData.commits;
@@ -41,10 +43,23 @@ export class Sidebar extends Component {
         console.log(fileData);
         const filePath = `${dirPath}/${fileData.file_name}.txt`
         fs.writeFileSync(filePath, fileData.file_contents, 'utf-8');
-        // then create the .archive file??
-        FEActions.initNewProject(dirPath);
         
-
+        // then create the .archive directory
+        try {
+          fs.statSync(`${dirPath}/.archive`).isDirectory()
+        } catch (err){
+          console.log('init new project');
+          FEActions.initNewProject(dirPath);
+        }
+        
+        // then create all the .archive files
+        projectData.commits.forEach((commit, index) => {
+          // commitFileChanges(filePath, message, mergeHash, date)
+          console.log('adding commit for: ', commit);
+          const fileHash = commit.blob.hash;
+          console.log('fileHash', fileHash);
+          FEActions.commitFileChanges(filePath, commit.message, undefined, commit.date, fileHash);
+        })
       })
   }
   
