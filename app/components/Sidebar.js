@@ -24,21 +24,22 @@ export class Sidebar extends Component {
     console.log('project', project);
     project && axios.get(`http://localhost:3000/api/vcontrol/${project.id}`)
       .then(project => {
-        const projectData = project.data
+        const projectData = project.data[0];
         console.log(projectData)
+        // Note the object structure
+        // project.commits[0].blob.files[0];
+        // must create the file directory ./${ProjectName}
+        // then create the file ./${ProjectName}/${Filename}
+        // then create the .archive file??
+        const dirPath = `./${projectData.name}`;
+        console.log('name', projectData.name);
+        console.log(dirPath);
+        try {
+          fs.StatSync(dirPath).isDirectory();
+        } catch (err) {
+          fs.mkdirSync(dirPath);
+        }
       })
-    // this.props.projects && this.props.projects.map(project => {
-    //   const dir = `./${project.name}`;
-    //   const archive = `${dir}/.archive`;
-    //   try{
-    //     fs.statSync(dir)
-    //   } catch (err) {
-    //     FEActions.initNewProject(dir);
-    //   }
-    //   project.commits.map(commit => {
-    //     FEActions.commitFileChanges(_filePath, commit.message, undefined ,commit.date);
-    //   })
-    // })
   }
 
   componentDidUpdate() {
