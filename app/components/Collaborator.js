@@ -16,6 +16,10 @@ export class Collaborator extends Component {
     this.splitInvites = this.splitInvites.bind(this);
   }
 
+  componentWillMount() {
+    this.props.collabs.projects
+  }
+
   splitInvites(event) {
     event.preventDefault();
 
@@ -31,8 +35,12 @@ export class Collaborator extends Component {
 
   render() {
     // Iterating through the arrays to get out Current Collabs and Current Invitatees
-    let project = this.props.collabs.projects[0];
-    const projectUsers = this.props.collabs.projects[0].users;
+
+    let project, projectUsers;
+    if (this.props.collabs.projects) {
+      project = this.props.collabs.projects[0];
+      projectUsers = this.props.collabs.projects[0].users;
+    }
     let userC = [],
         userI = [];
     projectUsers && projectUsers.forEach((collab) => {
