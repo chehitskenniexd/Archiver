@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Moment from 'moment';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import { fetchCurrentProjectInfo } from '../reducers/collabs';
+import { setCurrentProject } from '../reducers/currentsReducer';
 
 
 export class Project_List extends Component {
@@ -20,6 +21,9 @@ export class Project_List extends Component {
     if (this.props.user.projects && !Object.keys(this.props.collabs).length) {
       this.props.setDefaultCollabs(this.props.user.projects[0]);
     };
+    if(this.props.user.projects && !this.props.currents.currentProject){
+      this.props.setCurrentProject(this.props.user.projects[0]);
+    }
   }
 
   render() {
@@ -70,7 +74,8 @@ export class Project_List extends Component {
 function mapStateToProps(state){
   return {
     user: state.login,
-    collabs: state.collabs
+    collabs: state.collabs,
+    currents: state.currents
   }
 }
 
@@ -81,6 +86,9 @@ function mapDispatchToProps(dispatch) {
     },
     fetchCollabs: (project) => {
       dispatch(fetchCurrentProjectInfo(project))
+    },
+    setCurrentProject: (project) => {
+      dispatch(setCurrentProject(project));
     }
   }
 }

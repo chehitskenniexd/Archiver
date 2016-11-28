@@ -32,8 +32,9 @@ export const setCurrentCommit = (currentCommit) => dispatch => {
 
 /*----------  REDUCER  ----------*/
 export default (prevState = initialState, action) => {
+    console.log('reducer', action);
     switch(action.type) {
-        case ON_SET_CURRENT_COMMIT: 
+        case ON_SET_CURRENT_PROJECT: 
             return Object.assign({}, prevState, {currentProject: action.currentProject});
         case ON_SET_CURRENT_COMMIT: 
             return Object.assign({}, prevState, {currentCommit: action.currentCommit});
