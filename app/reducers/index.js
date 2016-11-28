@@ -7,6 +7,7 @@ import counter from './counter';
 import projects from './projects_list';
 import inviteReducer from './invitations';
 import collabsReducer from './collabs';
+import currentsReducer from './currentsReducer';
 
 const rootReducer = combineReducers({
   counter,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   projects: projects,
   invite: inviteReducer,
   collabs: collabsReducer,
+  currents: currentsReducer,
   routing
 });
 
