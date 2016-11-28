@@ -14,7 +14,6 @@ module.exports = router;
 router.get('/:userId/projects', (req, res, next) => {
     User.findById(req.params.userId)
     .then(user => {
-        // console.log(user);
         res.json(user)
     })
     .then(arrayOfUserProjects => {
@@ -27,7 +26,6 @@ router.get('/:userId/projects', (req, res, next) => {
 })
 
 router.get('/:userId/invites', (req, res, next) => {
-    console.log("DO YOU HIT?")
     UserProject.findAll({
       where: {
         userId: req.params.userId,

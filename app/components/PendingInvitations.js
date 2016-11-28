@@ -14,33 +14,11 @@ export class PendingInvitations extends Component {
     };
   }
 
-  // componentWillUpdate() {
-  //   if (this.props.login && Object.keys(this.props.invite).length === 0) {
-  //     this.props.checker(this.props.login);
-  //   };
-  // }
-
-
   render() {
     const invites = this.props.invite;
     const user = this.props.login;
     const allProjects = user.projects;
     const pendingList = [];
-    console.log("AP!!!!", allProjects)
-
-    // allProjects && allProjects.forEach(item => {
-    //   console.log("ITEM[0]", item)
-    //   if (item.userProject.role === 'pending') {
-    //     pendingList.push({
-    //       projectId: item.id,
-    //       projectName: item.name,
-    //       // authorId: user.id,
-    //       // author: `${user.first_name} ${user.last_name}`
-    //     })
-    //   }
-
-    // });
-    console.log("PROPER", this.props)
 
     // FASTER LOADING?
     // const project = [];

@@ -26,6 +26,19 @@ export const fetchCurrentProjectInfo = (project) => {
   return thunk;
 };
 
+
+export const addCurrentInv = (project, userEmail) => {
+  const thunk = (dispatch) => {
+  axios.post(`http://localhost:3000/api/projects/${project.id}`, userEmail)
+    .then(res => {
+      dispatch(currentProject(res.data))
+    })
+    .catch(err => console.error('Error finding current project data ', err));
+  };
+  return thunk;
+};
+
+
 export const deleteCurrentCollab = (project, user) => {
   const thunk = (dispatch) => {
   axios.delete(`http://localhost:3000/api/projects/${project.id}/${user.id}`, project)
@@ -40,6 +53,9 @@ export const deleteCurrentCollab = (project, user) => {
   };
   return thunk;
 };
+
+
+
 
 /*----------  REDUCER  ----------*/
 export default (state = initialState, action) => {
