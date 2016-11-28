@@ -16,12 +16,12 @@ router.get('/:userId/projects', (req, res, next) => {
     .then(user => {
         res.json(user)
     })
-    .then(arrayOfUserProjects => {
-        return Promise.all(arrayOfUserProjects.map(instance => {
-            return Project.findById(instance.projectId)
-        }))
-    })
-    .then(projects => res.json(projects))
+    // .then(arrayOfUserProjects => {
+    //     return Promise.all(arrayOfUserProjects.map(instance => {
+    //         return Project.findById(instance.projectId)
+    //     }))
+    // })
+    // .then(projects => res.json(projects))
     .catch(next)
 })
 

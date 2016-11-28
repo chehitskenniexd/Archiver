@@ -23,13 +23,19 @@ export class Project_List extends Component {
   }
 
   render() {
+    let projectLoop;
+    if (this.props.user.projects) {
+      projectLoop = this.props.user.projects.filter(instance => {
+        return instance.userProject.role !== 'pending';
+      });
+    }
       return (
         <div className="sidebar-panel-wrapper">
           <div className="card-panel project-add" onClick={this.viewAdd}>
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
           <Accordion allowMultiple={false}>
-                {this.props.user.projects && this.props.user.projects.map((instance, index) => {
+                {projectLoop && projectLoop.map((instance, index) => {
                   const titleBar = (
                       <div className="project-title">
                         <span>{instance.name}</span>
