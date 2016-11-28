@@ -27,6 +27,7 @@ router.get('/:userId/projects', (req, res, next) => {
 })
 
 router.get('/:userId/invites', (req, res, next) => {
+    console.log("DO YOU HIT?")
     UserProject.findAll({
       where: {
         userId: req.params.userId,
@@ -50,6 +51,26 @@ router.get('/:userId/invites', (req, res, next) => {
     })
     .catch(next)
 })
+
+// UPDATE MY INVITATIONS
+router.put('/:userId/:projectId', (req, res, next) => {
+  UserProject.findOne({
+    where: {
+      projectId: req.params.projectId,
+      userId: req.params.userId
+    }
+  })
+  .then(foundProject => {
+    foundProject.update({
+      role: 'collaborator'
+    })
+    res.json({
+      message: "Role updated successfully!"
+    });
+  })
+  .catch(next)
+});
+
 
 /* NEEDS TO BE RE-WRITTEN!!!! DEPENDS ON PROJECTID!!!
 router.get('/:userId/collabs', (req, res, next) => {

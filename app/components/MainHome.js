@@ -13,6 +13,7 @@ export class MainHome extends Component {
   render() {
     return (
       <div className={styles.container} >
+        <br />
         <div className="row semi_trans">
 
           <div className="col s6">
@@ -25,7 +26,8 @@ export class MainHome extends Component {
           </div>
 
         </div>
-
+        <br />
+        <br />
         <PendingInvitations />
       </div>
     );

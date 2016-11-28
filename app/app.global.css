@@ -38,6 +38,19 @@ a:hover {
   cursor: pointer;
 }
 
+.h4-collabs {
+  font-weight: 200;
+}
+
+.h4-invite {
+  font-weight: 200;
+  color: #e0e0e0;
+}
+
+.h6-collabs {
+  font-weight: 400;
+}
+
 .sidebar-panel-wrapper .card-panel {
   padding: 0 !important;
   margin: 0 !important;
@@ -116,7 +129,7 @@ h3 {
 }
 
 .welcome-name{
-  font-size: 28px; 
+  font-size: 28px;
 }
 
 i.icon-light {
@@ -263,6 +276,6 @@ i.icon-light {
 }
 
 .select_file {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
