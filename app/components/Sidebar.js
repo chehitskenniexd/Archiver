@@ -15,25 +15,24 @@ export class Sidebar extends Component {
       this.localLogUserOut = this.localLogUserOut.bind(this);
       this.linkToHomeView = this.linkToHomeView.bind(this);
       this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
+      this.onClickAddFile = this.onClickAddFile.bind(this);
   }
 
   onClickArchiveUpdate(event) {
     console.log('enter event', this.props.currents);
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
-    console.log('project', project);
     project && axios.get(`http://localhost:3000/api/vcontrol/${project.id}`)
       .then(project => {
         const projectData = project.data[0];
         // Note the object structure
         // project.commits[0].blob.files[0];
-        // must create the file directory ./${ProjectName} => completed
-        // then create the file ./${ProjectName}/${Filename} => completed
-        // then create the .archive file??
         
         // create the firectory if it doesn't already exist
         const dirPath = `./${projectData.name}`;
-        if(!fs.statSync(dirPath).isDirectory()){
+        try{
+          fs.statSync(dirPath).isDirectory()
+        } catch (err) {
           fs.mkdirSync(dirPath);
         }
         // create the file if it doesn't already exist
@@ -41,7 +40,12 @@ export class Sidebar extends Component {
         console.log(fileData);
         const filePath = `${dirPath}/${fileData.file_name}.txt`
         fs.writeFileSync(filePath, fileData.file_contents, 'utf-8');
+        // then create the .archive file??
       })
+  }
+
+  onClickAddFile(event) {
+
   }
 
   componentDidUpdate() {
@@ -67,6 +71,11 @@ export class Sidebar extends Component {
                   <button className="btn-floating btn-large waves-effect waves-light cyan left"
                     onClick={this.onClickArchiveUpdate}>
                     <i className="material-icons">queue</i>
+                  </button>
+
+                  <button className="btn-floating btn-large waves-effect waves-light cyan left"
+                    onClick={this.onClickAddFile}>
+                    <i className="material-icons">trending_up</i>
                   </button>
                 <br/>
                 <br/>

@@ -14,4 +14,8 @@ router.get('/:projectId', (req, res, next) => {
     .catch(err => console.error(err));
 })
 
+router.post('/:projectId', (req, res, next) => {
+    
+})
+
 module.exports = router;
