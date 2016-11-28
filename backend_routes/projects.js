@@ -29,26 +29,47 @@ router.get('/:projectId', (req, res, next) => {
     //   }
     // })
 
-// DELETE CURRENT COLLABS
+
+// ADDING AN INVITED USER TO USERPROJECT MODEL
+router.post('/:projectId', (req, res, next) => {
+  User.find({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(foundUser => {
+    if (foundUser) {
+      return UserProject.create({
+        userId: foundUser.id,
+        projectId: req.params.projectId,
+        role: 'pending'
+      })
+      .then(createdUP => {
+        if (createdUP) {
+          res.json({message: 'Pending invite created'})
+        } else {
+          next();
+        }
+      })
+    } else {
+      next();
+    }
+  })
+  .catch(next)
+})
+
+
+
+// DELETE CURRENT COLLABS OR INVITES
 router.delete('/:projectId/:userId', (req, res, next) => {
   UserProject.destroy({
     where: {
-      projectId: req.body.projectId,
-      userId: req.body.userId
+      projectId: req.params.projectId,
+      userId: req.params.userId
     }
   })
   .then(deletedProject => {
-    console.log("Collab delete successful");
-
-    return Project.findAll({
-      where: {
-        id: req.params.projectId
-      },
-      include: [User]
-    })
-  })
-  .then(project => {
-    res.json(project)
+    res.json(deletedProject);
   })
   .catch(next)
 });

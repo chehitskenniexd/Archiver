@@ -17,7 +17,7 @@ export class Sidebar extends Component {
       this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
       this.onClickAddFile = this.onClickAddFile.bind(this);
       this.onClickAddArchive = this.onClickAddArchive.bind(this);
-  }
+    }
 
   onClickAddArchive(event) {
     console.log('enter event', this.props.currents);

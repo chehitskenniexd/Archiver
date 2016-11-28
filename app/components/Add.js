@@ -32,71 +32,38 @@ export class Add extends Component {
           </div>
         </div>
 
+
         <div className="row">
-          <div className="col s1"></div>
-
-          <div className="col s10">
-            <form onSubmit={this.onUserSubmit}>
-
-              <div className="input-field row">
-                <div className="col s3">
-                  <label className="left">Project Name</label>
-                </div>
-
-                <div className="col s1"></div>
-
-                <div className="col s8">
-                  <input type="project_name" id="project_name"className="form-control validate" placeholder="" required/>
-                </div>
+          <form className="col s12">
+            <div className="row">
+              <div className="input-field">
+                <h6 className="h6-collabs left">PROJECT NAME</h6>
+                <input placeholder="" id="project_name" type="text" className="validate" required/>
               </div>
+            </div>
 
+            <div className="row">
+              <div className="input-field">
+                <h6 className="h6-collabs left">SELECT A FILE</h6>
+                <input type="file" className="form-control select_file validate" id="select_file" placeholder="" required />
+              </div>
+            </div>
 
-              <div className="input-field row">
-                <div className="col s3">
-                  <label className="left">Select A File</label>
-                </div>
-
-                <div className="col s1"></div>
-
-                <div className="col s8">
-                  <input type="file" className="form-control select_file validate" id="select_file"placeholder="" required />
-                </div>
+            <div className="row">
+              <div className="input-field">
                 <br />
-                <br />
+                <h6 className="h6-collabs left">INVITE COLLABORATORS</h6>
+                <textarea className="form-control validate" id="collaborators"placeholder="Please enter emails separated by commas"></textarea>
               </div>
+            </div>
 
-              <div className="input-field row">
-                <br />
-                <div className="col s12">
-                  <label className="left">Invite Collaborators</label>
-                  <br />
-                </div>
-
-                <div className="col s12">
-                  <textarea className="form-control validate" id="collaborators"placeholder="Please enter emails separated by commas"></textarea>
-                </div>
-              </div>
-
-              <div className="form-actions row">
-                <div className="col s7">
-                  <button type="submit" className="btn btn-form btn-default orange darken-3">Cancel</button>
-                </div>
-
-                <div className="col s5">
-                  <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan">OK</button>
-                </div>
-              </div>
-
-            </form>
-          </div>
-
-          <div className="col s1"></div>
+            <div className="row right">
+              <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan">submit</button>
+            </div>
+          </form>
         </div>
 
         <div className="row TO-REMOVE-JUST-TO-TEST">
-          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push('/collabs')}>
-              COLLAB PG
-          </button>
           <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push('/pageRender')}>
               PG RENDER
           </button>

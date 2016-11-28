@@ -42,30 +42,37 @@ export class Project_List extends Component {
   }
 
   render() {
+    let projectLoop;
+    if (this.props.user.projects) {
+      projectLoop = this.props.user.projects.filter(instance => {
+        return instance.userProject.role !== 'pending';
+      });
+    }
       return (
         <div className="sidebar-panel-wrapper">
           <div className="card-panel project-add" onClick={this.viewAdd}>
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
           <Accordion allowMultiple={false} onChange={this.onClickProject}>
-                {this.props.user.projects && this.props.user.projects.map((instance, projectIndex) => {
+                {projectLoop && projectLoop.map((instance, index) => {
                   const titleBar = (
                       <div className="project-title" onClick={this.onClickProject}>
                         <span>{instance.name}</span>
+
                         <Link>
-                        <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
-                          this.props.fetchCollabs(instance);
-                          hashHistory.push('/collabs');
-                          // alert('this action needs to be changed to re render the collaborators page') // ** ADD ACTION TO RENDER THE "COLLABORATORS" VIEW HERE, AKA REPLACE THE ALERT **
-                          evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
-                        }}><i className="small material-icons">supervisor_account</i></span>
-                          </Link>
+                          <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
+                            this.props.fetchCollabs(instance);
+                            hashHistory.push('/collabs');
+                            evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
+                          }}>
+                          <i className="small material-icons">supervisor_account</i>
+                          </span>
+                        </Link>
+
                       </div>
                     )
                     return (
-                        <AccordionItem title={titleBar} key={projectIndex} slug={projectIndex} className="card-panel left-justified-text">
-                        {//console.log('INSTANCE COMMITS', instance.commits)
-                        }
+                        <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
                                 {instance.commits && instance.commits.map((commit) => {
                                   return (
                                     <div className="item-commit-border" key={commit.id} 

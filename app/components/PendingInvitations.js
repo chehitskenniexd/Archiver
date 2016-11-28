@@ -1,23 +1,39 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { checkPendingInv } from '../reducers/invitations';
+import { checkPendingInv, updateInvStatus } from '../reducers/invitations';
 
 export class PendingInvitations extends Component {
   constructor(props) {
     super(props)
   }
 
-  componentDidUpdate() {
-    if (this.props.login.id && !Object.keys(this.props.invite).length) {
+  componentWillMount() {
+    if (this.props.login && !Object.keys(this.props.invite).length) {
       this.props.checker(this.props.login);
     };
   }
 
-
   render() {
     const invites = this.props.invite;
     const user = this.props.login;
+    const allProjects = user.projects;
+    const pendingList = [];
+
+    // FASTER LOADING?
+    // const project = [];
+    // invites && invites.map(item => {
+    //   item[0].users.filter((user => {
+    //     if (user.userProject.role === 'author') {
+    //       project.push({
+    //         projectId: item[0].id,
+    //         projectName: item[0].name,
+    //         authorId: user.id,
+    //         author: `${user.first_name} ${user.last_name}`
+    //       })
+    //     }
+    //   }))
+    // })
 
     return (
       <div>
@@ -30,7 +46,9 @@ export class PendingInvitations extends Component {
           <div className="col s1"></div>
 
           <div className="col s10">
-            <u><h4>Pending Invitations</h4></u>
+            <br />
+            <h4 className="h4-collabs">MY PENDING INVITATIONS</h4>
+            <hr />
           </div>
 
           <div className="col s1"></div>
@@ -49,31 +67,40 @@ export class PendingInvitations extends Component {
             </tr>
           </thead>
           {
-            invites && invites.map((item, i) => {
+            invites.length === 0 ?
+            (<div><h4 className="h4-invite"><i>NO PENDING INVITATIONS</i></h4></div>) :
+            (
+              invites.map((item, i) => {
 
-              let invite = item[0];
-              let projectAuthor;
+                let invite = item[0];
+                let project;
 
-              item[0].users.filter((user => {
-                if (user.userProject.role === 'author') {
-                  projectAuthor = `${user.first_name} ${user.last_name}`
-                }
-              }))
+                item[0].users.filter((user => {
+                  if (user.userProject.role === 'author') {
+                    project = {
+                      projectId: item[0].id,
+                      projectName: item[0].name,
+                      authorId: user.id,
+                      author: `${user.first_name} ${user.last_name}`
+                    }
+                  }
+                }))
 
-              return(
-                <tbody key={i}>
-                  <tr>
-                    <td>{projectAuthor}</td>
-                    <td>{invite.name}</td>
-                    <td>
-                      <button className="btn waves-effect waves-light cyan" type="submit" name="action">
-                      + Join
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              );
-            })
+                return(
+                  <tbody key={i}>
+                    <tr>
+                      <td>{project.author}</td>
+                      <td>{project.projectName}</td>
+                      <td>
+                        <button className="btn waves-effect waves-light cyan" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
+                        + Join
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            )
           }
         </table>
         </div>
@@ -99,6 +126,9 @@ function mapDispatchToProps(dispatch) {
   return {
     checker: (user) => {
       dispatch(checkPendingInv(user))
+    },
+    updateStatus: (project, user) => {
+      dispatch(updateInvStatus(project, user))
     }
   };
 }

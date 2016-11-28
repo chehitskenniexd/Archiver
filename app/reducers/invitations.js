@@ -26,6 +26,21 @@ export const checkPendingInv = (user) => {
   return thunk;
 };
 
+export const updateInvStatus = (project, user) => {
+  const thunk = (dispatch) => {
+  axios.put(`http://localhost:3000/api/users/${user.id}/${project.projectId}`)
+    .then(res => {
+      if (res.data.message) {
+        dispatch(checkPendingInv(user));
+      } else {
+        next();
+      }
+    })
+    .catch(err => console.error('Error updating user roles ', err));
+  };
+  return thunk;
+};
+
 
 /*----------  REDUCER  ----------*/
 export default (state = initialState, action) => {
