@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { checkPendingInv } from './invitations';
 
 /*----------  INITIAL STATE  ----------*/
 const initialState = {};
@@ -38,23 +37,6 @@ export const deleteCurrentCollab = (project, user) => {
       }
     })
     .catch(err => console.error('Error deleting current collaborator ', err));
-  };
-  return thunk;
-};
-
-export const updateInvStatus = (project, user) => {
-  console.log("CORRECT UIS", project)
-  console.log("CPrIJ", user)
-  const thunk = (dispatch) => {
-  axios.put(`http://localhost:3000/api/projects/${project.id}/${user.id}`)
-    .then(res => {
-      if (res.data.message) {
-        dispatch(checkPendingInv(user));
-      } else {
-        next();
-      }
-    })
-    .catch(err => console.error('Error updating user roles ', err));
   };
   return thunk;
 };

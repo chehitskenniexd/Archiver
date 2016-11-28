@@ -57,9 +57,11 @@ export class Collaborator extends Component {
                       <tr>
                         <td>{user.name}</td>
                         <td>
-                          <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
-                          x
-                          </button>
+                          <Link>
+                            <span className="red-text" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
+                            <i className="material-icons">cancel</i>
+                            </span>
+                          </Link>
                         </td>
                       </tr>
                     </tbody>
@@ -107,9 +109,11 @@ export class Collaborator extends Component {
                     <td>{user.name}</td>
                     <td><i>Awaiting reply</i></td>
                     <td>
-                      <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
-                      x
-                      </button>
+                      <Link>
+                        <span className="red-text" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
+                        <i className="material-icons">cancel</i>
+                        </span>
+                      </Link>
                     </td>
                   </tr>
                 </tbody>

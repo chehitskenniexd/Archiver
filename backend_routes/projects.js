@@ -29,25 +29,6 @@ router.get('/:projectId', (req, res, next) => {
     //   }
     // })
 
-// UPDATE MY INVITATIONS
-router.put('/:projectId/:userId', (req, res, next) => {
-  UserProject.findOne({
-    where: {
-      projectId: req.params.projectId,
-      userId: req.params.userId
-    }
-  })
-  .then(foundProject => {
-    foundProject.update({
-      role: 'collaborator'
-    })
-    res.json({
-      message: "Role updated successfully!"
-    });
-  })
-  .catch(next)
-});
-
 
 // DELETE CURRENT COLLABS OR INVITES
 router.delete('/:projectId/:userId', (req, res, next) => {

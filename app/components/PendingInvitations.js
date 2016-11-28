@@ -1,26 +1,61 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { checkPendingInv } from '../reducers/invitations';
-import { updateInvStatus } from '../reducers/collabs';
-
+import { checkPendingInv, updateInvStatus } from '../reducers/invitations';
 
 export class PendingInvitations extends Component {
   constructor(props) {
     super(props)
   }
 
-  componentDidUpdate() {
-    if (this.props.login.id && !Object.keys(this.props.invite).length) {
+  componentWillMount() {
+    if (this.props.login && !Object.keys(this.props.invite).length) {
       this.props.checker(this.props.login);
     };
   }
+
+  // componentWillUpdate() {
+  //   if (this.props.login && Object.keys(this.props.invite).length === 0) {
+  //     this.props.checker(this.props.login);
+  //   };
+  // }
 
 
   render() {
     const invites = this.props.invite;
     const user = this.props.login;
-    console.log("!!!",this.props)
+    const allProjects = user.projects;
+    const pendingList = [];
+    console.log("AP!!!!", allProjects)
+
+    // allProjects && allProjects.forEach(item => {
+    //   console.log("ITEM[0]", item)
+    //   if (item.userProject.role === 'pending') {
+    //     pendingList.push({
+    //       projectId: item.id,
+    //       projectName: item.name,
+    //       // authorId: user.id,
+    //       // author: `${user.first_name} ${user.last_name}`
+    //     })
+    //   }
+
+    // });
+    console.log("PROPER", this.props)
+
+    // FASTER LOADING?
+    // const project = [];
+    // invites && invites.map(item => {
+    //   item[0].users.filter((user => {
+    //     if (user.userProject.role === 'author') {
+    //       project.push({
+    //         projectId: item[0].id,
+    //         projectName: item[0].name,
+    //         authorId: user.id,
+    //         author: `${user.first_name} ${user.last_name}`
+    //       })
+    //     }
+    //   }))
+    // })
 
     return (
       <div>
@@ -54,36 +89,40 @@ export class PendingInvitations extends Component {
             </tr>
           </thead>
           {
-            invites && invites.map((item, i) => {
-              let project = item[0];
-              let projectAuthor;
+            invites.length === 0 ?
+            (<div><h4 className="h4-invite"><i>NO PENDING INVITATIONS</i></h4></div>) :
+            (
+              invites.map((item, i) => {
 
-              console.log("project", project)
-
-              item[0].users.filter((user => {
-                if (user.userProject.role === 'author') {
-                  projectAuthor = {
-                    id: user.id,
-                    name: `${user.first_name} ${user.last_name}`
+                let invite = item[0];
+                let project;
+                console.log("I", invite)
+                item[0].users.filter((user => {
+                  if (user.userProject.role === 'author') {
+                    project = {
+                      projectId: item[0].id,
+                      projectName: item[0].name,
+                      authorId: user.id,
+                      author: `${user.first_name} ${user.last_name}`
+                    }
                   }
-                }
-              }))
+                }))
 
-              console.log("PA", projectAuthor)
-              return(
-                <tbody key={i}>
-                  <tr>
-                    <td>{projectAuthor.name}</td>
-                    <td>{project.name}</td>
-                    <td>
-                      <button className="btn waves-effect waves-light cyan" type="submit" name="action" onClick={() => this.props.updateStatus(project, projectAuthor)}>
-                      + Join
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              );
-            })
+                return(
+                  <tbody key={i}>
+                    <tr>
+                      <td>{project.author}</td>
+                      <td>{project.projectName}</td>
+                      <td>
+                        <button className="btn waves-effect waves-light cyan" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
+                        + Join
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            )
           }
         </table>
         </div>
