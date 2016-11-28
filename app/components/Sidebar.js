@@ -7,10 +7,10 @@ import {fetchUserProjects} from '../reducers/projects_list';
 import {logUserOut} from '../reducers/login';
 
 export class Sidebar extends Component {
-    constructor(props) {
-      super(props)
-      this.localLogUserOut = this.localLogUserOut.bind(this);
-      this.linkToHomeView = this.linkToHomeView.bind(this);
+  constructor(props) {
+    super(props)
+    this.localLogUserOut = this.localLogUserOut.bind(this);
+    this.linkToHomeView = this.linkToHomeView.bind(this);
   }
 
  componentDidUpdate(){
