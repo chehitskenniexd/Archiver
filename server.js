@@ -60,6 +60,18 @@ app.use(session({
 .use(passport.initialize())
 .use(passport.session())
 
+const User = require('./db/models').User;
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id)
+      .then(function (user) {
+        done(null, user);
+      })
+      .catch(done);
+});
 
  // Serve static files from ../public
 app

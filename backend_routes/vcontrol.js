@@ -3,8 +3,15 @@
 const express = require('express');
 const router = express.Router();
 const Models = require('../db/models');
-const Actions = require('../utilities/actions');
+const FEActions = require('../utilities/vcfrontend');
+const BEActions = require('../utilities/vcbackend');
 
-router.get('/', (req, res, next) => {
-    
+router.get('/:projectId', (req, res, next) => {
+    Models.Project.findAll({
+        where: {id: req.params.projectId},
+        include: [{all: true}]
+    }).then(projects => res.json(projects))
+    .catch(next);
 })
+
+module.exports = router;

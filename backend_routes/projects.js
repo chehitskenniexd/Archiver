@@ -15,9 +15,9 @@ router.get('/:projectId', (req, res, next) => {
     where: {
       id: req.params.projectId
     },
-    include: [User]
+    include: [{all: true}]
   })
-  .then(projects => res.json({projects}))
+  .then(projects => res.json(projects))
   .catch(next)
 })
     // UserProject.findAll({
