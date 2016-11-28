@@ -20,7 +20,13 @@ export class Home extends Component {
         password: event.target.password.value,
     }
     this.props.loginUser(userCred);
-    hashHistory.push("/mainHome")
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.login);
+    if(this.props.login.email){
+      hashHistory.push('/mainHome');
+    }
   }
 
   render() {
