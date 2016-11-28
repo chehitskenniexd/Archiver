@@ -26,6 +26,23 @@ export const fetchCurrentProjectInfo = (project) => {
   return thunk;
 };
 
+
+export const addCurrentInv = (project, userEmail) => {
+  const thunk = (dispatch) => {
+  axios.post(`http://localhost:3000/api/projects/${project.id}`, {email: userEmail})
+    .then(res => {
+      if (res.data.message) {
+        dispatch(fetchCurrentProjectInfo(project))
+      } else {
+        next();
+      }
+    })
+    .catch(err => console.error('Error adding new invitation ', err));
+  };
+  return thunk;
+};
+
+
 export const deleteCurrentCollab = (project, user) => {
   const thunk = (dispatch) => {
   axios.delete(`http://localhost:3000/api/projects/${project.id}/${user.id}`, project)
@@ -40,6 +57,9 @@ export const deleteCurrentCollab = (project, user) => {
   };
   return thunk;
 };
+
+
+
 
 /*----------  REDUCER  ----------*/
 export default (state = initialState, action) => {

@@ -39,13 +39,17 @@ export class Project_List extends Component {
                   const titleBar = (
                       <div className="project-title">
                         <span>{instance.name}</span>
-                     
-                        <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
-                          this.props.fetchCollabs(instance);
-                          hashHistory.push('/collabs');
-                          evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
-                        }}><i className="small material-icons">supervisor_account</i></span>
-                         
+
+                        <Link>
+                          <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
+                            this.props.fetchCollabs(instance);
+                            hashHistory.push('/collabs');
+                            evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
+                          }}>
+                          <i className="small material-icons">supervisor_account</i>
+                          </span>
+                        </Link>
+
                       </div>
                     )
                     return (

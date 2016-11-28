@@ -30,6 +30,36 @@ router.get('/:projectId', (req, res, next) => {
     // })
 
 
+// ADDING AN INVITED USER TO USERPROJECT MODEL
+router.post('/:projectId', (req, res, next) => {
+  User.find({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(foundUser => {
+    if (foundUser) {
+      return UserProject.create({
+        userId: foundUser.id,
+        projectId: req.params.projectId,
+        role: 'pending'
+      })
+      .then(createdUP => {
+        if (createdUP) {
+          res.json({message: 'Pending invite created'})
+        } else {
+          next();
+        }
+      })
+    } else {
+      next();
+    }
+  })
+  .catch(next)
+})
+
+
+
 // DELETE CURRENT COLLABS OR INVITES
 router.delete('/:projectId/:userId', (req, res, next) => {
   UserProject.destroy({

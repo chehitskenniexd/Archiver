@@ -3,21 +3,40 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Collaborator.css';
 import PendingInvitations from './PendingInvitations';
-import { checkCurrentCollabs, deleteCurrentCollab, deleteCurrentInv } from '../reducers/collabs';
+import { checkCurrentCollabs,
+         deleteCurrentCollab,
+         deleteCurrentInv,
+         addCurrentInv
+       } from '../reducers/collabs';
 
 export class Collaborator extends Component {
   constructor(props) {
     super(props)
+
+    this.splitInvites = this.splitInvites.bind(this);
+  }
+
+  splitInvites(event) {
+    event.preventDefault();
+
+    let project = this.props.collabs.projects[0];
+    let invitations = event.target.collaborators.value.split(',').map(item => item.trim());
+
+    invitations.forEach(item => {
+      this.props.addInvite(project, item);
+    })
+
+    $("#invite-me textarea").val('');
   }
 
   render() {
     // Iterating through the arrays to get out Current Collabs and Current Invitatees
-    const project = this.props.collabs.projects[0];
+    let project = this.props.collabs.projects[0];
     const projectUsers = this.props.collabs.projects[0].users;
     let userC = [],
         userI = [];
     projectUsers && projectUsers.forEach((collab) => {
-      if (collab.userProject.role === 'collaborator') {
+      if (collab.userProject.role !== 'pending') {
         userC.push({
           id: collab.id,
           name:`${collab.first_name} ${collab.last_name}`
@@ -129,7 +148,7 @@ export class Collaborator extends Component {
         <br />
         <br />
 
-        <form>
+        <form id="invite-me" onSubmit={this.splitInvites}>
           <div className="input-field row">
             <br />
             <div className="col s12">
@@ -138,7 +157,7 @@ export class Collaborator extends Component {
             </div>
 
             <div className="col s12">
-              <textarea className="form-control validate" id="collaborators"placeholder="Please enter emails separated by commas"></textarea>
+              <textarea className="form-control validate" id="collaborators" placeholder="Please enter emails separated by commas"></textarea>
               <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan right">submit
               </button>
             </div>
@@ -166,6 +185,9 @@ function mapDispatchToProps(dispatch) {
     },
     removeInvite: (project, user) => {
       dispatch(deleteCurrentInv(project, user))
+    },
+    addInvite: (project, userEmail) => {
+      dispatch(addCurrentInv(project, userEmail));
     }
   };
 }
