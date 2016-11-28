@@ -18,9 +18,9 @@ export class Sidebar extends Component {
   }
 
   onClickArchiveUpdate(event) {
-    axios.get('localhost:3000/api/vcontrol/1')
+    axios.get('http://localhost:3000/api/vcontrol/1')
       .then(projects => {
-        conso3le.log(projects)
+        console.log(projects)
       })
     // this.props.projects && this.props.projects.map(project => {
     //   const dir = `./${project.name}`;
