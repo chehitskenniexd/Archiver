@@ -104,12 +104,13 @@ export function addNewFile(filePath) {
 }
 
 // TODO: Look to add more parameters (e.g. user_id)
-export function commitFileChanges(filePath, message, mergeHash, date, _fileHash) {
+export function commitFileChanges(filePath, message, mergeHash, date, _fileHash, fileContent) {
+  console.log('file content', fileContent);
   // Project has been added and initialized at this point
   // Create a new object for the commit 
   // file hash is pulled from the index
   let objContents = '';
-  const fileContents = fs.readFileSync(filePath);
+  const fileContents = fileContent ? fileContent :fs.readFileSync(filePath, 'utf-8');
   const splitPath = filePath.split('/');
   const dirPath = splitPath.slice(0, splitPath.length - 1).join('/');
   const fileName = filePath.split('/').pop().split('.').shift();
@@ -142,8 +143,12 @@ export function commitFileChanges(filePath, message, mergeHash, date, _fileHash)
     }
   }
 
-  const hashContents = `${fileName}${fileContents}${message}`;
+  let hashContents = `${fileName}${fileContents}${message}`;
   const commitHash = createNewArchiveObject(filePath, hashContents, objContents, dirPath);
+
+  // create an object for the file itself as well as the commit
+  hashContents = `${fileName}${fileContents}`;
+  const objHash = createNewArchiveObject(filePath, hashContents, fileContents, dirPath);
 
   // Create a new ref to point at the new commit
   // if (!fs.access(`${refsPath}/${fileName}`, () => { })) {

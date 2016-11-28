@@ -20,7 +20,6 @@ export class Sidebar extends Component {
     }
 
   onClickAddArchive(event) {
-    console.log('enter event', this.props.currents);
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
     project && axios.get(`http://localhost:3000/api/vcontrol/${project.id}`)
@@ -40,7 +39,6 @@ export class Sidebar extends Component {
         // NOTE: WILL CONTAIN MOST RECENT DATA
         const commits = projectData.commits;
         const fileData = commits[commits.length - 1].blob.files[0];
-        console.log(fileData);
         const filePath = `${dirPath}/${fileData.file_name}.txt`
         fs.writeFileSync(filePath, fileData.file_contents, 'utf-8');
         
@@ -48,17 +46,15 @@ export class Sidebar extends Component {
         try {
           fs.statSync(`${dirPath}/.archive`).isDirectory()
         } catch (err){
-          console.log('init new project');
           FEActions.initNewProject(dirPath);
         }
         
         // then create all the .archive files
         projectData.commits.forEach((commit, index) => {
           // commitFileChanges(filePath, message, mergeHash, date)
-          console.log('adding commit for: ', commit);
           const fileHash = commit.blob.hash;
-          console.log('fileHash', fileHash);
-          FEActions.commitFileChanges(filePath, commit.message, undefined, commit.date, fileHash);
+          const fileContent = commit.blob.files[0].file_contents;
+          FEActions.commitFileChanges(filePath, commit.message, undefined, commit.date, fileHash, fileContent);
         })
       })
   }
@@ -84,7 +80,6 @@ export class Sidebar extends Component {
 
       const fileContents = fs.readFileSync(filePath, 'utf-8');
       console.log(fileContents);
-
     } 
   }
 
