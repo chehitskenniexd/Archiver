@@ -19,10 +19,8 @@ export class Collaborator extends Component {
   splitInvites(event) {
     event.preventDefault();
 
-    console.log("EVT TARGET", event.target.collaborators.value)
     let project = this.props.collabs.projects[0];
     let invitations = event.target.collaborators.value.split(',').map(item => item.trim());
-    console.log("INVTI", invitations);
 
     invitations.forEach(item => {
       this.props.addInvite(project, item);
@@ -38,7 +36,7 @@ export class Collaborator extends Component {
     let userC = [],
         userI = [];
     projectUsers && projectUsers.forEach((collab) => {
-      if (collab.userProject.role === 'collaborator') {
+      if (collab.userProject.role !== 'pending') {
         userC.push({
           id: collab.id,
           name:`${collab.first_name} ${collab.last_name}`

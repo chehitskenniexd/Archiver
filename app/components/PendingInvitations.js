@@ -74,7 +74,7 @@ export class PendingInvitations extends Component {
 
                 let invite = item[0];
                 let project;
-                console.log("I", invite)
+
                 item[0].users.filter((user => {
                   if (user.userProject.role === 'author') {
                     project = {
