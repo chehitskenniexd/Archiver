@@ -20,6 +20,7 @@ export class Sidebar extends Component {
     }
 
   onClickAddArchive(event) {
+    console.log('adding archive to local machine');
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
     project && axios.get(`http://localhost:3000/api/vcontrol/${project.id}`)
