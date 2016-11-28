@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import Moment from 'moment';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import { fetchCurrentProjectInfo } from '../reducers/collabs';
-import { setCurrentProject } from '../reducers/currentsReducer';
+import { setCurrentCommit, setCurrentProject } from '../reducers/currentsReducer';
 
 
 export class Project_List extends Component {
   constructor(props){
     super(props);
     this.viewAdd = this.viewAdd.bind(this);
+    this.onClickProject = this.onClickProject.bind(this);
+    this.onClickCommit = this.onClickCommit.bind(this);
   }
 
   viewAdd(){
@@ -21,9 +23,22 @@ export class Project_List extends Component {
     if (this.props.user.projects && !Object.keys(this.props.collabs).length) {
       this.props.setDefaultCollabs(this.props.user.projects[0]);
     };
-    if(this.props.user.projects && !this.props.currents.currentProject){
-      this.props.setCurrentProject(this.props.user.projects[0]);
+  }
+
+  onClickProject() {
+    const args = Array.prototype.slice.call(arguments)[0];
+    if(args.activeItems && args.activeItems.length > 0){
+      this.props.setCurrentProject(this.props.user.projects[args.activeItems[0]]);
+    } else {
+      this.props.setCurrentProject(null);
     }
+  }
+
+  onClickCommit(commitId) {
+    const currentProject = this.props.currents.currentProject;
+    const commit = currentProject ? currentProject.commits.find(commit => commit.id === commitId) : null;
+    commit && this.props.setCurrentCommit(commit);
+    // this.props.setCurrentCommit(this.props.user.projects[projIndex].commits[commitIndex]);
   }
 
   render() {
@@ -32,10 +47,10 @@ export class Project_List extends Component {
           <div className="card-panel project-add" onClick={this.viewAdd}>
             <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
           </div>
-          <Accordion allowMultiple={false}>
-                {this.props.user.projects && this.props.user.projects.map((instance, index) => {
+          <Accordion allowMultiple={false} onChange={this.onClickProject}>
+                {this.props.user.projects && this.props.user.projects.map((instance, projectIndex) => {
                   const titleBar = (
-                      <div className="project-title">
+                      <div className="project-title" onClick={this.onClickProject}>
                         <span>{instance.name}</span>
                         <Link>
                         <span className="icon-height"style={{float: 'right'}} onClick={(evt) => {
@@ -48,21 +63,21 @@ export class Project_List extends Component {
                       </div>
                     )
                     return (
-                        <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
+                        <AccordionItem title={titleBar} key={projectIndex} slug={projectIndex} className="card-panel left-justified-text">
                         {//console.log('INSTANCE COMMITS', instance.commits)
                         }
                                 {instance.commits && instance.commits.map((commit) => {
                                   return (
-                                    <div className="item-commit-border" key={commit.id}>
+                                    <div className="item-commit-border" key={commit.id} 
+                                      onClick={() => {this.onClickCommit(commit.id)}}>
                                       <div className="commit-message commit-color">{commit.message.slice(0, 20)}</div>
                                       <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(commit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
                                     </div>
                                     )
                                 })}
                         </AccordionItem>
-
-                    );
-                })}
+                        );
+                    })}
             </Accordion>
         </div>
     );
@@ -89,6 +104,9 @@ function mapDispatchToProps(dispatch) {
     },
     setCurrentProject: (project) => {
       dispatch(setCurrentProject(project));
+    },
+    setCurrentCommit: (commit) => {
+      dispatch(setCurrentCommit(commit));
     }
   }
 }
