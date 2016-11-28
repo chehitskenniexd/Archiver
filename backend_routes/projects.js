@@ -32,24 +32,32 @@ router.get('/:projectId', (req, res, next) => {
 
 // ADDING AN INVITED USER TO USERPROJECT MODEL
 router.post('/:projectId', (req, res, next) => {
-  console.log("HERE NEED USERMAIL REQ?", req)
-  Project.findAll({
+  User.find({
     where: {
-      id: req.params.projectId
-    },
-    include: [User]
+      email: req.body.email
+    }
   })
-  .then(projects => res.json({projects}))
+  .then(foundUser => {
+    if (foundUser) {
+      return UserProject.create({
+        userId: foundUser.id,
+        projectId: req.params.projectId,
+        role: 'pending'
+      })
+      .then(createdUP => {
+        if (createdUP) {
+          res.json({message: 'Pending invite created'})
+        } else {
+          next();
+        }
+      })
+    } else {
+      next();
+    }
+  })
   .catch(next)
 })
-    // UserProject.findAll({
-    //   where: {
-    //     projectId: req.params.projectId,
-    //     role: {
-    //       $ne: 'author'
-    //     }
-    //   }
-    // })
+
 
 
 // DELETE CURRENT COLLABS OR INVITES

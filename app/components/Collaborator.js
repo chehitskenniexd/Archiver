@@ -19,14 +19,16 @@ export class Collaborator extends Component {
   splitInvites(event) {
     event.preventDefault();
 
+    console.log("EVT TARGET", event.target.collaborators.value)
     let project = this.props.collabs.projects[0];
-    let invitations = event.target.value.split(',').map(item => item.trim());
+    let invitations = event.target.collaborators.value.split(',').map(item => item.trim());
     console.log("INVTI", invitations);
 
     invitations.forEach(item => {
       this.props.addInvite(project, item);
     })
 
+    $("#invite-me textarea").val('');
   }
 
   render() {
@@ -148,7 +150,7 @@ export class Collaborator extends Component {
         <br />
         <br />
 
-        <form>
+        <form id="invite-me" onSubmit={this.splitInvites}>
           <div className="input-field row">
             <br />
             <div className="col s12">
@@ -157,8 +159,8 @@ export class Collaborator extends Component {
             </div>
 
             <div className="col s12">
-              <textarea className="form-control validate" id="collaborators"placeholder="Please enter emails separated by commas"></textarea>
-              <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan right" onClick={this.splitInvites}>submit
+              <textarea className="form-control validate" id="collaborators" placeholder="Please enter emails separated by commas"></textarea>
+              <button type="submit" className="add_ok_btn btn btn-form btn-primary cyan right">submit
               </button>
             </div>
           </div>

@@ -29,11 +29,15 @@ export const fetchCurrentProjectInfo = (project) => {
 
 export const addCurrentInv = (project, userEmail) => {
   const thunk = (dispatch) => {
-  axios.post(`http://localhost:3000/api/projects/${project.id}`, userEmail)
+  axios.post(`http://localhost:3000/api/projects/${project.id}`, {email: userEmail})
     .then(res => {
-      dispatch(currentProject(res.data))
+      if (res.data.message) {
+        dispatch(fetchCurrentProjectInfo(project))
+      } else {
+        next();
+      }
     })
-    .catch(err => console.error('Error finding current project data ', err));
+    .catch(err => console.error('Error adding new invitation ', err));
   };
   return thunk;
 };
