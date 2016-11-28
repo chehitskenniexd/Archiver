@@ -25,20 +25,22 @@ export class Sidebar extends Component {
     project && axios.get(`http://localhost:3000/api/vcontrol/${project.id}`)
       .then(project => {
         const projectData = project.data[0];
-        console.log(projectData)
         // Note the object structure
         // project.commits[0].blob.files[0];
-        // must create the file directory ./${ProjectName}
-        // then create the file ./${ProjectName}/${Filename}
+        // must create the file directory ./${ProjectName} => completed
+        // then create the file ./${ProjectName}/${Filename} => completed
         // then create the .archive file??
+        
+        // create the firectory if it doesn't already exist
         const dirPath = `./${projectData.name}`;
-        console.log('name', projectData.name);
-        console.log(dirPath);
-        try {
-          fs.StatSync(dirPath).isDirectory();
-        } catch (err) {
+        if(!fs.statSync(dirPath).isDirectory()){
           fs.mkdirSync(dirPath);
         }
+        // create the file if it doesn't already exist
+        const fileData = projectData.commits[0].blob.files[0];
+        console.log(fileData);
+        const filePath = `${dirPath}/${fileData.file_name}.txt`
+        fs.writeFileSync(filePath, fileData.file_contents, 'utf-8');
       })
   }
 
