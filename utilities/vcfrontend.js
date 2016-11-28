@@ -105,7 +105,6 @@ export function addNewFile(filePath) {
 
 // TODO: Look to add more parameters (e.g. user_id)
 export function commitFileChanges(filePath, message, mergeHash, date, _fileHash, fileContent) {
-  console.log('file content', fileContent);
   // Project has been added and initialized at this point
   // Create a new object for the commit 
   // file hash is pulled from the index
