@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { checkPendingInv } from '../reducers/invitations';
+import { updateInvStatus } from '../reducers/collabs';
+
 
 export class PendingInvitations extends Component {
   constructor(props) {
@@ -18,6 +20,7 @@ export class PendingInvitations extends Component {
   render() {
     const invites = this.props.invite;
     const user = this.props.login;
+    console.log("!!!",this.props)
 
     return (
       <div>
@@ -30,7 +33,9 @@ export class PendingInvitations extends Component {
           <div className="col s1"></div>
 
           <div className="col s10">
-            <u><h4>Pending Invitations</h4></u>
+            <br />
+            <h4 className="h4-collabs">MY PENDING INVITATIONS</h4>
+            <hr />
           </div>
 
           <div className="col s1"></div>
@@ -50,23 +55,28 @@ export class PendingInvitations extends Component {
           </thead>
           {
             invites && invites.map((item, i) => {
-
-              let invite = item[0];
+              let project = item[0];
               let projectAuthor;
+
+              console.log("project", project)
 
               item[0].users.filter((user => {
                 if (user.userProject.role === 'author') {
-                  projectAuthor = `${user.first_name} ${user.last_name}`
+                  projectAuthor = {
+                    id: user.id,
+                    name: `${user.first_name} ${user.last_name}`
+                  }
                 }
               }))
 
+              console.log("PA", projectAuthor)
               return(
                 <tbody key={i}>
                   <tr>
-                    <td>{projectAuthor}</td>
-                    <td>{invite.name}</td>
+                    <td>{projectAuthor.name}</td>
+                    <td>{project.name}</td>
                     <td>
-                      <button className="btn waves-effect waves-light cyan" type="submit" name="action">
+                      <button className="btn waves-effect waves-light cyan" type="submit" name="action" onClick={() => this.props.updateStatus(project, projectAuthor)}>
                       + Join
                       </button>
                     </td>
@@ -99,6 +109,9 @@ function mapDispatchToProps(dispatch) {
   return {
     checker: (user) => {
       dispatch(checkPendingInv(user))
+    },
+    updateStatus: (project, user) => {
+      dispatch(updateInvStatus(project, user))
     }
   };
 }

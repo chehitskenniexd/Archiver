@@ -17,7 +17,6 @@ export class Collaborator extends Component {
     let userC = [],
         userI = [];
     projectUsers && projectUsers.forEach((collab) => {
-      console.log(collab)
       if (collab.userProject.role === 'collaborator') {
         userC.push({
           id: collab.id,
@@ -31,18 +30,20 @@ export class Collaborator extends Component {
       }
     });
 
-console.log("ARE YOU PR", this.props)
-console.log("ARE YOU projects", project)
-
     return (
       <div className={styles.container} >
 
         <div className="row">
-        <u><h4>Current Collaborators</h4></u>
+        <br />
+        <br />
+        <br />
+        <br />
+        <h4 className="h4-collabs">CURRENT COLLABORATORS</h4>
+          <hr />
           <div className="col s1"></div>
 
           <div className="col s10">
-            <table className="bordered">
+            <table className="bordered centered">
               <thead>
                 <tr>
                   <th data-field="id">Collaborator Name</th>
@@ -51,7 +52,6 @@ console.log("ARE YOU projects", project)
               </thead>
               {
                 userC && userC.map((user, i) => {
-                  console.log("HEY USER", user)
                   return (
                     <tbody key={i}>
                       <tr>
@@ -73,13 +73,15 @@ console.log("ARE YOU projects", project)
         </div>
 
         <br />
-        <hr />
+        <br />
+
 
         <div className="row">
           <div className="col s1"></div>
 
           <div className="col s10">
-            <u><h4>Current Invitations</h4></u>
+            <h4 className="h4-collabs">CURRENT INVITATIONS</h4>
+            <hr />
           </div>
 
           <div className="col s1"></div>
@@ -105,7 +107,7 @@ console.log("ARE YOU projects", project)
                     <td>{user.name}</td>
                     <td><i>Awaiting reply</i></td>
                     <td>
-                      <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action" onClick={() => this.props.removeInvite(project, user)}>
+                      <button className="btn-floating btn waves-effect waves-light red lighten-2" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
                       x
                       </button>
                     </td>
@@ -120,14 +122,15 @@ console.log("ARE YOU projects", project)
         <div className="col s1"></div>
         </div>
 
-        <hr />
+        <br />
+        <br />
 
         <form>
           <div className="input-field row">
             <br />
             <div className="col s12">
-              <u><h4>Invite Collaborators</h4></u>
-              <br />
+              <h4 className="h4-collabs">INVITE COLLABORATORS</h4>
+
             </div>
 
             <div className="col s12">

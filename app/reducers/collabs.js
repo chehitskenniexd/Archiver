@@ -1,27 +1,16 @@
 import axios from 'axios';
+import { checkPendingInv } from './invitations';
 
 /*----------  INITIAL STATE  ----------*/
 const initialState = {};
 
 /*----------  ACTION TYPES  ----------*/
 const CURRENT_PROJECT_INFO = 'CURRENT_PROJECT_INFO';
-const REMOVE_CURRENT_COLLAB = 'REMOVE_CURRENT_COLLAB';
-const REMOVE_CURRENT_INV = 'REMOVE_CURRENT_INV';
 
 
 /*----------  ACTION CREATORS  ----------*/
 export const currentProject = (projectInfo) => ({
   type: CURRENT_PROJECT_INFO,
-  payload: projectInfo
-});
-
-export const removeCurrentCollab = (projectInfo) => ({
-  type: REMOVE_CURRENT_COLLAB,
-  payload: projectInfo
-});
-
-export const removeCurrentInv = (projectInfo) => ({
-  type: REMOVE_CURRENT_INV,
   payload: projectInfo
 });
 
@@ -42,21 +31,30 @@ export const deleteCurrentCollab = (project, user) => {
   const thunk = (dispatch) => {
   axios.delete(`http://localhost:3000/api/projects/${project.id}/${user.id}`, project)
     .then(res => {
-      console.log("REVISED PROJ", res.data[0])
-      dispatch(fetchCurrentProjectInfo(res.data[0]))
+      if (res.data > 0) {
+        dispatch(fetchCurrentProjectInfo(project))
+      } else {
+        next()
+      }
     })
     .catch(err => console.error('Error deleting current collaborator ', err));
   };
   return thunk;
 };
 
-export const deleteCurrentInv = (project, user) => {
+export const updateInvStatus = (project, user) => {
+  console.log("CORRECT UIS", project)
+  console.log("CPrIJ", user)
   const thunk = (dispatch) => {
-  axios.delete(`http://localhost:3000/api/projects/${project.id}/${user.id}`, project)
+  axios.put(`http://localhost:3000/api/projects/${project.id}/${user.id}`)
     .then(res => {
-      dispatch(currentProject(res.data))
+      if (res.data.message) {
+        dispatch(checkPendingInv(user));
+      } else {
+        next();
+      }
     })
-    .catch(err => console.error('Error deleting current invitee ', err));
+    .catch(err => console.error('Error updating user roles ', err));
   };
   return thunk;
 };
