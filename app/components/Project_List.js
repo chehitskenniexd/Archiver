@@ -17,7 +17,7 @@ export class Project_List extends Component {
   }
 
   viewAdd(){
-    hashHistory.push('/mergeconflictpopup')
+    hashHistory.push('/add')
   }
 
   componentWillMount() {

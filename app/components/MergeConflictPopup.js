@@ -5,6 +5,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import Moment from 'moment';
 
 
 export class MergeConflictPopup extends React.Component {
@@ -82,14 +83,14 @@ export class MergeConflictPopup extends React.Component {
           <div>
           </div>
           <div>
-            <RadioButtonGroup name="which_commit" labelPosition="left" id="select_commit" onChange={this.updateCommit} >
+            <RadioButtonGroup name="which_commit" labelPosition="right" id="select_commit" onChange={this.updateCommit} >
               <RadioButton
                 value="last commit"
-                label={(projectsVar ? projectsVar[0].commits[(projectsVar[0].commits.length - 1)].date : '')}
+                label={(projectsVar ? Moment(projectsVar[0].commits[(projectsVar[0].commits.length - 1)].date).format('MMMM Do, h:mm a') : '')}
               />
               <RadioButton
                 value="second to last commit"
-                label={(projectsVar ? projectsVar[0].commits[(projectsVar[0].commits.length - 2)].date : '')}
+                label={(projectsVar ? Moment(projectsVar[0].commits[(projectsVar[0].commits.length - 2)].date).format('MMMM Do, h:mm a') : '')}
               />
             </RadioButtonGroup >
           </div>
