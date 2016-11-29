@@ -10,6 +10,7 @@ const USER_ALREADY_EXISTS = 'USER_ALREADY_EXISTS';
 const INCORRECT_USER = 'INCORRECT_USER';
 const INCORRECT_PASSWORD = 'INCORRECT_PASSWORD';
 const LOG_OUT = 'LOG_OUT';
+const REMOVE_ERRORS = 'REMOVE_ERRORS';
 
 /*----------  ACTION CREATORS  ----------*/
 export const loginUser = (user) => ({
@@ -41,6 +42,12 @@ export const incorrectPassword = () => ({
 export const logUserOut = () => ({
   type: LOG_OUT,
   payload: {}
+});
+
+export const removeRedErrors = () => ({
+  type: REMOVE_ERRORS,
+  incorrectUser: false,
+  incorrectPassword: false
 });
 
 
@@ -94,6 +101,8 @@ export default (state = initialState, action) => {
       return action.payload;
     case LOG_OUT:
       return action.payload
+    case REMOVE_ERRORS:
+      return Object.assign({}, state, {incorrectUser: action.userExists, incorrectPassword: action.incorrectPassword})
     default: return state;
   }
 };
