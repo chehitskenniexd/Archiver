@@ -16,7 +16,6 @@ router.get('/:projectId', (req, res, next) => {
 
 router.post('/:projectId', (req, res, next) => {
     // need to create commit, blob, {blobFile}, file
-
     // commit needs date/message/previousCommit/currentHash/commiter/projectId
         // Note: hash is filename/filecontents/message
     // blob needs hash/commitId
@@ -24,19 +23,19 @@ router.post('/:projectId', (req, res, next) => {
     // file needs filename/filecontents
     // blobFile through table needs blobId, fileId
     const commitObj = {
-        date: new Date(),
+        date: req.body.date,
         message: req.body.message,
-        previousCommit: req.body.previousCommit,
-        hash: FEActions.getSha1Hash(`${req.body.file_name}${req.body.file_contents}${req.body.message}`),
-        commiter: req.body.committer,
+        previous_commit: req.body.previousCommit,
+        hash: req.body.hash,
+        committer: req.body.committer,
         projectId: req.body.projectId
     };
     let blobFileObj = {};
     Models.Commit.create(commitObj)
         .then(commit => {
             const blobObj = {
-                hash: FEActions.getSha1Hash(`${req.body.file_name}${req.body.file_contents}`),
-                commitId: commit.id 
+                hash: req.body.fileHash,
+                commitId: commit.id
             }
             return Models.Blob.create(blobObj);
         })
@@ -52,7 +51,7 @@ router.post('/:projectId', (req, res, next) => {
             blobFileObj.fileId = file.id;
             return Models.BlobFile.create(blobFileObj);
         })
-        .then(res => res.json(res))
+        .then(response => res.json(response))
         .catch(err => console.error(err));
 })
 
