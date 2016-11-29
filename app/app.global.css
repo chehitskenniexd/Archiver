@@ -92,7 +92,7 @@ h3 {
   font-weight: 500;
 }
 
-a :hover {
+.info-page a :hover {
   color: #ef6c00;
   /*background-color: #ef6c00 ;*/
 }
