@@ -115,7 +115,6 @@ export class Sidebar extends Component {
                     onClick={this.onClickAddArchive}>
                     <i className="material-icons">queue</i>
                   </button>
-                  <i className="small material-icons icon-light pull-right">info</i>
                   <br/>
                   <br/>
                   <br/>
