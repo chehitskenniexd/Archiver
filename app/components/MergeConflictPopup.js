@@ -5,11 +5,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
 
 
 export class MergeConflictPopup extends React.Component {
@@ -43,16 +38,15 @@ export class MergeConflictPopup extends React.Component {
   // if yes, closes dialog, if no, error message
   checkCommit = () => {
     event.preventDefault();
-    if (this.state.commit !== null) {
+    if (!this.state.commit) {
       this.setState({ displayError: true });
     } else {
       this.handleClose();
     }
   };
   // updates file when selected (onChange because onSubmit doesn't work with material ui)
-  updateCommit = () => {
-    let commit = $("#select_commit").val();
-    this.setState({ commit: commit })
+  updateCommit = (event) => {
+    this.setState({ commit: event.target.value });
   };
 
   render() {
@@ -70,6 +64,7 @@ export class MergeConflictPopup extends React.Component {
         onTouchTap={this.checkCommit}
       />,
     ];
+    const projectsVar = this.props.user.projects
     return (
       <div>
         <RaisedButton label="Fix version conflict" onTouchTap={this.handleOpen} />
@@ -87,20 +82,16 @@ export class MergeConflictPopup extends React.Component {
           <div>
           </div>
           <div>
-            <RadioButtonGroup name="notRight" labelPosition="left">
+            <RadioButtonGroup name="which_commit" labelPosition="left" id="select_commit" onChange={this.updateCommit} >
               <RadioButton
-                id="select_commit"
-                value={this.props.login.projects[0].commits[(commits.length - 1)]}
-                label={(this.props.login ? this.props.login.projects[0].commits[(commits.length - 1)].date : '')}
-                onChange={this.updateCommit}
+                value="last commit"
+                label={(projectsVar ? projectsVar[0].commits[(projectsVar[0].commits.length - 1)].date : '')}
               />
               <RadioButton
-                id="select_commit"
-                value={this.props.login.projects[0].commits[(commits.length - 2)]}
-                label={(this.props.login ? this.props.login.projects[0].commits[(commits.length - 2)].date : '')}
-                onChange={this.updateCommit}
+                value="second to last commit"
+                label={(projectsVar ? projectsVar[0].commits[(projectsVar[0].commits.length - 2)].date : '')}
               />
-            </RadioButtonGroup>
+            </RadioButtonGroup >
           </div>
         </Dialog>
       </div>
@@ -112,7 +103,9 @@ export class MergeConflictPopup extends React.Component {
 /* ---------------- CONTAINER --------------------*/
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    user: state.login
+  };
 }
 
 

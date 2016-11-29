@@ -5,11 +5,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
 
 
 export class UpdateProjectPopup extends React.Component {
@@ -86,7 +82,7 @@ export class UpdateProjectPopup extends React.Component {
       <div>
         <RaisedButton label="Update Project" onTouchTap={this.handleOpen} />
         <Dialog
-          title={'You are updating project ' + (this.props.login ? this.props.login.projects[0].name : '')}
+          title={'You are updating project ' + (this.props.user ? this.props.user.projects[0].name : '')}
           actions={actions}
           modal={true}
           open={this.state.open}
@@ -124,7 +120,9 @@ export class UpdateProjectPopup extends React.Component {
 /* ---------------- CONTAINER --------------------*/
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    user: state.login
+  };
 }
 
 
