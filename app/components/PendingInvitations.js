@@ -17,31 +17,26 @@ export class PendingInvitations extends Component {
   render() {
     const invites = this.props.invite;
     const user = this.props.login;
-    const allProjects = user.projects;
-    const pendingList = [];
 
-    // FASTER LOADING?
-    // const project = [];
-    // invites && invites.map(item => {
-    //   item[0].users.filter((user => {
-    //     if (user.userProject.role === 'author') {
-    //       project.push({
-    //         projectId: item[0].id,
-    //         projectName: item[0].name,
-    //         authorId: user.id,
-    //         author: `${user.first_name} ${user.last_name}`
-    //       })
-    //     }
-    //   }))
-    // })
+    // FASTER LOADING? >> NO
+    const projectInfo = [];
+    if (invites) {
+      invites && invites.map(item => {
+        item[0].users.filter((user => {
+          if (user.userProject.role === 'author') {
+            projectInfo.push({
+              projectId: item[0].id,
+              projectName: item[0].name,
+              authorId: user.id,
+              author: `${user.first_name} ${user.last_name}`
+            })
+          }
+        }))
+      })
+    }
 
     return (
       <div>
-
-        <div className="row">
-          <hr />
-        </div>
-
         <div className="row">
           <div className="col s1"></div>
 
@@ -67,40 +62,40 @@ export class PendingInvitations extends Component {
             </tr>
           </thead>
           {
-            invites.length === 0 ?
-            (<div><h4 className="h4-invite"><i>NO PENDING INVITATIONS</i></h4></div>) :
-            (
-              invites.map((item, i) => {
+            // invites && invites.map((item, i) => {
 
-                let invite = item[0];
-                let project;
+            //   let invite = item[0];
+            //   let project;
 
-                item[0].users.filter((user => {
-                  if (user.userProject.role === 'author') {
-                    project = {
-                      projectId: item[0].id,
-                      projectName: item[0].name,
-                      authorId: user.id,
-                      author: `${user.first_name} ${user.last_name}`
-                    }
-                  }
-                }))
+            //   item[0].users.filter((user => {
+            //     if (user.userProject.role === 'author') {
+            //       project = {
+            //         projectId: item[0].id,
+            //         projectName: item[0].name,
+            //         authorId: user.id,
+            //         author: `${user.first_name} ${user.last_name}`
+            //       }
+            //     }
+            //   }))
 
-                return(
-                  <tbody key={i}>
-                    <tr>
-                      <td>{project.author}</td>
-                      <td>{project.projectName}</td>
-                      <td>
-                        <button className="btn waves-effect waves-light cyan" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
-                        + Join
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                );
-              })
-            )
+            projectInfo.map((project, i) => {
+
+              return(
+                <tbody key={i}>
+                  <tr>
+                    <td>{project.author}</td>
+                    <td>{project.projectName}</td>
+                    <td>
+                      <Link>
+                        <span className="waves-effect waves-light cyan-text" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
+                          <i className="material-icons small">open_in_new</i>
+                        </span>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })
           }
         </table>
         </div>
@@ -117,7 +112,6 @@ export class PendingInvitations extends Component {
 function mapStateToProps(state) {
   return {
     login: state.login,
-    mainhome: state.mainhome,
     invite: state.invite
   };
 }

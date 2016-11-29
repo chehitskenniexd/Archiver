@@ -29,6 +29,14 @@ export class MainRender extends Component {
 
             {this.props.children}
 
+            <div className="row">
+              <br />
+              <br />
+              <br />
+              <br />
+              <hr />
+              <img className="center footer-logo" src="../public/media/archiver_logo_words_3.png" height="75px" />
+            </div>
           </div>
 
           <div className="col s1"></div>

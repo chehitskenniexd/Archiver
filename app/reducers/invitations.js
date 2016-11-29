@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchUserProjects } from './projects_list';
 
 /*----------  INITIAL STATE  ----------*/
 const initialState = [];
@@ -33,8 +34,11 @@ export const updateInvStatus = (project, user) => {
       if (res.data.message) {
         dispatch(checkPendingInv(user));
       } else {
-        next();
+        console.error('Error updating user roles ', err);
       }
+    })
+    .then(() => {
+      dispatch(fetchUserProjects(user.id));
     })
     .catch(err => console.error('Error updating user roles ', err));
   };
