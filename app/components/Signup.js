@@ -24,14 +24,18 @@ export class Signup extends Component {
 
   onUserSubmit(event) {
     event.preventDefault();
-    const userCred = {
-        email: event.target.email.value,
-        password: event.target.new_password.value,
-        first_name: event.target.first_name.value,
-        last_name: event.target.last_name.value,
-    }
-      this.props.registerUser(userCred);
-      hashHistory.push('/main');
+    var password = $("#new_password").val();
+    var confirmPassword = $("#confirm_password").val();
+    if (password === confirmPassword){
+      const userCred = {
+          email: event.target.email.value,
+          password: event.target.new_password.value,
+          first_name: event.target.first_name.value,
+          last_name: event.target.last_name.value,
+      }
+        this.props.registerUser(userCred);
+        hashHistory.push('/main');
+      }
   }
 
   render() {
