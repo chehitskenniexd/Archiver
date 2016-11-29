@@ -1,4 +1,4 @@
-
+'use strict'
 const debug = require('debug')('sql');
 const chalk = require('chalk');
 // const db = require('../db');
@@ -16,14 +16,11 @@ console.log(chalk.yellow(`Hello, Opening database connection to ${url}`));
 // create the database instance
 const db = module.exports = new Sequelize(url, {
   logging: debug, // export DEBUG=sql in the environment to get SQL queries
-  native: true // lets Sequelize know we can use pg-native for ~30% more speed
-}
-);
-
-
+  // native: true // lets Sequelize know we can use pg-native for ~30% more speed
+});
 
 // pull in our models
-require('./models');
+require('../db/models');
 
 // sync the db, creating it if necessary
 function sync(force = false) {

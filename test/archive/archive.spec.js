@@ -1,7 +1,8 @@
 const fs = require('fs');
 const expect = require('chai').expect;
 const rmdir = require('rimraf').sync;
-const actions = require('../../utilities/actions');
+const vcfront = require('../../utilities/vcfrontend');
+const vcback = require('../../utilities/vcbackend');
 
 describe('Actions', function () {
   const dirPath = `./ArchiveTest`;
@@ -9,11 +10,12 @@ describe('Actions', function () {
   const filePath = `${dirPath}/File.txt`;
   const contents = 'banana peel';
   const message = 'ayyyyy commit!';
-  const _initNewProject = actions.initNewProject;
-  const _addNewFile = actions.addNewFile;
-  const _commitFileChanges = actions.commitFileChanges;
-  const _mergeFileChanges = actions.mergeFileChanges;
-  const _pullDataFromServer = actions.pullDataFromServer;
+  const _getSha1Hash = vcfront.getSha1Hash;
+  const _initNewProject = vcfront.initNewProject;
+  const _addNewFile = vcfront.addNewFile;
+  const _commitFileChanges = vcfront.commitFileChanges;
+  const _mergeFileChanges = vcback.mergeFileChanges;
+  const _pullDataFromServer = vcback.pullDataFromServer;
 
   beforeEach(function () { rmdir(dirPath) });
   afterEach(function () { rmdir(dirPath) });
@@ -47,7 +49,6 @@ describe('Actions', function () {
       fs.writeFileSync(filePath, contents, 'utf-8');
     });
 
-    const _addNewFile = actions.addNewFile;
     it('Returns false if a directory is passed in', function () {
       const returnValue = _addNewFile(dirPath);
       expect(returnValue).to.be.false;
@@ -55,7 +56,7 @@ describe('Actions', function () {
 
     it('Returns a valid hash of the file if successful', function () {
       const hash = _addNewFile(filePath);
-      expect(hash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}`));
+      expect(hash).to.be.equal(_getSha1Hash(`${fileName}${contents}`));
     })
 
     it('Creates an object directory with the object in the hidden archive', function () {
@@ -107,7 +108,7 @@ describe('Actions', function () {
 
     it('Returns a valid hash of the commit if successful', function () {
       const commitHash = _commitFileChanges(filePath, message);
-      expect(commitHash).to.be.equal(actions.getSha1Hash(`${fileName}${contents}${message}`))
+      expect(commitHash).to.be.equal(_getSha1Hash(`${fileName}${contents}${message}`))
     })
 
     it('Creates a valid archive object to store the commit information', function () {
@@ -150,7 +151,7 @@ describe('Actions', function () {
       const filename = fileContentsArr[4];
 
       expect(msg.split(':')[1]).to.be.equal(message);
-      expect(fileHash.split(':')[1]).to.be.equal(actions.getSha1Hash(`${fileName}${contents}`));
+      expect(fileHash.split(':')[1]).to.be.equal(_getSha1Hash(`${fileName}${contents}`));
       // TODO: Where is the filename being added to the commit file?
       expect(filename).to.be.equal(fileName);
       // TODO: Check the committer when it is actually being used
@@ -184,14 +185,14 @@ describe('Actions', function () {
     });
 
     it('If the local and server are at the same commit, nothing happens', function () {
-      const hashes = actions.getSha1Hash(`${fileName}${contents}${message}`);
+      const hashes = _getSha1Hash(`${fileName}${contents}${message}`);
       const merged = _mergeFileChanges(filePath, hashes, hashes, contents);
       expect(merged).to.be.false;
     });
 
     //if local is different and server is same
     it('If the local is changed, but server is ancestor commit', function () {
-      const hashes = actions.getSha1Hash(`${fileName}${contents}${message}`);
+      const hashes = _getSha1Hash(`${fileName}${contents}${message}`);
       fs.appendFileSync(filePath, ' green banana');
       const merged = _mergeFileChanges(filePath, hashes, hashes, contents);
       expect(merged).to.be.false;
@@ -199,24 +200,24 @@ describe('Actions', function () {
 
     //if local is same and server is different
     it('If the local is the same as ancestor, but server is ahead', function () {
-      const localHash = actions.getSha1Hash(`${fileName}${contents}${message}`);
-      const serverHash = actions.getSha1Hash(`${fileName}${contents} yellow bananas${message}`);
+      const localHash = _getSha1Hash(`${fileName}${contents}${message}`);
+      const serverHash = _getSha1Hash(`${fileName}${contents} yellow bananas${message}`);
       const merged = _mergeFileChanges(filePath, localHash, serverHash, `${contents} yellow bananas`);
       expect(merged).to.be.true;
       const refHash = fs.readFileSync(`${dirPath}/.archive/refs/${fileName}`, 'utf-8');
-      const newHash = actions.getSha1Hash(`${fileName}${contents} yellow bananasupdating and saving all files`);
+      const newHash = _getSha1Hash(`${fileName}${contents} yellow bananasupdating and saving all files`);
       expect(refHash).to.be.equal(newHash);
     });
 
     //if local and server are both different
     it('If the local and the server are different then the ancestor', function () {
-      const localHash = actions.getSha1Hash(`${fileName}${contents}${message}`);
+      const localHash = _getSha1Hash(`${fileName}${contents}${message}`);
       fs.appendFileSync(filePath, ' green banana');
-      const serverHash = actions.getSha1Hash(`${fileName}${contents} yellow bananas${message}`);
+      const serverHash = _getSha1Hash(`${fileName}${contents} yellow bananas${message}`);
       const merged = _mergeFileChanges(filePath, localHash, serverHash, `${contents} yellow bananas`);
       expect(merged).to.be.true;
       const refHash = fs.readFileSync(`${dirPath}/.archive/refs/${fileName}`, 'utf-8');
-      const newHash = actions.getSha1Hash(`${fileName}${contents} yellow bananasupdating and saving all files`);
+      const newHash = _getSha1Hash(`${fileName}${contents} yellow bananasupdating and saving all files`);
       expect(refHash).to.be.equal(newHash);
     });
   }); // end merge functionality
@@ -230,11 +231,11 @@ describe('Actions', function () {
       _commitFileChanges(filePath, message);
     });
 
-    it.only('If the local and server are at the same commit, nothing happens', function () {
-      return _pullDataFromServer('./Recipes/zaz')
-        .then(res => {
-          fs.writeFileSync(`./dbInfo.txt`, JSON.stringify(res), 'utf-8');
-        });
-    });
+    // it('If the local and server are at the same commit, nothing happens', function () {
+    //   return _pullDataFromServer('./Recipes/zaz')
+    //     .then(res => {
+    //       fs.writeFileSync(`./dbInfo.txt`, JSON.stringify(res), 'utf-8');
+    //     });
+    // });
  });
 });

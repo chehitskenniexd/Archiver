@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Other.css';
-import Sidebar from './Sidebar';
+import Sidebar from '../components/Sidebar';
 import MainRender from './MainRender';
 
 
