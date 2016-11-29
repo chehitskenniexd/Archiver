@@ -12,13 +12,9 @@ export class PageRender extends Component {
   }
 
   render() {
-    console.log("PageRender OKAY?", this.props)
-
     const col6container = `col 6 ${styles.textContain}`;
-    // Load in a text file with some information
-    console.log('in the main component', __dirname);
-    // fs.writeFileSync('./Text.txt', 'Hello!', 'utf-8');
-    const renderText = fs.readFileSync('./Text2.txt', 'utf-8');
+    const renderText = this.props.currents && this.props.currents.currentCommit 
+      ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
     return (
       <div className={styles.container} >
         <div className="row">
@@ -30,19 +26,20 @@ export class PageRender extends Component {
             <a className="btn-floating btn-med waves-effect waves-light green"><i className="material-icons">toc</i></a>
             <a className="btn-floating btn-med waves-effect waves-light yellow"><i className="material-icons">done</i></a>
           </div>
-
-          <div className={col6container}>
-            <br />
-            <br />
-            <h5>Text File</h5>
-            <div id="textWindow" style={{ height: `550px`, position: `relative` }}>
-              <div id="textContainer" style={{ 'maxHeight': `100%`, overflow: 'auto', border: '1px' }}>
-                <div id="textRender" style={{ height: `1500px`, border: `5px` }}>{renderText}
+          {this.props.currents && this.props.currents.currentCommit 
+              ? <div className={col6container}>
+                <br />
+                <br />
+                <h5>Text File</h5>
+                <div id="textWindow" style={{ height: `550px`, position: `relative` }}>
+                  <div id="textContainer" style={{ 'maxHeight': `100%`, overflow: 'auto', border: '1px' }}>
+                    <div id="textRender" style={{ height: `1500px`, border: `5px` }}>{renderText}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-
+              : ''
+          }
           <div className="col 3"></div>
         </div>
       </div>
@@ -53,7 +50,8 @@ export class PageRender extends Component {
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state){
   return{
-    mainhome: state.mainhome
+    mainhome: state.mainhome,
+    currents: state.currents
   }
 }
 
