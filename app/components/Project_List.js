@@ -28,7 +28,6 @@ export class Project_List extends Component {
 
   onClickProject() {
     const args = Array.prototype.slice.call(arguments)[0];
-    console.log(this.props.projects.projects);
     if(args.activeItems && args.activeItems.length > 0){
       this.props.setCurrentProject(this.props.projects.projects.filter(project => project.userProject.role !== 'pending')[args.activeItems[0]]);
     } else {
@@ -87,7 +86,7 @@ export class Project_List extends Component {
                     )
                     return (
                         <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
-                                {instance.commits && instance.commits.reverse().map((commit, index) => {
+                                {instance.commits && instance.commits.map((commit, index) => {
                                   return (
                                     <div className="item-commit-border" key={commit.id}
                                       onClick={() => {this.onClickCommit(index)}}>

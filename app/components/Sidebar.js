@@ -7,6 +7,7 @@ import { fetchUserProjects } from '../reducers/projects_list';
 import { logUserOut } from '../reducers/login';
 import * as fs from 'fs';
 import * as FEActions from '../../utilities/vcfrontend';
+import { setCurrentProject } from '../reducers/currentsReducer';
 import axios from 'axios';
 
 export class Sidebar extends Component {
@@ -68,8 +69,9 @@ export class Sidebar extends Component {
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
     const dirPath = `./${project.name}`;
-    const fileData = project ? project.commits[project.commits.length - 1].blob.files[0] : undefined;
-    console.log(fileData);
+    const fileData = project ? project.commits[0].blob.files[0] : undefined;
+    console.log('project data', this.props.currents.currentProject);
+    console.log('file data', fileData);
     const filePath = project && fileData
       ? `./${project.name}/${fileData.file_name}.txt` : undefined;
     if (filePath) {
@@ -92,7 +94,7 @@ export class Sidebar extends Component {
 
       const project = this.props.currents && this.props.currents.currentProject
         ? this.props.currents.currentProject : undefined;
-      
+
       const newCommit = {
         previousCommit: fs.readFileSync(`./${dirPath}/.archive/refs/${fileData.file_name}`, 'utf-8'),
         // hard coded message
@@ -106,7 +108,7 @@ export class Sidebar extends Component {
       // Need to create the new objs for commit and new file
       newCommit.hash = FEActions.getSha1Hash(`${newCommit.file_name}${newCommit.file_contents}${newCommit.message}`);
       newCommit.fileHash = FEActions.getSha1Hash(`${newCommit.file_name}${newCommit.file_contents}`);
-      FEActions.commitFileChanges(filePath, newCommit.message, undefined, 
+      FEActions.commitFileChanges(filePath, newCommit.message, undefined,
         newCommit.date, newCommit.fileHash, newCommit.file_contents);
 
       project && axios.post(`http://localhost:3000/api/vcontrol/${project.id}`, newCommit)
@@ -122,6 +124,20 @@ export class Sidebar extends Component {
     if (this.props.loginUser.id && !Object.keys(this.props.projects).length) {
       this.props.onLoadProjects(this.props.loginUser.id);
     }
+    // Re-set the current project to the updated one (THIS IS NOT THE BEST WAY)
+    console.log(this.props.currents.currentProject);
+    const numCurrentCommits = this.props.currents && this.props.currents.currentProject ? this.props.currents.currentProject.commits.length : 0;
+    const numProjectCommits = this.props.currents && this.props.currents.currentProject
+      && this.props.projects ? this.props.projects.projects
+        .filter(project => project.id === this.props.currents.currentProject.id)[0].commits.length : 0;
+
+    this.props.currents && numCurrentCommits != numProjectCommits &&
+      axios.get(`http://localhost:3000/api/vcontrol/${this.props.currents.currentProject.id}`)
+        .then(project => {
+          const oldProject = project.data[0];
+          const newProject = Object.assign({}, oldProject, {commits: oldProject.commits.reverse()})
+          this.props.setCurrentProject(newProject);
+        });
   }
 
   linkToHomeView() {
@@ -202,6 +218,9 @@ function mapDispatchToProps(dispatch) {
     fetchProjects: (userId) => {
       dispatch(fetchUserProjects(userId))
     },
+    setCurrentProject: (project) => {
+      dispatch(setCurrentProject(project));
+    },
     logMeOut: function () {
       dispatch(logUserOut());
     }
@@ -212,3 +231,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Sidebar);
+
