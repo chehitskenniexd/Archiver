@@ -13,10 +13,10 @@ export class Other extends Component {
       <div className={styles.container} >
         <div className="row" style={{marginBottom: 0}}>
 
-          <div className="col s4" style={{paddingLeft: 0}}>
+          <div className="col s4 sidebar-scroll" style={{paddingLeft: 0}}>
             <Sidebar />
           </div>
-          <div className="col s8">
+          <div className="col s8 sidebar-scroll">
             {this.props.children}
           </div>
 
