@@ -13,7 +13,7 @@ export class Project_List extends Component {
   }
 
   viewAdd(){
-    hashHistory.push('/testmodal')
+    hashHistory.push('/add')
   }
 
   componentDidUpdate() {

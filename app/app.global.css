@@ -290,3 +290,11 @@ i.icon-light {
   margin-top: 5px;
 }
 
+.display-message {
+  color: #f44336;
+  display: block;
+}
+
+.no-display-message {
+  display: none;
+}

@@ -10,7 +10,7 @@ import MainHome from './components/MainHome';
 import Add from './components/Add';
 import Collaborator from './components/Collaborator';
 import PageRender from './components/PageRender';
-import TestModal from './components/TestModal';
+import UpdateProjectPopup from './components/UpdateProjectPopup';
 
 
 // TODO: Change the IndexRoute back to Home.
@@ -25,7 +25,7 @@ export default (
         <Route path="/add" component={Add} />
         <Route path="/collabs" component={Collaborator} />
         <Route path="/pageRender" component={PageRender} />
-        <Route path="/testmodal" component={TestModal} />
+        <Route path="/updateprojectpopup" component={UpdateProjectPopup} />
       </Route>
     </Route>
   </Route>
