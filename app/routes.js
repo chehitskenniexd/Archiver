@@ -11,6 +11,7 @@ import Add from './components/Add';
 import Collaborator from './components/Collaborator';
 import PageRender from './components/PageRender';
 import UpdateProjectPopup from './components/UpdateProjectPopup';
+import MergeConflictPopup from './components/MergeConflictPopup';
 import Info from './components/Info';
 
 
@@ -27,6 +28,7 @@ export default (
         <Route path="/collabs" component={Collaborator} />
         <Route path="/pageRender" component={PageRender} />
         <Route path="/updateprojectpopup" component={UpdateProjectPopup} />
+        <Route path="/mergeconflictpopup" component={MergeConflictPopup} />
         <Route path="/info" component={Info} />
       </Route>
     </Route>

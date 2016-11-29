@@ -4,7 +4,7 @@ import { Link, hashHistory } from 'react-router';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Needed for onTouchTap
@@ -12,20 +12,17 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 
-export class UpdateProjectPopup extends React.Component {
+export class MergeConflictPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      message: '',
-      file: null,
+      commit: null,
       displayError: false,
-      displayFileError: false
     };
-    this.cancelMessage = this.cancelMessage.bind(this);
-    this.checkMessage = this.checkMessage.bind(this);
-    this.updateMessage = this.updateMessage.bind(this);
-    this.updateFile = this.updateFile.bind(this);
+    this.cancelChoice = this.cancelChoice.bind(this);
+    this.checkCommit = this.checkCommit.bind(this);
+    this.updateCommit = this.updateCommit.bind(this);
   }
 
   // opens dialog/modal
@@ -35,36 +32,27 @@ export class UpdateProjectPopup extends React.Component {
   // closes dialog
   handleClose = () => {
     this.setState({ displayError: false });
-    this.setState({ displayFileError: false });
     this.setState({ open: false });
   };
   // when cancel is hit, resets message and file, then closes dialog
-  cancelMessage = () => {
-    this.setState({ message: '' });
-    this.setState({ file: null });
+  cancelChoice = () => {
+    this.setState({ commit: null });
     this.handleClose();
   };
   // when submit is hit, checks to make sure message and file are there,
   // if yes, closes dialog, if no, error message
-  checkMessage = () => {
+  checkCommit = () => {
     event.preventDefault();
-    if (this.state.message.length === 0) {
+    if (this.state.commit !== null) {
       this.setState({ displayError: true });
-    } else if (!this.state.file) {
-      this.setState({ displayFileError: true });
     } else {
       this.handleClose();
     }
   };
-  // updates states as message is written (onChange because onSubmit doesn't work with material ui)
-  updateMessage = () => {
-    let message = $("#message-content").val();
-    this.setState({ message: message })
-  };
   // updates file when selected (onChange because onSubmit doesn't work with material ui)
-  updateFile = () => {
-    let file = $("#select_file").val();
-    this.setState({ file: file })
+  updateCommit = () => {
+    let commit = $("#select_commit").val();
+    this.setState({ commit: commit })
   };
 
   render() {
@@ -73,46 +61,46 @@ export class UpdateProjectPopup extends React.Component {
       <FlatButton
         label="Cancel"
         className="orange-text"
-        onTouchTap={this.cancelMessage}
+        onTouchTap={this.cancelChoice}
       />,
       <FlatButton
         label="Submit"
         primary={true}
         // ONTOUCHTAP IS THE ONSUBMIT EQUIVALENT FOR MATERIAL UI
-        onTouchTap={this.checkMessage}
+        onTouchTap={this.checkCommit}
       />,
     ];
     return (
       <div>
-        <RaisedButton label="Update Project" onTouchTap={this.handleOpen} />
+        <RaisedButton label="Fix version conflict" onTouchTap={this.handleOpen} />
         <Dialog
-          title={'You are updating project ' + (this.props.login ? this.props.login.projects[0].name : '')}
+          title={'Which version do you want to make the current version?'}
           actions={actions}
           modal={true}
           open={this.state.open}
         >
           <div className="row">
             <div className={this.state.displayError ? 'display-message' : 'no-display-message'} >
-              <h6>A message is required</h6>
+              <h6>Choose one commit</h6>
             </div>
           </div>
           <div>
-            <TextField
-              hintText="Write your update message here"
-              type="text"
-              floatingLabelText="Update Message"
-              fullWidth={true}
-              id="message-content"
-              onChange={this.updateMessage}
-            />
           </div>
-          <div className="row">
-            <div className="input-field">
-              <input type="file" className="form-control select_file validate" id="select_file" placeholder="" onChange={this.updateFile} />
-              <div className={this.state.displayFileError ? 'display-message' : 'no-display-message'} >
-                <h6>A file is required</h6>
-              </div>
-            </div>
+          <div>
+            <RadioButtonGroup name="notRight" labelPosition="left">
+              <RadioButton
+                id="select_commit"
+                value={this.props.login.projects[0].commits[(commits.length - 1)]}
+                label={(this.props.login ? this.props.login.projects[0].commits[(commits.length - 1)].date : '')}
+                onChange={this.updateCommit}
+              />
+              <RadioButton
+                id="select_commit"
+                value={this.props.login.projects[0].commits[(commits.length - 2)]}
+                label={(this.props.login ? this.props.login.projects[0].commits[(commits.length - 2)].date : '')}
+                onChange={this.updateCommit}
+              />
+            </RadioButtonGroup>
           </div>
         </Dialog>
       </div>
@@ -135,4 +123,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(UpdateProjectPopup);
+)(MergeConflictPopup);
