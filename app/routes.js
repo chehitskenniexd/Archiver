@@ -10,7 +10,7 @@ import MainHome from './components/MainHome';
 import Add from './components/Add';
 import Collaborator from './components/Collaborator';
 import PageRender from './components/PageRender';
-import TestModal from './components/TestModal';
+import UpdateProjectPopup from './components/UpdateProjectPopup';
 import Info from './components/Info';
 
 
@@ -26,8 +26,8 @@ export default (
         <Route path="/add" component={Add} />
         <Route path="/collabs" component={Collaborator} />
         <Route path="/pageRender" component={PageRender} />
+        <Route path="/updateprojectpopup" component={UpdateProjectPopup} />
         <Route path="/info" component={Info} />
-        <Route path="/testmodal" component={TestModal} />
       </Route>
     </Route>
   </Route>
