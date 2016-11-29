@@ -86,9 +86,11 @@ export class PendingInvitations extends Component {
                     <td>{project.author}</td>
                     <td>{project.projectName}</td>
                     <td>
-                      <button className="btn waves-effect waves-light cyan" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
-                      + Join
-                      </button>
+                      <Link>
+                        <span className="waves-effect waves-light cyan-text" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
+                          <i className="material-icons small">open_in_new</i>
+                        </span>
+                      </Link>
                     </td>
                   </tr>
                 </tbody>

@@ -170,7 +170,6 @@ export class Collaborator extends Component {
             </div>
           </div>
         </form>
-
       </div>
     );
   }
@@ -180,7 +179,6 @@ export class Collaborator extends Component {
 function mapStateToProps(state) {
   return {
     login: state.login,
-    mainhome: state.mainhome,
     collabs: state.collabs
   };
 }

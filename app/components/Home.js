@@ -42,7 +42,7 @@ export class Home extends Component {
             <div className="row email-margin-bottom-zero">
               <div className="col s3"></div>
               <div className="input-field col s6">
-                <i className="material-icons prefix cyan-text text-darken-2">account_circle</i>
+                <i className="material-icons prefix cyan-text">account_circle</i>
                 <input placeholder="Username" id="email" type="text" className="validate remove-bottom-padding" />
                 {this.props.login.incorrectUser ? <h6 className="red-error">We could not find an account with that username</h6> : ""}
               </div>

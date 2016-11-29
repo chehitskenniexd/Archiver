@@ -25,10 +25,10 @@ export class MainHome extends Component {
         <br />
         <div className="row semi_trans">
 
-          <div className="col s6">
+          <div className="col s5">
             <i className="material-icons prefix large right">create_new_folder</i>
           </div>
-          <div className="col s6">
+          <div className="col s7">
             <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push("/add")}>
               New Project
             </button>

@@ -32,7 +32,11 @@ export class Sidebar extends Component {
         <div className={styles.container} >
             <div className="row">
               <div className="col s12">
-                <i className="small material-icons icon-light pull-right">info</i>
+                <Link>
+                  <span onClick={() => hashHistory.push('/info')}>
+                    <i className="small material-icons icon-light pull-right">info</i>
+                  </span>
+                </Link>
                 <br/>
                 <br/>
                 <Link onClick={this.linkToHomeView}>

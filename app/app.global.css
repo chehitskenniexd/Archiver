@@ -74,9 +74,30 @@ h3 {
   margin: 0;
 }
 
+.h1-info {
+  font-weight: 300;
+}
+
+.info-page {
+  text-align: left;
+  margin-top: 30px;
+}
+
+.ul-info {
+  font-weight: 500;
+}
+
+.footer-logo {
+  margin-top: 40px;
+}
+
 .left-justified-text {
   text-align: left;
   padding: 20px;
+}
+
+.project-note {
+  margin-bottom: 10px;
 }
 
 .add-project-icon {
@@ -153,7 +174,7 @@ i.icon-light {
 
 .remove-padding-button{
   padding-left: 0px !important;
-  padding-right: 0px !important; 
+  padding-right: 0px !important;
 }
 
 

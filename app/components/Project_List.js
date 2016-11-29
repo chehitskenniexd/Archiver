@@ -30,7 +30,7 @@ export class Project_List extends Component {
   // }
 
   render() {
-    // Changed state to projects.projects to allow for immediate re-rendering of the sidebar based on instant changes to the redux state
+    // Changed state to projects.projects to allow for immediate re-rendering of the sidebar based on changes to the redux state
     let projectLoop;
     if (this.props.projects.projects) {
       projectLoop = this.props.projects.projects.filter(instance => {
@@ -47,7 +47,11 @@ export class Project_List extends Component {
       return (
         <div className="sidebar-panel-wrapper">
           <div className="card-panel project-add" onClick={this.viewAdd}>
-            <h3 className="left-justified-text"><i className="small material-icons">note_add</i> Project </h3>
+            <Link>
+            <h3 className="left-justified-text black-text">
+              <i className="small material-icons project-note">note_add</i> Project
+            </h3>
+            </Link>
           </div>
           <Accordion allowMultiple={false}>
                 {projectLoop && projectLoop.map((instance, index) => {

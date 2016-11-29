@@ -28,6 +28,9 @@ export class Add extends Component {
 
         <div className="row">
           <div className="col s12">
+            <br />
+            <br />
+            <br />
             <img className="add_logo center" src="../public/media/archiver_logo_words_2.png" height="250px" />
           </div>
         </div>
@@ -76,9 +79,7 @@ export class Add extends Component {
 
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state) {
-  return {
-    mainhome: state.mainhome
-  }
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -89,7 +90,7 @@ function mapDispatchToProps(dispatch) {
     goToPageRender: () => {
       dispatch(onPageRender());
     }
-  }
+  };
 }
 
 
