@@ -156,7 +156,18 @@ i.icon-light {
   padding-right: 0px !important; 
 }
 
-
+.sidebar-scroll{
+  height: 100vh;
+  overflow-y: auto;
+}
+::-webkit-scrollbar {
+    width: 6px;
+    background-color: rgba(150, 150, 150, 0);
+}
+::-webkit-scrollbar-thumb {
+    width: 8px;
+    background-color: rgba(150, 150, 150, 0);
+}
 
 
 /*---------- react-sanfona accordian/collapsible library --------*/
