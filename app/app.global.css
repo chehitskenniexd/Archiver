@@ -83,8 +83,18 @@ h3 {
   margin-top: 30px;
 }
 
+.info-page p {
+  font-weight: 300;
+  font-size: 19px;
+}
+
 .ul-info {
   font-weight: 500;
+}
+
+a :hover {
+  color: #ef6c00;
+  /*background-color: #ef6c00 ;*/
 }
 
 .footer-logo {
