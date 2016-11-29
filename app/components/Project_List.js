@@ -29,15 +29,15 @@ export class Project_List extends Component {
   onClickProject() {
     const args = Array.prototype.slice.call(arguments)[0];
     if(args.activeItems && args.activeItems.length > 0){
-      this.props.setCurrentProject(this.props.user.projects[args.activeItems[0]]);
+      this.props.setCurrentProject(this.props.user.projects.filter(project => project.userProject.role !== 'pending')[args.activeItems[0]]);
     } else {
       this.props.setCurrentProject(null);
     }
   }
 
-  onClickCommit(commitId) {
+  onClickCommit(index) {
     const currentProject = this.props.currents.currentProject;
-    const commit = currentProject ? currentProject.commits.find(commit => commit.id === commitId) : null;
+    const commit = currentProject ? currentProject.commits[index] : null;
     commit && this.props.setCurrentCommit(commit);
     // this.props.setCurrentCommit(this.props.user.projects[projIndex].commits[commitIndex]);
   }
@@ -86,10 +86,10 @@ export class Project_List extends Component {
                     )
                     return (
                         <AccordionItem title={titleBar} key={index} slug={index} className="card-panel left-justified-text">
-                                {instance.commits && instance.commits.map((commit) => {
+                                {instance.commits && instance.commits.map((commit, index) => {
                                   return (
                                     <div className="item-commit-border" key={commit.id}
-                                      onClick={() => {this.onClickCommit(commit.id)}}>
+                                      onClick={() => {this.onClickCommit(index)}}>
                                       <div className="commit-message commit-color">{commit.message.slice(0, 20)}</div>
                                       <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(commit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
                                     </div>
