@@ -28,8 +28,9 @@ export class Project_List extends Component {
 
   onClickProject() {
     const args = Array.prototype.slice.call(arguments)[0];
+    console.log(this.props.projects.projects);
     if(args.activeItems && args.activeItems.length > 0){
-      this.props.setCurrentProject(this.props.user.projects.filter(project => project.userProject.role !== 'pending')[args.activeItems[0]]);
+      this.props.setCurrentProject(this.props.projects.projects.filter(project => project.userProject.role !== 'pending')[args.activeItems[0]]);
     } else {
       this.props.setCurrentProject(null);
     }
