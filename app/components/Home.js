@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import styles from './Home.css';
-import {authenticateUser} from '../reducers/login';
+import {authenticateUser, removeRedErrors} from '../reducers/login';
 import {connect} from 'react-redux';
 import { Link, Router, hashHistory } from 'react-router';
 
@@ -10,6 +10,7 @@ export class Home extends Component {
   constructor(props) {
     super(props)
     this.onUserSubmit = this.onUserSubmit.bind(this);
+    this.removeErrors = this.removeErrors.bind(this);
 
   }
 
@@ -20,6 +21,11 @@ export class Home extends Component {
         password: event.target.password.value,
     }
     this.props.loginUser(userCred);
+    this.removeErrors();
+  }
+
+  removeErrors(){
+    setTimeout(this.props.threeSecondError, 3000)
   }
 
   componentDidUpdate() {
@@ -90,6 +96,9 @@ function mapDispatchToProps(dispatch) {
   return {
       loginUser: (userCred) => {
           dispatch(authenticateUser(userCred))
+      },
+      threeSecondError: () => {
+        dispatch(removeRedErrors());
       }
 
   }
