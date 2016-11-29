@@ -4,7 +4,9 @@ import { Link, hashHistory } from 'react-router';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import styles from './TestModal.css';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -30,13 +32,13 @@ export class TestModal extends React.Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        secondary={true}
+        className="secondary"
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Submit"
         primary={true}
-        disabled={true}
         onTouchTap={this.handleClose}
       />,
     ];
@@ -45,17 +47,21 @@ export class TestModal extends React.Component {
       <div>
         <RaisedButton label="Update Project" onTouchTap={this.handleOpen} />
         <Dialog
-          title={'You are updating project ' + 'purple'}
+          title={'You are updating project ' + (this.props.login ? this.props.login.projects[0].name : '')}
           actions={actions}
           modal={true}
           open={this.state.open}
         >
-
           <div>
-            <div className="row">
-              <div className="input-field">
-                <input type="file" className="form-control select_file validate" id="select_file" placeholder="" required />
-              </div>
+            <TextField
+              hintText="Write your update message here!"
+              floatingLabelText="Update Message"
+              fullWidth={true}
+            />
+          </div>
+          <div className="row">
+            <div className="input-field">
+              <input type="file" className="form-control select_file validate" id="select_file" placeholder="" required />
             </div>
           </div>
         </Dialog>
@@ -63,6 +69,7 @@ export class TestModal extends React.Component {
     );
   }
 }
+
 
 /* ---------------- CONTAINER --------------------*/
 
