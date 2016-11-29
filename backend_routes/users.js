@@ -59,9 +59,11 @@ router.put('/:userId/:projectId', (req, res, next) => {
     }
   })
   .then(foundProject => {
-    foundProject.update({
+    return foundProject.update({
       role: 'collaborator'
-    })
+    });
+  })
+  .then(() => {
     res.json({
       message: "Role updated successfully!"
     });

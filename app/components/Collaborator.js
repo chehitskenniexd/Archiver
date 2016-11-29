@@ -20,19 +20,26 @@ export class Collaborator extends Component {
     event.preventDefault();
 
     let project = this.props.collabs.projects[0];
+    // Maps through all input values, splits at commas and gets rid of white spaces
     let invitations = event.target.collaborators.value.split(',').map(item => item.trim());
 
     invitations.forEach(item => {
       this.props.addInvite(project, item);
-    })
+    });
 
+    // This resets the input text into textarea after submit button is clicked
     $("#invite-me textarea").val('');
   }
 
   render() {
     // Iterating through the arrays to get out Current Collabs and Current Invitatees
-    let project = this.props.collabs.projects[0];
-    const projectUsers = this.props.collabs.projects[0].users;
+    // This is to help with rendering lag time
+
+    let project, projectUsers;
+    if (this.props.collabs.projects) {
+      project = this.props.collabs.projects[0];
+      projectUsers = this.props.collabs.projects[0].users;
+    }
     let userC = [],
         userI = [];
     projectUsers && projectUsers.forEach((collab) => {
@@ -163,7 +170,6 @@ export class Collaborator extends Component {
             </div>
           </div>
         </form>
-
       </div>
     );
   }
@@ -173,7 +179,6 @@ export class Collaborator extends Component {
 function mapStateToProps(state) {
   return {
     login: state.login,
-    mainhome: state.mainhome,
     collabs: state.collabs
   };
 }

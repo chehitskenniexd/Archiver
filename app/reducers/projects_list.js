@@ -14,11 +14,10 @@ export const loadProjects = (projectsArray) => ({
 
 
 /*----------  THUNKS  ----------*/
-export const fetchUserProjects = (user) => {
+export const fetchUserProjects = (userId) => {
     const thunk = (dispatch) => {
-        axios.get(`http://localhost:3000/api/users/${user}/projects`)
+        axios.get(`http://localhost:3000/api/users/${userId}/projects`)
           .then(projectsArray => {
-            console.log(projectsArray);
             dispatch(loadProjects(projectsArray.data))
           })
           .catch(err => console.error('Error fetching projects: ', err))
