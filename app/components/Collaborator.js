@@ -19,7 +19,7 @@ export class Collaborator extends Component {
   splitInvites(event) {
     event.preventDefault();
 
-    let project = this.props.collabs.projects[0];
+    let project = this.props.collabs[0];
     // Maps through all input values, splits at commas and gets rid of white spaces
     let invitations = event.target.collaborators.value.split(',').map(item => item.trim());
 
@@ -31,14 +31,18 @@ export class Collaborator extends Component {
     $("#invite-me textarea").val('');
   }
 
+  componentWillMount() {
+    this.props.collabs[0]
+  }
+
   render() {
     // Iterating through the arrays to get out Current Collabs and Current Invitatees
     // This is to help with rendering lag time
 
     let project, projectUsers;
-    if (this.props.collabs.projects) {
-      project = this.props.collabs.projects[0];
-      projectUsers = this.props.collabs.projects[0].users;
+    if (this.props.collabs[0]) {
+      project = this.props.collabs[0];
+      projectUsers = this.props.collabs[0].users;
     }
     let userC = [],
         userI = [];
