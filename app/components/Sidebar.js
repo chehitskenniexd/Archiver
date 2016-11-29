@@ -114,6 +114,7 @@ export class Sidebar extends Component {
         .catch(err => console.error(err));
 
       // Need to trigger the project_list to re-render the latest commit
+      this.props.fetchProjects(this.props.loginUser.id);
     }
   }
 
@@ -197,6 +198,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onLoadProjects: function (user) {
       dispatch(fetchUserProjects(user));
+    },
+    fetchProjects: (userId) => {
+      dispatch(fetchUserProjects(userId))
     },
     logMeOut: function () {
       dispatch(logUserOut());
