@@ -4,13 +4,22 @@ import { connect } from 'react-redux';
 import styles from './MainHome.css';
 import { onAddProject } from '../reducers/mainhome';
 import PendingInvitations from './PendingInvitations';
+import { checkPendingInv, updateInvStatus } from '../reducers/invitations';
 
 export class MainHome extends Component {
   constructor(props){
     super(props)
   }
 
+  componentWillMount() {
+    if (this.props.login && !Object.keys(this.props.invite).length) {
+      this.props.checker(this.props.login);
+    };
+  }
+
   render() {
+    const invites = this.props.invite;
+
     return (
       <div className={styles.container} >
         <br />
@@ -26,9 +35,28 @@ export class MainHome extends Component {
           </div>
 
         </div>
-        <br />
-        <br />
-        <PendingInvitations />
+
+        <div className="row">
+          <br />
+          <br />
+          <hr />
+        </div>
+
+        {
+          invites.length === 0 ?
+          (
+          <div className="row">
+            <br />
+            <h4 className="h4-invite">
+              <i>NO PENDING INVITATIONS</i>
+            </h4>
+          </div>
+          ) :
+          (
+          <PendingInvitations />
+          )
+        }
+
       </div>
     );
   }
@@ -37,8 +65,8 @@ export class MainHome extends Component {
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state) {
   return {
-    mainhome: state.mainhome,
-    login: state.login
+    login: state.login,
+    invite: state.invite
   }
 }
 
@@ -46,6 +74,9 @@ function mapDispatchToProps(dispatch) {
   return {
     goToAdd: () => {
       dispatch(onAddProject());
+    },
+    checker: (user) => {
+      dispatch(checkPendingInv(user))
     }
   }
 }

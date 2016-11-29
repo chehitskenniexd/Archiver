@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Moment from 'moment';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import { fetchCurrentProjectInfo } from '../reducers/collabs';
+import { fetchUserProjects } from '../reducers/projects_list';
 
 
 export class Project_List extends Component {
@@ -16,19 +17,33 @@ export class Project_List extends Component {
     hashHistory.push('/add')
   }
 
-  componentDidUpdate() {
-    if (this.props.user.projects && !Object.keys(this.props.collabs).length) {
-      this.props.setDefaultCollabs(this.props.user.projects[0]);
+  componentWillMount() {
+    if (this.props.user && !Object.keys(this.props.projects).length) {
+      this.props.fetchProjects(this.props.user.id);
     };
   }
 
+  // componentDidUpdate() {
+  //   if (this.props.user.projects && !Object.keys(this.props.collabs).length) {
+  //     this.props.setDefaultCollabs(this.props.user.projects[0]);
+  //   };
+  // }
+
   render() {
+    // Changed state to projects.projects to allow for immediate re-rendering of the sidebar based on instant changes to the redux state
     let projectLoop;
-    if (this.props.user.projects) {
-      projectLoop = this.props.user.projects.filter(instance => {
+    if (this.props.projects.projects) {
+      projectLoop = this.props.projects.projects.filter(instance => {
         return instance.userProject.role !== 'pending';
       });
     }
+
+    // let projectLoop;
+    // if (this.props.user.projects) {
+    //   projectLoop = this.props.user.projects.filter(instance => {
+    //     return instance.userProject.role !== 'pending';
+    //   });
+    // }
       return (
         <div className="sidebar-panel-wrapper">
           <div className="card-panel project-add" onClick={this.viewAdd}>
@@ -77,17 +92,21 @@ export class Project_List extends Component {
 function mapStateToProps(state){
   return {
     user: state.login,
-    collabs: state.collabs
+    collabs: state.collabs,
+    projects: state.projects
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setDefaultCollabs: (project) => {
-      dispatch(fetchCurrentProjectInfo(project))
-    },
+    // setDefaultCollabs: (project) => {
+    //   dispatch(fetchCurrentProjectInfo(project))
+    // },
     fetchCollabs: (project) => {
       dispatch(fetchCurrentProjectInfo(project))
+    },
+    fetchProjects: (userId) => {
+      dispatch(fetchUserProjects(userId))
     }
   }
 }
