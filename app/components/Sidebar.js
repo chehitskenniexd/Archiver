@@ -3,21 +3,22 @@ import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './Sidebar.css';
 import Project_List from './Project_List';
-import {fetchUserProjects} from '../reducers/projects_list';
-import {logUserOut} from '../reducers/login';
+import { fetchUserProjects } from '../reducers/projects_list';
+import { logUserOut } from '../reducers/login';
 import * as fs from 'fs';
 import * as FEActions from '../../utilities/vcfrontend';
+import { setCurrentProject } from '../reducers/currentsReducer';
 import axios from 'axios';
 
 export class Sidebar extends Component {
-    constructor(props) {
-      super(props)
-      this.localLogUserOut = this.localLogUserOut.bind(this);
-      this.linkToHomeView = this.linkToHomeView.bind(this);
-      this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
-      this.onClickAddFile = this.onClickAddFile.bind(this);
-      this.onClickAddArchive = this.onClickAddArchive.bind(this);
-    }
+  constructor(props) {
+    super(props)
+    this.localLogUserOut = this.localLogUserOut.bind(this);
+    this.linkToHomeView = this.linkToHomeView.bind(this);
+    this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
+    this.onClickAddFile = this.onClickAddFile.bind(this);
+    this.onClickAddArchive = this.onClickAddArchive.bind(this);
+  }
 
   onClickAddArchive(event) {
     console.log('adding archive to local machine');
@@ -31,7 +32,7 @@ export class Sidebar extends Component {
 
         // create the directory if it doesn't already exist
         const dirPath = `./${projectData.name}`;
-        try{
+        try {
           fs.statSync(dirPath).isDirectory()
         } catch (err) {
           fs.mkdirSync(dirPath);
@@ -46,7 +47,7 @@ export class Sidebar extends Component {
         // then create the .archive directory
         try {
           fs.statSync(`${dirPath}/.archive`).isDirectory()
-        } catch (err){
+        } catch (err) {
           FEActions.initNewProject(dirPath);
         }
 
@@ -67,10 +68,13 @@ export class Sidebar extends Component {
     // Hardcode this to the current filePath since we're only doing one file
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
+    const dirPath = `./${project.name}`;
     const fileData = project ? project.commits[0].blob.files[0] : undefined;
+    console.log('project data', this.props.currents.currentProject);
+    console.log('file data', fileData);
     const filePath = project && fileData
       ? `./${project.name}/${fileData.file_name}.txt` : undefined;
-    if(filePath){
+    if (filePath) {
       // Check to make sure the file exists first
       try {
         fs.statSync(filePath).isFile();
@@ -79,8 +83,40 @@ export class Sidebar extends Component {
         return false;
       }
 
-      const fileContents = fs.readFileSync(filePath, 'utf-8');
-      console.log(fileContents);
+      const commitFileContents = fileData.file_contents;
+      const localFileContents = fs.readFileSync(filePath, 'utf-8');
+
+      // Check to make sure there are changes to be sent to server
+      if (commitFileContents === localFileContents) {
+        console.log('no changes made!');
+        return false;
+      }
+
+      const project = this.props.currents && this.props.currents.currentProject
+        ? this.props.currents.currentProject : undefined;
+
+      const newCommit = {
+        previousCommit: fs.readFileSync(`./${dirPath}/.archive/refs/${fileData.file_name}`, 'utf-8'),
+        // hard coded message
+        date: new Date(),
+        message: 'merging file updates to server',
+        committer: `${this.props.loginUser.first_name} ${this.props.loginUser.last_name}`,
+        projectId: project.id,
+        file_name: fileData.file_name,
+        file_contents: localFileContents
+      }
+      // Need to create the new objs for commit and new file
+      newCommit.hash = FEActions.getSha1Hash(`${newCommit.file_name}${newCommit.file_contents}${newCommit.message}`);
+      newCommit.fileHash = FEActions.getSha1Hash(`${newCommit.file_name}${newCommit.file_contents}`);
+      FEActions.commitFileChanges(filePath, newCommit.message, undefined,
+        newCommit.date, newCommit.fileHash, newCommit.file_contents);
+
+      project && axios.post(`http://localhost:3000/api/vcontrol/${project.id}`, newCommit)
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
+
+      // Need to trigger the project_list to re-render the latest commit
+      this.props.fetchProjects(this.props.loginUser.id);
     }
   }
 
@@ -88,66 +124,80 @@ export class Sidebar extends Component {
     if (this.props.loginUser.id && !Object.keys(this.props.projects).length) {
       this.props.onLoadProjects(this.props.loginUser.id);
     }
+    // Re-set the current project to the updated one (THIS IS NOT THE BEST WAY)
+    console.log(this.props.currents.currentProject);
+    const numCurrentCommits = this.props.currents && this.props.currents.currentProject ? this.props.currents.currentProject.commits.length : 0;
+    const numProjectCommits = this.props.currents && this.props.currents.currentProject
+      && this.props.projects ? this.props.projects.projects
+        .filter(project => project.id === this.props.currents.currentProject.id)[0].commits.length : 0;
+
+    this.props.currents && numCurrentCommits != numProjectCommits &&
+      axios.get(`http://localhost:3000/api/vcontrol/${this.props.currents.currentProject.id}`)
+        .then(project => {
+          const oldProject = project.data[0];
+          const newProject = Object.assign({}, oldProject, {commits: oldProject.commits.reverse()})
+          this.props.setCurrentProject(newProject);
+        });
   }
 
-  linkToHomeView(){
+  linkToHomeView() {
     hashHistory.push('/mainHome');
   }
 
-  localLogUserOut(){
+  localLogUserOut() {
     this.props.logMeOut();
   }
 
   render() {
     return (
-        <div className={styles.container} >
-            <div className="row">
-              <div className="col s12">
+      <div className={styles.container} >
+        <div className="row">
+          <div className="col s12">
 
-                <Link>
-                  <span onClick={() => hashHistory.push('/info')}>
-                    <i className="small material-icons icon-light pull-right">info</i>
-                  </span>
-                </Link>
+            <Link>
+              <span onClick={() => hashHistory.push('/info')}>
+                <i className="small material-icons icon-light pull-right">info</i>
+              </span>
+            </Link>
 
-                <div className="DUMMY-BTN-TO-DELETE">
-                  <button className="btn-floating btn-large waves-effect waves-light pink accent-1 left"
-                    onClick={this.onClickAddArchive}>
-                    <i className="material-icons">queue</i>
-                  </button>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <button className="btn-floating btn-large waves-effect waves-light light-green accent-3 left"
-                    onClick={this.onClickArchiveUpdate}>
-                    <i className="material-icons">play_for_work</i>
-                  </button>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <button className="btn-floating btn-large waves-effect waves-light light-blue accent-2 left"
-                    onClick={this.onClickAddFile}>
-                    <i className="material-icons">trending_up</i>
-                  </button>
-                </div>
-
-                <br/>
-                <br/>
-                <Link onClick={this.linkToHomeView}>
-                  <div className="welcome-name light-text">Welcome, {this.props.loginUser.first_name}</div>
-                  <i className="material-icons large icon-light">person_pin</i>
-                </Link>
-              </div>
-              <div>
-                <Link to={'/'}>
-                  <h6 onClick={this.localLogUserOut} className="light-text">Logout</h6>
-                </Link>
-              </div>
-              <div>
-                <Project_List/>
-              </div>
+            <div className="DUMMY-BTN-TO-DELETE">
+              <button className="btn-floating btn-large waves-effect waves-light pink accent-1 left"
+                onClick={this.onClickAddArchive}>
+                <i className="material-icons">queue</i>
+              </button>
+              <br />
+              <br />
+              <br />
+              <button className="btn-floating btn-large waves-effect waves-light light-green accent-3 left"
+                onClick={this.onClickArchiveUpdate}>
+                <i className="material-icons">play_for_work</i>
+              </button>
+              <br />
+              <br />
+              <br />
+              <button className="btn-floating btn-large waves-effect waves-light light-blue accent-2 left"
+                onClick={this.onClickAddFile}>
+                <i className="material-icons">trending_up</i>
+              </button>
             </div>
+
+            <br />
+            <br />
+            <Link onClick={this.linkToHomeView}>
+              <div className="welcome-name light-text">Welcome, {this.props.loginUser.first_name}</div>
+              <i className="material-icons large icon-light">person_pin</i>
+            </Link>
+          </div>
+          <div>
+            <Link to={'/'}>
+              <h6 onClick={this.localLogUserOut} className="light-text">Logout</h6>
+            </Link>
+          </div>
+          <div>
+            <Project_List />
+          </div>
         </div>
+      </div>
     );
   }
 }
@@ -165,7 +215,13 @@ function mapDispatchToProps(dispatch) {
     onLoadProjects: function (user) {
       dispatch(fetchUserProjects(user));
     },
-    logMeOut: function(){
+    fetchProjects: (userId) => {
+      dispatch(fetchUserProjects(userId))
+    },
+    setCurrentProject: (project) => {
+      dispatch(setCurrentProject(project));
+    },
+    logMeOut: function () {
       dispatch(logUserOut());
     }
   }
@@ -175,3 +231,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Sidebar);
+
