@@ -7,12 +7,13 @@ import PendingInvitations from './PendingInvitations';
 import { checkPendingInv, updateInvStatus } from '../reducers/invitations';
 
 export class MainHome extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
   componentWillMount() {
-    if (this.props.login && !Object.keys(this.props.invite).length) {
+    if (this.props.login && !Object.keys(this.props.invite).length
+      && Object.keys(this.props.login).length) {
       this.props.checker(this.props.login);
     };
   }
@@ -44,17 +45,17 @@ export class MainHome extends Component {
 
         {
           invites.length === 0 ?
-          (
-          <div className="row">
-            <br />
-            <h4 className="h4-invite">
-              <i>NO PENDING INVITATIONS</i>
-            </h4>
-          </div>
-          ) :
-          (
-          <PendingInvitations />
-          )
+            (
+              <div className="row">
+                <br />
+                <h4 className="h4-invite">
+                  <i>NO PENDING INVITATIONS</i>
+                </h4>
+              </div>
+            ) :
+            (
+              <PendingInvitations />
+            )
         }
 
       </div>
@@ -83,6 +84,6 @@ function mapDispatchToProps(dispatch) {
 
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MainHome);

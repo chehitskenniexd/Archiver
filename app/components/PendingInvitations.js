@@ -9,7 +9,9 @@ export class PendingInvitations extends Component {
   }
 
   componentWillMount() {
-    if (this.props.login && !Object.keys(this.props.invite).length) {
+    if (this.props.login && !Object.keys(this.props.invite).length
+      && Object.keys(this.props.login).length) {
+      console.log('should not be in here yet', this.props.login);
       this.props.checker(this.props.login);
     };
   }
@@ -20,7 +22,7 @@ export class PendingInvitations extends Component {
 
     // FASTER LOADING? >> NO
     const projectInfo = [];
-    if (invites) {
+    if (invites[0]) {
       invites && invites.map(item => {
         item[0].users.filter((user => {
           if (user.userProject.role === 'author') {
@@ -50,57 +52,57 @@ export class PendingInvitations extends Component {
         </div>
 
         <div className="row">
-        <div className="col s1"></div>
+          <div className="col s1"></div>
 
-        <div className="col s10">
-        <table className="bordered centered">
-          <thead>
-            <tr>
-                <th data-field="id">Author</th>
-                <th data-field="name">Project Title</th>
-                <th data-field="price">Status</th>
-            </tr>
-          </thead>
-          {
-            // invites && invites.map((item, i) => {
+          <div className="col s10">
+            <table className="bordered centered">
+              <thead>
+                <tr>
+                  <th data-field="id">Author</th>
+                  <th data-field="name">Project Title</th>
+                  <th data-field="price">Status</th>
+                </tr>
+              </thead>
+              {
+                // invites && invites.map((item, i) => {
 
-            //   let invite = item[0];
-            //   let project;
+                //   let invite = item[0];
+                //   let project;
 
-            //   item[0].users.filter((user => {
-            //     if (user.userProject.role === 'author') {
-            //       project = {
-            //         projectId: item[0].id,
-            //         projectName: item[0].name,
-            //         authorId: user.id,
-            //         author: `${user.first_name} ${user.last_name}`
-            //       }
-            //     }
-            //   }))
+                //   item[0].users.filter((user => {
+                //     if (user.userProject.role === 'author') {
+                //       project = {
+                //         projectId: item[0].id,
+                //         projectName: item[0].name,
+                //         authorId: user.id,
+                //         author: `${user.first_name} ${user.last_name}`
+                //       }
+                //     }
+                //   }))
 
-            projectInfo.map((project, i) => {
+                projectInfo.map((project, i) => {
 
-              return(
-                <tbody key={i}>
-                  <tr>
-                    <td>{project.author}</td>
-                    <td>{project.projectName}</td>
-                    <td>
-                      <Link>
-                        <span className="waves-effect waves-light cyan-text" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
-                          <i className="material-icons small">open_in_new</i>
-                        </span>
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
-              );
-            })
-          }
-        </table>
-        </div>
+                  return (
+                    <tbody key={i}>
+                      <tr>
+                        <td>{project.author}</td>
+                        <td>{project.projectName}</td>
+                        <td>
+                          <Link>
+                            <span className="waves-effect waves-light cyan-text" type="submit" name="action" onClick={() => this.props.updateStatus(project, user)}>
+                              <i className="material-icons small">open_in_new</i>
+                            </span>
+                          </Link>
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })
+              }
+            </table>
+          </div>
 
-        <div className="col s1"></div>
+          <div className="col s1"></div>
         </div>
 
       </div>
@@ -129,6 +131,6 @@ function mapDispatchToProps(dispatch) {
 
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PendingInvitations);

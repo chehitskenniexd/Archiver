@@ -5,11 +5,17 @@ const initialState = {};
 
 /*----------  ACTION TYPES  ----------*/
 const LOAD_PROJECTS = 'LOAD_PROJECTS';
+const CLEAR_PROJECTS = 'CLEAR_PROJECTS';
 
 /*----------  ACTION CREATORS  ----------*/
 export const loadProjects = (projectsArray) => ({
   type: LOAD_PROJECTS,
   payload: projectsArray
+});
+
+export const clearProjects = () => ({
+  type: CLEAR_PROJECTS,
+  payload: {}
 });
 
 
@@ -35,6 +41,8 @@ export default (state = initialState, action) => {
       )
       return Object.assign({}, action.payload, { projects: newProjects })
     }
+    case CLEAR_PROJECTS:
+      return action.payload;
     default: return state;
   }
 };

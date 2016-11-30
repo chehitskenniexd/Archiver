@@ -21,7 +21,8 @@ export class Project_List extends Component {
   }
 
   componentWillMount() {
-    if (this.props.user && !Object.keys(this.props.projects).length) {
+    if (this.props.user && !Object.keys(this.props.projects).length
+      && Object.keys(this.props.user).length > 0) {
       this.props.fetchProjects(this.props.user.id);
     };
   }
