@@ -158,6 +158,9 @@ export class PageRender extends Component {
   }
 
   componentWillReceiveProps() {
+    if (!this.props.currents.currentCommit) {
+      return;
+    }
     const projCommitId = this.props.currents.currentProject.commits[0].id;
     const currentCommitId = this.props.currents.currentCommit.id;
     if (this.state.updated && projCommitId != currentCommitId) {
