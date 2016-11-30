@@ -50,7 +50,7 @@ export class Home extends Component {
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text">account_circle</i>
                 <input placeholder="Username" id="email" type="text" className="validate remove-bottom-padding" />
-                {this.props.login.incorrectUser ? <h6 className="red-error">We could not find an account with that username</h6> : ""}
+                {this.props.login.incorrectUser ? <h6 className="red-error">We could not find an account with that username</h6> : <h6></h6>}
               </div>
             </div>
             <div className="row email-margin-bottom-zero">
@@ -59,7 +59,7 @@ export class Home extends Component {
               <div className="input-field col s6">
                 <i className="material-icons prefix cyan-text">vpn_key</i>
                 <input placeholder="Password" id="password" type="password" className="validate" />
-                 {this.props.login.incorrectPassword ? <h6 className="red-error">Incorrect password</h6> : ""}
+                 {this.props.login.incorrectPassword ? <h6 className="red-error">Incorrect password</h6> : <h6></h6>}
               </div>
 
             </div>
