@@ -40,7 +40,7 @@ export class PageRender extends Component {
               <br />
               <br />
               <br />
-              <div id="textContainer" style={{ 'minHeight':``, 'maxHeight': `100%`, border: '1px' }}>
+              <div id="textContainer" style={{ 'minHeight':`600`, 'maxHeight': `100%`, border: '1px' }}>
                 <div id="textRender" style={{ border: `5px` }}>{renderText}
                 </div>
               </div>
