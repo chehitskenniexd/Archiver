@@ -34,7 +34,7 @@ export class Signup extends Component {
           last_name: event.target.last_name.value,
       }
         this.props.registerUser(userCred);
-        hashHistory.push('/main');
+        hashHistory.push('/mainRender');
       }
   }
 
