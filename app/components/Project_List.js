@@ -91,7 +91,6 @@ export class Project_List extends Component {
                   const titleBar = (
                       <div className="project-title" onClick={this.onClickProject}>
                         <span>{instance.name}</span>
-
                 <Link>
                   <span className="icon-height" style={{ float: 'right' }} onClick={(evt) => {
                     this.props.fetchCollabs(instance);
