@@ -159,7 +159,7 @@ export class PageRender extends Component {
   }
 
   componentWillReceiveProps() {
-    if (!this.props.currents.currentCommit) {
+    if (!this.props.currents.currentCommit || !this.props.currents.currentProject) {
       return;
     }
     const projCommitId = this.props.currents.currentProject.commits[0].id;
@@ -177,15 +177,15 @@ export class PageRender extends Component {
     const col6container = `col 6 ${styles.textContain}`;
     const renderText = this.props.currents && this.props.currents.currentCommit
       ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
-      console.log(this.props.currents)
+    console.log(this.props.currents)
     return (
       <div className={styles.container} >
         <div className="row">
           <div className="col 3"></div>
 
           <div className="main-buttons-container" style={{ position: 'absolute', float: 'right' }}>
-          {//<UpdateProjectPopup />
-          }
+            {//<UpdateProjectPopup />
+            }
             <a className="btn-floating btn-med waves-effect waves-light red"
               onClick={this.onClickAddArchive} id="add-archive-btn">
               <i className="material-icons">get_app</i>
@@ -199,8 +199,8 @@ export class PageRender extends Component {
               <i className="material-icons">call_made</i>
             </a>
             {//<a className="btn-floating btn-med waves-effect waves-light yellow">
-             // <i className="material-icons">open_in_new</i>
-            //</a>
+              // <i className="material-icons">open_in_new</i>
+              //</a>
             }
           </div>
           {this.props.currents && this.props.currents.currentCommit
@@ -208,13 +208,13 @@ export class PageRender extends Component {
               <br />
               <br />
               <br />
-               <div className="on-commit-border">
-                  <h5>{this.props.currents.currentProject.name}</h5>
-                  <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>
-                  <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(this.props.currents.currentCommit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${this.props.currents.currentCommit.committer}`}</span></div>
+              <div className="on-commit-border">
+                <h5>{this.props.currents.currentProject && this.props.currents.currentProject.name}</h5>
+                <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>
+                <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(this.props.currents.currentCommit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${this.props.currents.currentCommit.committer}`}</span></div>
               </div>
               <br />
-              <div id="textContainer" style={{ 'minHeight':`600`, 'maxHeight': `100%`, border: '1px' }}>
+              <div id="textContainer" style={{ 'minHeight': `600`, 'maxHeight': `100%`, border: '1px' }}>
                 <div id="textRender" style={{ border: `5px` }}>{renderText}
                 </div>
               </div>
