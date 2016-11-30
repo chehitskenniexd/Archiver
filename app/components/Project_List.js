@@ -21,7 +21,8 @@ export class Project_List extends Component {
   }
 
   componentWillMount() {
-    if (this.props.user && !Object.keys(this.props.projects).length) {
+    if (this.props.user && !Object.keys(this.props.projects).length
+      && Object.keys(this.props.user).length > 0) {
       this.props.fetchProjects(this.props.user.id);
     };
   }
@@ -83,13 +84,13 @@ export class Project_List extends Component {
             <h3 className="left-justified-text black-text">
               <i className="small material-icons project-note">note_add</i> Project
             </h3>
-          </Link>
-        </div>
-        <Accordion allowMultiple={false} onChange={this.onClickProject}>
-          {projectLoop && projectLoop.map((instance, index) => {
-            const titleBar = (
-              <div className="project-title" onClick={this.onClickProject}>
-                <span>{instance.name}</span>
+            </Link>
+          </div>
+          <Accordion allowMultiple={false} onChange={this.onClickProject} activeItems={-1}>
+                {projectLoop && projectLoop.map((instance, index) => {
+                  const titleBar = (
+                      <div className="project-title" onClick={this.onClickProject}>
+                        <span>{instance.name}</span>
 
                 <Link>
                   <span className="icon-height" style={{ float: 'right' }} onClick={(evt) => {

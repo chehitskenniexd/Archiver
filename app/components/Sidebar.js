@@ -17,7 +17,7 @@ export class Sidebar extends Component {
     super(props)
     this.localLogUserOut = this.localLogUserOut.bind(this);
     this.linkToHomeView = this.linkToHomeView.bind(this);
-    this.onClickArchiveUpdate = this.onClickArchiveUpdate.bind(this);
+    this.onClickLocalFileUpdate = this.onClickLocalFileUpdate.bind(this);
     this.onClickAddFile = this.onClickAddFile.bind(this);
     this.onClickAddArchive = this.onClickAddArchive.bind(this);
   }
@@ -63,7 +63,33 @@ export class Sidebar extends Component {
       })
   }
 
-  onClickArchiveUpdate(event) {
+  onClickLocalFileUpdate(event) {
+    const project = this.props.currents && this.props.currents.currentProject
+      ? this.props.currents.currentProject : undefined;
+    const dirPath = `./${project.name}`;
+    const fileData = project ? project.commits[0].blob.files[0] : undefined;
+    const filePath = project && fileData
+      ? `./${project.name}/${fileData.file_name}.txt` : undefined;
+    if (filePath) {
+      // Check to make sure the file exists first
+      try {
+        fs.statSync(filePath).isFile();
+      } catch (err) {
+        console.log(`file ${filePath} does not exist!`);
+        return false;
+      }
+
+      const commitFileContents = fileData.file_contents;
+      const localFileContents = fs.readFileSync(filePath, 'utf-8');
+
+      // Check to make sure there are changes to be sent to server
+      if (commitFileContents === localFileContents) {
+        console.log('no updates to be made!');
+        return false;
+      }
+
+      fs.writeFileSync(filePath, commitFileContents, 'utf-8');
+    }
   }
 
   onClickAddFile(event) {
@@ -72,8 +98,6 @@ export class Sidebar extends Component {
       ? this.props.currents.currentProject : undefined;
     const dirPath = `./${project.name}`;
     const fileData = project ? project.commits[0].blob.files[0] : undefined;
-    console.log('project data', this.props.currents.currentProject);
-    console.log('file data', fileData);
     const filePath = project && fileData
       ? `./${project.name}/${fileData.file_name}.txt` : undefined;
     if (filePath) {
@@ -127,7 +151,7 @@ export class Sidebar extends Component {
       this.props.onLoadProjects(this.props.loginUser.id);
     }
     // Re-set the current project to the updated one (THIS IS NOT THE BEST WAY)
-    // console.log(this.props.currents.currentProject);
+    console.log(this.props.currents.currentProject);
     const numCurrentCommits = this.props.currents && this.props.currents.currentProject ? this.props.currents.currentProject.commits.length : 0;
     const numProjectCommits = this.props.currents && this.props.currents.currentProject
       && this.props.projects ? this.props.projects.projects
@@ -137,9 +161,17 @@ export class Sidebar extends Component {
       axios.get(`http://localhost:3000/api/vcontrol/${this.props.currents.currentProject.id}`)
         .then(project => {
           const oldProject = project.data[0];
-          const newProject = Object.assign({}, oldProject, {commits: oldProject.commits.reverse()})
+          const newProject = Object.assign({}, oldProject, { commits: oldProject.commits.reverse() })
           this.props.setCurrentProject(newProject);
         });
+  }
+
+  linkToHomeView() {
+    hashHistory.push('/mainHome');
+  }
+
+  localLogUserOut() {
+    this.props.logMeOut();
   }
 
   linkToHomeView() {
@@ -178,7 +210,7 @@ export class Sidebar extends Component {
               <br />
               <br />
               <button className="btn-floating btn-large waves-effect waves-light light-green accent-3 left"
-                onClick={this.onClickArchiveUpdate}>
+                onClick={this.onClickLocalFileUpdate}>
                 <i className="material-icons">play_for_work</i>
               </button>
               <br />
