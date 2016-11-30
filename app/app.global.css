@@ -327,3 +327,9 @@ i.icon-light {
 .no-display-message {
   display: none;
 }
+
+.on-commit-border {
+  background-color: #f5f5f5;
+  border: solid grey;
+  border-width: 1px;
+}

@@ -11,7 +11,6 @@ export class PendingInvitations extends Component {
   componentWillMount() {
     if (this.props.login && !Object.keys(this.props.invite).length
       && Object.keys(this.props.login).length) {
-      console.log('should not be in here yet', this.props.login);
       this.props.checker(this.props.login);
     };
   }
