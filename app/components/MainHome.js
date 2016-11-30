@@ -44,7 +44,7 @@ export class MainHome extends Component {
         </div>
 
         {
-          invites.length === 0 ?
+          !(invites.length > 0) ?
             (
               <div className="row">
                 <br />

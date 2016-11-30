@@ -72,12 +72,6 @@ export class Add extends Component {
           </form>
         </div>
 
-        <div className="row TO-REMOVE-JUST-TO-TEST">
-          <button className="center btn-large waves-effect cyan left new_project" type="submit" name="action" onClick={() => hashHistory.push('/pageRender')}>
-              PG RENDER
-          </button>
-        </div>
-
       </div>
     );
   }
