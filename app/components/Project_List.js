@@ -66,7 +66,7 @@ export class Project_List extends Component {
             </h3>
             </Link>
           </div>
-          <Accordion allowMultiple={false} onChange={this.onClickProject}>
+          <Accordion allowMultiple={false} onChange={this.onClickProject} activeItems={-1}>
                 {projectLoop && projectLoop.map((instance, index) => {
                   const titleBar = (
                       <div className="project-title" onClick={this.onClickProject}>
