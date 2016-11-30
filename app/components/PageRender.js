@@ -157,13 +157,16 @@ export class PageRender extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log(this.state, this.state.updated);
-    if (this.state.updated) {
-      console.log('should be in here now!');
+  componentWillReceiveProps() {
+    const projCommitId = this.props.currents.currentProject.commits[0].id;
+    const currentCommitId = this.props.currents.currentCommit.id;
+    if (this.state.updated && projCommitId != currentCommitId) {
       this.props.setCurrentCommit(this.props.currents.currentProject.commits[0]);
       this.state.updated = false;
     }
+  }
+
+  componentDidUpdate() {
   }
 
   render() {
