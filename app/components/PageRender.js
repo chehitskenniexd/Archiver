@@ -7,6 +7,7 @@ import axios from 'axios';
 import * as FEActions from '../../utilities/vcfrontend';
 import { fetchUserProjects } from '../reducers/projects_list';
 import UpdateProjectPopup from './UpdateProjectPopup';
+import Moment from 'moment';
 
 // Additional modules for rendering a file
 import * as fs from 'fs';
@@ -170,6 +171,7 @@ export class PageRender extends Component {
     const col6container = `col 6 ${styles.textContain}`;
     const renderText = this.props.currents && this.props.currents.currentCommit
       ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
+      console.log(this.props.currents)
     return (
       <div className={styles.container} >
         <div className="row">
@@ -199,8 +201,12 @@ export class PageRender extends Component {
             ? <div className={col6container}>
               <br />
               <br />
-              <h5>{this.props.currents.currentCommit.message}</h5>
               <br />
+               <div className="on-commit-border">
+                  <h5>{this.props.currents.currentProject.name}</h5>
+                  <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>
+                  <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(this.props.currents.currentCommit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${this.props.currents.currentCommit.committer}`}</span></div>
+              </div>
               <br />
               <div id="textContainer" style={{ 'minHeight':`600`, 'maxHeight': `100%`, border: '1px' }}>
                 <div id="textRender" style={{ border: `5px` }}>{renderText}
