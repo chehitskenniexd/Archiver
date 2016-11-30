@@ -39,7 +39,7 @@ export class Home extends Component {
       <div className={styles.container} >
         <div className="row">
           <div className="col s12">
-            <img className="home_logo" src="../public/media/archiver_logo_words_2.png" height="350px" />
+            <img className="home_logo" src="../public/media/archiver_logo_words_2.png" height="300px" />
           </div>
           <br />
           <br />
