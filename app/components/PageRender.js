@@ -199,18 +199,11 @@ export class PageRender extends Component {
             ? <div className={col6container}>
               <br />
               <br />
-<<<<<<< HEAD
               <h5>{this.props.currents.currentCommit.message}</h5>
-              <div id="textWindow" style={{ height: `550px`, position: `relative` }}>
-                <div id="textContainer" style={{ 'maxHeight': `100%`, overflow: 'auto', border: '1px' }}>
-                  <div id="textRender" style={{ height: `1500px`, border: `5px` }}>{renderText}
-                  </div>
-=======
               <br />
               <br />
               <div id="textContainer" style={{ 'minHeight':`600`, 'maxHeight': `100%`, border: '1px' }}>
                 <div id="textRender" style={{ border: `5px` }}>{renderText}
->>>>>>> master
                 </div>
               </div>
             </div>
