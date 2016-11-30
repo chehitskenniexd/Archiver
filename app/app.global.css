@@ -51,6 +51,11 @@ a:hover {
   font-weight: 400;
 }
 
+.password_message {
+  color: red;
+  font-weight: 500;
+}
+
 .sidebar-panel-wrapper .card-panel {
   padding: 0 !important;
   margin: 0 !important;
@@ -217,7 +222,7 @@ i.icon-light {
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-bottom: 70px;
-} 
+}
 
 .react-sanfona-item-title {
   background-color: #fafafa;
