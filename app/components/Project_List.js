@@ -91,7 +91,6 @@ export class Project_List extends Component {
                   const titleBar = (
                       <div className="project-title" onClick={this.onClickProject}>
                         <span>{instance.name}</span>
-
                 <Link>
                   <span className="icon-height" style={{ float: 'right' }} onClick={(evt) => {
                     this.props.fetchCollabs(instance);
@@ -110,7 +109,7 @@ export class Project_List extends Component {
                   return (
                     <div className="item-commit-border" key={commit.id}
                       onClick={() => { this.onClickCommit(index) } }>
-                      <div className="commit-message commit-color">{commit.message.slice(0, 20)}</div>
+                      <div className="commit-message commit-color">{commit.message.slice(0, 35)}</div>
                       <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(commit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
                     </div>
                   )
