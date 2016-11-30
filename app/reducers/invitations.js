@@ -6,12 +6,18 @@ const initialState = [];
 
 /*----------  ACTION TYPES  ----------*/
 const PENDING_INV = 'PENDING_INV';
+const CLEAR_INVS = 'CLEAR_INVS';
 
 
 /*----------  ACTION CREATORS  ----------*/
 export const pendingInv = (pendingArray) => ({
   type: PENDING_INV,
   payload: pendingArray
+});
+
+export const clearInvs = () => ({
+  type: CLEAR_INVS,
+  payload: {}
 });
 
 
@@ -50,6 +56,8 @@ export const updateInvStatus = (project, user) => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case PENDING_INV:
+      return action.payload;
+    case CLEAR_INVS:
       return action.payload;
     default: return state;
   }

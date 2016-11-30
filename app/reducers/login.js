@@ -60,7 +60,9 @@ export const createUser = (userCred) => {
               if (res.data.message){
                 dispatch(userAlreadyExists(res.data.foundUser))
               } else {
-                dispatch(newUser(res.data))
+                // Must extract out our user so login for new user and login for existing user returns the same user state
+                let user = res.data.foundUser;
+                dispatch(newUser(user))
               }
             })
             .catch(err => console.error('Error creating user: ', err))

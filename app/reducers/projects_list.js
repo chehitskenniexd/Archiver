@@ -15,7 +15,7 @@ export const loadProjects = (projectsArray) => ({
 
 export const clearProjects = () => ({
   type: CLEAR_PROJECTS,
-  payload: null
+  payload: {}
 });
 
 

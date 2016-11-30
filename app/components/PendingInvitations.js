@@ -20,7 +20,7 @@ export class PendingInvitations extends Component {
 
     // FASTER LOADING? >> NO
     const projectInfo = [];
-    if (invites) {
+    if (invites[0]) {
       invites && invites.map(item => {
         item[0].users.filter((user => {
           if (user.userProject.role === 'author') {

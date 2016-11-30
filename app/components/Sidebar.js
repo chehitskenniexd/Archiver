@@ -8,6 +8,8 @@ import { logUserOut } from '../reducers/login';
 import * as fs from 'fs';
 import * as FEActions from '../../utilities/vcfrontend';
 import { setCurrentProject } from '../reducers/currentsReducer';
+import { clearProjects } from '../reducers/projects_list';
+import { clearInvs } from '../reducers/invitations';
 import axios from 'axios';
 
 export class Sidebar extends Component {
@@ -125,7 +127,7 @@ export class Sidebar extends Component {
       this.props.onLoadProjects(this.props.loginUser.id);
     }
     // Re-set the current project to the updated one (THIS IS NOT THE BEST WAY)
-    console.log(this.props.currents.currentProject);
+    // console.log(this.props.currents.currentProject);
     const numCurrentCommits = this.props.currents && this.props.currents.currentProject ? this.props.currents.currentProject.commits.length : 0;
     const numProjectCommits = this.props.currents && this.props.currents.currentProject
       && this.props.projects ? this.props.projects.projects
@@ -145,6 +147,13 @@ export class Sidebar extends Component {
   }
 
   localLogUserOut() {
+    // clear projects state and my invitations state after logout for next user login
+    if (this.props.projects.id) {
+      this.props.nullProjects();
+      this.props.nullInvs();
+    }
+
+    // then log user out
     this.props.logMeOut();
   }
 
@@ -223,6 +232,12 @@ function mapDispatchToProps(dispatch) {
     },
     logMeOut: function () {
       dispatch(logUserOut());
+    },
+    nullProjects: () => {
+      dispatch(clearProjects());
+    },
+    nullInvs: () => {
+      dispatch(clearInvs());
     }
   }
 }

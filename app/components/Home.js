@@ -29,7 +29,6 @@ export class Home extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props.login);
     if(this.props.login.email){
       hashHistory.push('/mainHome');
     }
