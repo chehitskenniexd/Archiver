@@ -58,6 +58,7 @@ export const createUser = (userCred) => {
         axios.post('http://localhost:3000/api/register', userCred)
             .then(res => {
               if (res.data.message){
+                console.log("SHOULD HAVE HIT THIS DISPATCH")
                 dispatch(userAlreadyExists(res.data.foundUser))
               } else {
                 // Must extract out our user so login for new user and login for existing user returns the same user state
@@ -92,7 +93,10 @@ export const authenticateUser = (userCred) => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case USER_ALREADY_EXISTS:
-      return Object.assign({}, state, {userExists: action.userExists, user: action.payload});
+      return Object.assign({}, state, {
+        userExists: action.userExists,
+        user: action.payload
+      });
     case REGISTER_USER:
       return action.payload;
     case INCORRECT_USER:

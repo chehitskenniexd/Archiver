@@ -24,8 +24,11 @@ export class Signup extends Component {
 
   onUserSubmit(event) {
     event.preventDefault();
+
     var password = $("#new_password").val();
     var confirmPassword = $("#confirm_password").val();
+    let checkEmail = $("#email").val();
+    console.log("checkEmail", checkEmail)
     if (password === confirmPassword) {
       const userCred = {
           email: event.target.email.value,
@@ -35,15 +38,16 @@ export class Signup extends Component {
       };
 
       this.props.registerUser(userCred);
-      // hashHistory.push('/mainHome');
-    }
-  }
-
-  componentDidUpdate() {
-    if(this.props.login.email){
       hashHistory.push('/mainHome');
     }
+    console.log("THIS ON SUB", this.props)
   }
+
+  // componentDidUpdate() {
+  //   if(this.props.login.email){
+  //     hashHistory.push('/mainHome');
+  //   }
+  // }
 
   render() {
     return (
@@ -129,17 +133,19 @@ export class Signup extends Component {
 function mapStateToProps(state){
   return {
     login: state.login
-  }
+  };
 }
 
 
 function mapDispatchToProps(dispatch) {
-    return {
-        registerUser: (userCred) => {
-            dispatch(createUser(userCred))
-        }
-
+  return {
+    registerUser: (userCred) => {
+        dispatch(createUser(userCred))
     }
+    // userExists: (userEmail) => {
+
+    // }
+  };
 }
 
 export default connect(
