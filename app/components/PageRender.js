@@ -184,6 +184,8 @@ export class PageRender extends Component {
           <div className="col 3"></div>
 
           <div className="main-buttons-container" style={{ position: 'absolute', float: 'right' }}>
+          {//<UpdateProjectPopup />
+          }
             <a className="btn-floating btn-med waves-effect waves-light red"
               onClick={this.onClickAddArchive} id="add-archive-btn">
               <i className="material-icons">get_app</i>
@@ -196,12 +198,10 @@ export class PageRender extends Component {
               onClick={this.onClickAddFile} id="add-file-btn">
               <i className="material-icons">call_made</i>
             </a>
-            <a className="btn-floating btn-med waves-effect waves-light yellow">
-              <i className="material-icons">open_in_new</i>
-            </a>
-            <a className="btn-floating btn-med waves-effect waves-light yellow">
-              <UpdateProjectPopup />
-            </a>
+            {//<a className="btn-floating btn-med waves-effect waves-light yellow">
+             // <i className="material-icons">open_in_new</i>
+            //</a>
+            }
           </div>
           {this.props.currents && this.props.currents.currentCommit
             ? <div className={col6container}>
