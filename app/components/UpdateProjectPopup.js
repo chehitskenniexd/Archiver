@@ -9,6 +9,7 @@ import * as fs from 'fs';
 import * as FEActions from '../../utilities/vcfrontend';
 import axios from 'axios';
 import { fetchUserProjects } from '../reducers/projects_list';
+import ActionAndroid from 'material-ui/svg-icons/action/android';
 
 export class UpdateProjectPopup extends React.Component {
   constructor(props) {
@@ -145,7 +146,7 @@ export class UpdateProjectPopup extends React.Component {
     ];
     return (
       <div>
-        <FlatButton label="Update" onTouchTap={this.handleOpen} backgound-color="#039be5"/>
+        <RaisedButton label="Update" primary={true} labelPosition="before" icon={<ActionAndroid />} onTouchTap={this.handleOpen}/>
         <Dialog
           title={'You are updating project ' + (this.props.user ? this.props.user.projects[0].name : '')}
           actions={actions}

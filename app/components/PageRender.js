@@ -155,12 +155,13 @@ export class PageRender extends Component {
               <i className="material-icons right icon-margin">restore_page</i>
               Restore
             </a>
-            <a className="waves-effect waves-light btn single-button light-blue darken-1">
-              <UpdateProjectPopup />
+            <a className="waves-effect waves-light btn special-single-button cyan accent-3">
+              <UpdateProjectPopup/>
             </a>
-            <a className="btn-floating btn-med waves-effect waves-light yellow"
+            <a className="waves-effect waves-light btn single-button yellow darken-2"
               onClick={this.onClickOpenFile}>
-              <i className="material-icons">open_in_new</i>
+              <i className="material-icons right">open_in_new</i>
+              Open
             </a>
           </div>
           {this.props.currents && this.props.currents.currentCommit
