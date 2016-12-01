@@ -333,3 +333,18 @@ i.icon-light {
   border: solid grey;
   border-width: 1px;
 }
+
+.main-buttons-container{
+  margin: auto;
+  padding-top: 40px;
+}
+
+.single-button{
+  padding-left: 10px;
+  padding-right: 6px;
+  margin: 0 5px 0 5px;
+}
+
+.icon-margin{
+  margin-left: 10px !important;
+}
