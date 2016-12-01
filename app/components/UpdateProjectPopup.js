@@ -145,7 +145,7 @@ export class UpdateProjectPopup extends React.Component {
     ];
     return (
       <div>
-        <RaisedButton label="Update" onTouchTap={this.handleOpen} />
+        <FlatButton label="Update" onTouchTap={this.handleOpen} backgound-color="#039be5"/>
         <Dialog
           title={'You are updating project ' + (this.props.user ? this.props.user.projects[0].name : '')}
           actions={actions}
