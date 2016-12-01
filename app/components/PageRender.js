@@ -21,6 +21,7 @@ export class PageRender extends Component {
     this.onClickLocalFileUpdate = this.onClickLocalFileUpdate.bind(this);
     this.onClickAddFile = this.onClickAddFile.bind(this);
     this.onClickAddArchive = this.onClickAddArchive.bind(this);
+    this.onClickOpenFile = this.onClickOpenFile.bind(this);
   }
 
   onClickAddArchive(event) {
@@ -151,6 +152,24 @@ export class PageRender extends Component {
     }
   }
 
+  onClickOpenFile() {
+    const project = this.props.currents && this.props.currents.currentProject
+      ? this.props.currents.currentProject : undefined;
+    const dirPath = `./${project.name}`;
+    const fileData = project ? project.commits[0].blob.files[0] : undefined;
+    const filePath = project && fileData
+      ? `./${project.name}/${fileData.file_name}.txt` : undefined;
+    
+    // check to see if the file exists.
+    try {
+      fs.statSync(filePath).isFile()
+    } catch (err) {
+      console.log('file does not exist!');
+      return;
+    }
+    require('child_process').exec(`open -e "${filePath}"`);
+  }
+
   componentWillMount() {
     if (!this.props.currents.currentCommit) {
       this.props.currents && this.props.currents.setCurrentProject
@@ -198,10 +217,10 @@ export class PageRender extends Component {
               onClick={this.onClickAddFile} id="add-file-btn">
               <i className="material-icons">call_made</i>
             </a>
-            {//<a className="btn-floating btn-med waves-effect waves-light yellow">
-              // <i className="material-icons">open_in_new</i>
-              //</a>
-            }
+            <a className="btn-floating btn-med waves-effect waves-light yellow"
+              onClick={this.onClickOpenFile}>
+              <i className="material-icons">open_in_new</i>
+            </a>
           </div>
           {this.props.currents && this.props.currents.currentCommit
             ? <div className={col6container}>
