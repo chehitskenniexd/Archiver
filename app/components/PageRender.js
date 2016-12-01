@@ -19,7 +19,6 @@ export class PageRender extends Component {
       updated: false
     }
     this.onClickLocalFileUpdate = this.onClickLocalFileUpdate.bind(this);
-    this.onClickAddFile = this.onClickAddFile.bind(this);
     this.onClickAddArchive = this.onClickAddArchive.bind(this);
     this.onClickOpenFile = this.onClickOpenFile.bind(this);
   }
@@ -95,63 +94,6 @@ export class PageRender extends Component {
     }
   }
 
-  onClickAddFile(event) {
-    // Hardcode this to the current filePath since we're only doing one file
-    const project = this.props.currents && this.props.currents.currentProject
-      ? this.props.currents.currentProject : undefined;
-    const dirPath = `./${project.name}`;
-    const fileData = project ? project.commits[0].blob.files[0] : undefined;
-    const filePath = project && fileData
-      ? `./${project.name}/${fileData.file_name}.txt` : undefined;
-    if (filePath) {
-      // Check to make sure the file exists first
-      try {
-        fs.statSync(filePath).isFile();
-      } catch (err) {
-        console.log(`file ${filePath} does not exist!`);
-        return false;
-      }
-
-      const commitFileContents = fileData.file_contents;
-      const localFileContents = fs.readFileSync(filePath, 'utf-8');
-
-      // Check to make sure there are changes to be sent to server
-      if (commitFileContents === localFileContents) {
-        console.log('no changes made!');
-        return false;
-      }
-
-      const project = this.props.currents && this.props.currents.currentProject
-        ? this.props.currents.currentProject : undefined;
-
-      console.log(this.props.user);
-      const newCommit = {
-        previousCommit: fs.readFileSync(`./${dirPath}/.archive/refs/${fileData.file_name}`, 'utf-8'),
-        // hard coded message
-        date: new Date(),
-        message: 'merging file updates to server',
-        committer: `${this.props.user.first_name} ${this.props.user.last_name}`,
-        projectId: project.id,
-        file_name: fileData.file_name,
-        file_contents: localFileContents
-      }
-      // Need to create the new objs for commit and new file
-      newCommit.hash = FEActions.getSha1Hash(`${newCommit.file_name}${newCommit.file_contents}${newCommit.message}`);
-      newCommit.fileHash = FEActions.getSha1Hash(`${newCommit.file_name}${newCommit.file_contents}`);
-      FEActions.commitFileChanges(filePath, newCommit.message, undefined,
-        newCommit.date, newCommit.fileHash, newCommit.file_contents);
-
-      project && axios.post(`http://localhost:3000/api/vcontrol/${project.id}`, newCommit)
-        .then(res => console.log(res))
-        .catch(err => console.error(err));
-
-      // Need to trigger the project_list to re-render the latest commit
-      this.props.fetchProjects(this.props.user.id);
-      this.state.updated = true;
-      console.log(this.state);
-    }
-  }
-
   onClickOpenFile() {
     const project = this.props.currents && this.props.currents.currentProject
       ? this.props.currents.currentProject : undefined;
@@ -213,9 +155,8 @@ export class PageRender extends Component {
               <i className="material-icons right icon-margin">restore_page</i>
               Restore
             </a>
-            <a className="waves-effect waves-light btn single-button light-blue darken-1" onClick={this.onClickAddFile} id="add-file-btn">
-              <i className="material-icons right icon-margin">call_made</i>
-              Update
+            <a className="waves-effect waves-light btn single-button light-blue darken-1">
+              <UpdateProjectPopup />
             </a>
             <a className="btn-floating btn-med waves-effect waves-light yellow"
               onClick={this.onClickOpenFile}>
@@ -258,7 +199,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchProjects: (userId) => {
-      dispatch(fetchUserProjects(userId))
+      dispatch(fetchUserProjects(userId));
     },
     setCurrentCommit: (commit) => {
       dispatch(setCurrentCommit(commit));
