@@ -4,6 +4,7 @@ import electronPath from 'electron';
 import path from 'path';
 import homeStyles from '../app/components/Home.css';
 import counterStyles from '../app/components/Counter.css';
+import db from '../../db';
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
