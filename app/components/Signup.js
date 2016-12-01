@@ -16,7 +16,9 @@ export class Signup extends Component {
   checkPasswordMatch() {
     var password = $("#new_password").val();
     var confirmPassword = $("#confirm_password").val();
-    if (confirmPassword !== "" &&password !== confirmPassword)
+
+    // check if passwords match but do NOT throw an error when confirmPassword is empty
+    if (confirmPassword !== "" && password !== confirmPassword)
         $("#password_message").html("Passwords do not match");
     else
         $("#password_message").html("");
@@ -27,8 +29,7 @@ export class Signup extends Component {
 
     var password = $("#new_password").val();
     var confirmPassword = $("#confirm_password").val();
-    let checkEmail = $("#email").val();
-    console.log("checkEmail", checkEmail)
+
     if (password === confirmPassword) {
       const userCred = {
           email: event.target.email.value,
@@ -38,16 +39,19 @@ export class Signup extends Component {
       };
 
       this.props.registerUser(userCred);
-      hashHistory.push('/mainHome');
     }
-    console.log("THIS ON SUB", this.props)
+
+
   }
 
-  // componentDidUpdate() {
-  //   if(this.props.login.email){
-  //     hashHistory.push('/mainHome');
-  //   }
-  // }
+  componentDidUpdate() {
+    if (this.props.login.userExists) {
+      let userEmail = this.props.login.user;
+      $("#user_message").html(`User already exists!`);
+    } else if (this.props.login.id) {
+      hashHistory.push('/mainHome');
+    }
+  }
 
   render() {
     return (
@@ -85,9 +89,14 @@ export class Signup extends Component {
                 <div className="col s1"></div>
                 <div className="input-field col s10">
                   <input placeholder="Email" id="email" type="email" className="validate" />
+                  <em>
+                    <h6 id="user_message"></h6>
+                  </em>
                 </div>
                 <div>
-                  {this.props.login.userExists ? <h6>That user already exists</h6> : ""}
+                  {
+                    // this.props.login.userExists ? <h6>That user already exists</h6> : ""
+                  }
                 </div>
                 <div className="col s1"></div>
               </div>
@@ -142,9 +151,6 @@ function mapDispatchToProps(dispatch) {
     registerUser: (userCred) => {
         dispatch(createUser(userCred))
     }
-    // userExists: (userEmail) => {
-
-    // }
   };
 }
 
