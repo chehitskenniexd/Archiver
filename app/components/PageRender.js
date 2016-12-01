@@ -202,20 +202,20 @@ export class PageRender extends Component {
         <div className="row">
           <div className="col 3"></div>
 
-          <div className="main-buttons-container" style={{ position: 'absolute', float: 'right' }}>
+          <div className="main-buttons-container">
             {//<UpdateProjectPopup />
             }
-            <a className="btn-floating btn-med waves-effect waves-light red"
-              onClick={this.onClickAddArchive} id="add-archive-btn">
-              <i className="material-icons">get_app</i>
+            <a className="waves-effect waves-light btn single-button red" onClick={this.onClickAddArchive} id="add-archive-btn">
+              <i className="material-icons right icon-margin">get_app</i>
+              Download
             </a>
-            <a className="btn-floating btn-med waves-effect waves-light blue"
-              onClick={this.onClickLocalFileUpdate} id="update-local-btn">
-              <i className="material-icons">restore_page</i>
+            <a className="waves-effect waves-light btn single-button green" onClick={this.onClickLocalFileUpdate} id="update-local-btn">
+              <i className="material-icons right icon-margin">restore_page</i>
+              Restore
             </a>
-            <a className="btn-floating btn-med waves-effect waves-light green"
-              onClick={this.onClickAddFile} id="add-file-btn">
-              <i className="material-icons">call_made</i>
+            <a className="waves-effect waves-light btn single-button light-blue darken-1" onClick={this.onClickAddFile} id="add-file-btn">
+              <i className="material-icons right icon-margin">call_made</i>
+              Update
             </a>
             <a className="btn-floating btn-med waves-effect waves-light yellow"
               onClick={this.onClickOpenFile}>
@@ -224,9 +224,7 @@ export class PageRender extends Component {
           </div>
           {this.props.currents && this.props.currents.currentCommit
             ? <div className={col6container}>
-              <br />
-              <br />
-              <br />
+              <br/>
               <div className="on-commit-border">
                 <h5>{this.props.currents.currentProject && this.props.currents.currentProject.name}</h5>
                 <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>

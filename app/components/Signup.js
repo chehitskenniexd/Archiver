@@ -16,7 +16,9 @@ export class Signup extends Component {
   checkPasswordMatch() {
     var password = $("#new_password").val();
     var confirmPassword = $("#confirm_password").val();
-    if (password !== confirmPassword)
+
+    // check if passwords match but do NOT throw an error when confirmPassword is empty
+    if (confirmPassword !== "" && password !== confirmPassword)
         $("#password_message").html("Passwords do not match");
     else
         $("#password_message").html("");
@@ -24,40 +26,53 @@ export class Signup extends Component {
 
   onUserSubmit(event) {
     event.preventDefault();
+
     var password = $("#new_password").val();
     var confirmPassword = $("#confirm_password").val();
-    if (password === confirmPassword){
+
+    if (password === confirmPassword) {
       const userCred = {
           email: event.target.email.value,
           password: event.target.new_password.value,
           first_name: event.target.first_name.value,
           last_name: event.target.last_name.value,
-      }
-        this.props.registerUser(userCred);
-        hashHistory.push('/mainRender');
-      }
+      };
+
+      this.props.registerUser(userCred);
+    }
+
+
+  }
+
+  componentDidUpdate() {
+    if (this.props.login.userExists) {
+      let userEmail = this.props.login.user;
+      $("#user_message").html(`User already exists!`);
+    } else if (this.props.login.id) {
+      hashHistory.push('/mainHome');
+    }
   }
 
   render() {
     return (
       <div className={styles.container} >
           <div className="row">
-            <form onSubmit={this.onUserSubmit}>
-              <div className="row">
-                <br />
-                <br />
-                <div className="col s1"></div>
-                <div className="col 10">
-                  <Link to="/">
-                    <button className="btn-floating btn-large waves-effect waves-light cyan"><i className="material-icons">chevron_left</i></button>
-                  </Link>
-                </div>
-                <div className="col s1"></div>
-                <br />
-                <br />
-                <br />
+            <div className="row">
+              <br />
+              <br />
+              <div className="col s1"></div>
+              <div className="col 10">
+                <Link to="/">
+                  <button className="btn-floating btn-large waves-effect waves-light cyan"><i className="material-icons">chevron_left</i></button>
+                </Link>
               </div>
+              <div className="col s1"></div>
+              <br />
+              <br />
+              <br />
+            </div>
 
+            <form onSubmit={this.onUserSubmit}>
               <div className="row">
                 <div className="col s1"></div>
                 <div className="input-field col s5">
@@ -74,9 +89,14 @@ export class Signup extends Component {
                 <div className="col s1"></div>
                 <div className="input-field col s10">
                   <input placeholder="Email" id="email" type="email" className="validate" />
+                  <em>
+                    <h6 id="user_message"></h6>
+                  </em>
                 </div>
                 <div>
-                  {this.props.login.userExists ? <h6>That user already exists</h6> : ""}
+                  {
+                    // this.props.login.userExists ? <h6>That user already exists</h6> : ""
+                  }
                 </div>
                 <div className="col s1"></div>
               </div>
@@ -92,8 +112,10 @@ export class Signup extends Component {
               <div className="row">
                 <div className="col s1"></div>
                 <div className="input-field col s10">
-                  <h5 id="password_message"></h5>
                   <input placeholder="Confirm Password" id="confirm_password" type="password" className="validate" onChange={this.checkPasswordMatch} required />
+                  <em>
+                    <h6 id="password_message"></h6>
+                  </em>
                 </div>
                 <div className="col s1"></div>
               </div>
@@ -120,17 +142,16 @@ export class Signup extends Component {
 function mapStateToProps(state){
   return {
     login: state.login
-  }
+  };
 }
 
 
 function mapDispatchToProps(dispatch) {
-    return {
-        registerUser: (userCred) => {
-            dispatch(createUser(userCred))
-        }
-
+  return {
+    registerUser: (userCred) => {
+        dispatch(createUser(userCred))
     }
+  };
 }
 
 export default connect(
