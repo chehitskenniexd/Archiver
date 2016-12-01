@@ -110,7 +110,7 @@ export class Project_List extends Component {
                                     return (
                                         <div className="item-commit-border" key={commit.id}
                                             onClick={() => { this.onClickCommit(index) } }>
-                                            <div className="commit-message commit-color">{commit.message.slice(0, 35)}</div>
+                                            <div className="commit-message commit-color">{commit.message.length > 34 ? commit.message.slice(0, 35) + '...' : commit.message}</div>
                                             <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(commit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${commit.committer}`}</span></div>
                                         </div>
                                     )
