@@ -32,8 +32,6 @@ export class Project_List extends Component {
         if (args.activeItems && args.activeItems.length > 0) {
             this.props.setCurrentProject(this.props.projects.projects.filter(project => project.userProject.role !== 'pending')[args.activeItems[0]]);
             hashHistory.push('/pageRender');
-        } else {
-            this.props.setCurrentProject(null);
         }
     }
 
