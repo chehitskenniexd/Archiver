@@ -47,7 +47,7 @@ export class Collaborator extends Component {
     let userC = [],
         userI = [];
     projectUsers && projectUsers.forEach((collab) => {
-      if (collab.userProject.role !== 'pending') {
+      if (collab.userProject.role !== 'pending' && collab.id !== this.props.login.id) {
         userC.push({
           id: collab.id,
           name:`${collab.first_name} ${collab.last_name}`
@@ -73,6 +73,17 @@ export class Collaborator extends Component {
           <div className="col s1"></div>
 
           <div className="col s10">
+          {
+            userC.length === 0 ?
+            (
+              <em>
+                <h4 className="h4-invite">
+                YOU ARE THE ONLY COLLABORATOR
+                </h4>
+              </em>
+            )
+            :
+            (
             <table className="bordered centered">
               <thead>
                 <tr>
@@ -99,6 +110,8 @@ export class Collaborator extends Component {
                 })
               }
             </table>
+            )
+          }
           </div>
 
           <div className="col s1"></div>
@@ -123,34 +136,47 @@ export class Collaborator extends Component {
         <div className="col s1"></div>
 
         <div className="col s10">
-        <table className="bordered centered">
-          <thead>
-            <tr>
-                <th data-field="id">Invitee</th>
-                <th data-field="status">Status</th>
-                <th data-field="delete">Remove</th>
-            </tr>
-          </thead>
-            {
-              userI && userI.map((user, i) => {
-              return(
-                <tbody key={`${i}2`}>
-                  <tr>
-                    <td>{user.name}</td>
-                    <td><i>Awaiting reply</i></td>
-                    <td>
-                      <Link>
-                        <span className="red-text" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
-                        <i className="material-icons">cancel</i>
-                        </span>
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
-              )
-            })
-          }
-        </table>
+        {
+          userI.length === 0 ?
+          (
+          <em>
+            <h4 className="h4-invite">
+            PLEASE INVITE COLLABORATORS
+            </h4>
+          </em>
+          )
+          :
+          (
+          <table className="bordered centered">
+            <thead>
+              <tr>
+                  <th data-field="id">Invitee</th>
+                  <th data-field="status">Status</th>
+                  <th data-field="delete">Remove</th>
+              </tr>
+            </thead>
+              {
+                userI && userI.map((user, i) => {
+                return(
+                  <tbody key={`${i}2`}>
+                    <tr>
+                      <td>{user.name}</td>
+                      <td><i>Awaiting reply</i></td>
+                      <td>
+                        <Link>
+                          <span className="red-text" type="submit" name="action" onClick={() => this.props.removeCollab(project, user)}>
+                          <i className="material-icons">cancel</i>
+                          </span>
+                        </Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                )
+              })
+            }
+          </table>
+          )
+        }
         </div>
 
         <div className="col s1"></div>
