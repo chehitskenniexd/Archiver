@@ -23,9 +23,9 @@ export const newUser = (user) => ({
     payload: user
 })
 
-export const userAlreadyExists = (user) => ({
+export const userAlreadyExists = (userEmail) => ({
     type: USER_ALREADY_EXISTS,
-    payload: user,
+    payload: userEmail,
     userExists: true
 })
 
@@ -58,7 +58,7 @@ export const createUser = (userCred) => {
         axios.post('http://localhost:3000/api/register', userCred)
             .then(res => {
               if (res.data.message){
-                dispatch(userAlreadyExists(res.data.foundUser))
+                dispatch(userAlreadyExists(userCred.email))
               } else {
                 // Must extract out our user so login for new user and login for existing user returns the same user state
                 let user = res.data.foundUser;
@@ -92,19 +92,29 @@ export const authenticateUser = (userCred) => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case USER_ALREADY_EXISTS:
-      return Object.assign({}, state, {userExists: action.userExists, user: action.payload});
+      return Object.assign({}, state, {
+        userExists: action.userExists,
+        user: action.payload
+      });
     case REGISTER_USER:
       return action.payload;
     case INCORRECT_USER:
-      return Object.assign({}, state, {incorrectUser: action.incorrectUser});
+      return Object.assign({}, state, {
+        incorrectUser: action.incorrectUser
+      });
     case INCORRECT_PASSWORD:
-      return Object.assign({}, state, {incorrectPassword: action.incorrectPassword});
+      return Object.assign({}, state, {
+        incorrectPassword: action.incorrectPassword
+      });
     case LOGIN_USER:
       return action.payload;
     case LOG_OUT:
       return action.payload
     case REMOVE_ERRORS:
-      return Object.assign({}, state, {incorrectUser: action.userExists, incorrectPassword: action.incorrectPassword})
+      return Object.assign({}, state, {
+        incorrectUser: action.userExists,
+        incorrectPassword: action.incorrectPassword
+      })
     default: return state;
   }
 };
