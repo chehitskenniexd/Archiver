@@ -101,7 +101,7 @@ export class PageRender extends Component {
     const fileData = project ? project.commits[0].blob.files[0] : undefined;
     const filePath = project && fileData
       ? `./${project.name}/${fileData.file_name}.txt` : undefined;
-    
+
     // check to see if the file exists.
     try {
       fs.statSync(filePath).isFile()
@@ -119,7 +119,7 @@ export class PageRender extends Component {
     }
   }
 
-  componentWillReceiveProps() {
+  componentDidUpdate() {
     if (!this.props.currents.currentCommit || !this.props.currents.currentProject) {
       return;
     }
@@ -131,14 +131,10 @@ export class PageRender extends Component {
     }
   }
 
-  componentDidUpdate() {
-  }
-
   render() {
     const col6container = `col 6 ${styles.textContain}`;
     const renderText = this.props.currents && this.props.currents.currentCommit
       ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
-    console.log(this.props.currents)
     return (
       <div className={styles.container} >
         <div className="row">
@@ -156,7 +152,10 @@ export class PageRender extends Component {
               Restore
             </a>
             <a className="waves-effect waves-light btn special-single-button cyan accent-3">
-              <UpdateProjectPopup/>
+              <UpdateProjectPopup clicked={() => { 
+                console.log('clicked');
+                this.state.updated = true; 
+              } } />
             </a>
             <a className="waves-effect waves-light btn single-button yellow darken-2"
               onClick={this.onClickOpenFile}>
@@ -166,7 +165,7 @@ export class PageRender extends Component {
           </div>
           {this.props.currents && this.props.currents.currentCommit
             ? <div className={col6container}>
-              <br/>
+              <br />
               <div className="on-commit-border">
                 <h5>{this.props.currents.currentProject && this.props.currents.currentProject.name}</h5>
                 <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>

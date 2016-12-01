@@ -10,6 +10,7 @@ import * as FEActions from '../../utilities/vcfrontend';
 import axios from 'axios';
 import { fetchUserProjects } from '../reducers/projects_list';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
+import { setCurrentCommit, setCurrentProject } from '../reducers/currentsReducer';
 
 export class UpdateProjectPopup extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export class UpdateProjectPopup extends React.Component {
       message: '',
       file: null,
       displayError: false,
-      displayFileError: false
+      displayFileError: false,
+      updated: false,
     };
     this.cancelMessage = this.cancelMessage.bind(this);
     this.checkMessage = this.checkMessage.bind(this);
@@ -85,6 +87,7 @@ export class UpdateProjectPopup extends React.Component {
         fs.statSync(filePath).isFile();
       } catch (err) {
         console.log(`file ${filePath} does not exist!`);
+        this.handleClose();
         return false;
       }
 
@@ -94,6 +97,7 @@ export class UpdateProjectPopup extends React.Component {
       // Check to make sure there are changes to be sent to server
       if (commitFileContents === localFileContents) {
         console.log('no changes made!');
+        this.handleClose();
         return false;
       }
 
@@ -117,12 +121,14 @@ export class UpdateProjectPopup extends React.Component {
         newCommit.date, newCommit.fileHash, newCommit.file_contents);
 
       project && axios.post(`http://localhost:3000/api/vcontrol/${project.id}`, newCommit)
-        .then(res => console.log(res))
         .catch(err => console.error(err));
 
       // Need to trigger the project_list to re-render the latest commit
       this.props.fetchProjects(this.props.user.id);
-      this.state.updated = true;
+      this.handleClose();
+
+      // this is passed in from PageRender to change its state
+      this.props.clicked();
     }
   }
 
@@ -140,13 +146,12 @@ export class UpdateProjectPopup extends React.Component {
         // ONTOUCHTAP IS THE ONSUBMIT EQUIVALENT FOR MATERIAL UI
         onTouchTap={() => {
           this.onSubmitCommit();
-          this.handleClose();
         } }
         />,
     ];
     return (
       <div>
-        <RaisedButton label="Update" primary={true} labelPosition="before" icon={<ActionAndroid />} onTouchTap={this.handleOpen}/>
+        <RaisedButton label="Update" primary={true} labelPosition="before" icon={<ActionAndroid />} onTouchTap={this.handleOpen} />
         <Dialog
           title={'You are updating project ' + (this.props.user ? this.props.user.projects[0].name : '')}
           actions={actions}
@@ -200,6 +205,9 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchProjects: (userId) => {
       dispatch(fetchUserProjects(userId));
+    },
+    setCurrentCommit: (commit) => {
+      dispatch(setCurrentCommit(commit));
     }
   };
 }
