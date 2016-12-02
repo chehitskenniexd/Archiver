@@ -337,6 +337,7 @@ i.icon-light {
   background-color: #f5f5f5;
   border: solid grey;
   border-width: 1px;
+  min-width: 461px;
 }
 
 .main-buttons-container{
@@ -348,6 +349,7 @@ i.icon-light {
   padding-left: 10px;
   padding-right: 6px;
   margin: 0 5px 0 5px;
+
 }
 
 .icon-margin{
