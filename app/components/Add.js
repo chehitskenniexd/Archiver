@@ -20,6 +20,7 @@ export class Add extends Component {
     const project_info = {
       project_name: event.target.project_name.value,
       select_file: event.target.select_file.value,
+      message: event.target.message.value,
       collaborators: event.target.collaborators.value // comma delimited string
     }
 
@@ -49,7 +50,7 @@ export class Add extends Component {
     console.log('filePath', filePath);
     fs.writeFileSync(filePath, '', 'utf-8');
     // Message (?)
-    const message = 'first commit';
+    const message = project_info.message;
     const filename = extFilename.split('.')[0];
     const fileHash = FEActions.getSha1Hash(`${filename}${fileContents}`);
     console.log('file hash', fileHash); 22
