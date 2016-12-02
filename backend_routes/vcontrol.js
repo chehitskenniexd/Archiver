@@ -5,6 +5,7 @@ const router = express.Router();
 const Models = require('../db/models');
 const FEActions = require('../utilities/vcfrontend');
 const BEActions = require('../utilities/vcbackend');
+const Promise = require('bluebird');
 
 router.get('/:projectId', (req, res, next) => {
   Models.Project.findAll({
@@ -21,47 +22,45 @@ router.post('/create', (req, res, next) => {
   let blobFileObj = {};
   let userProjectObj = {};
   // Create the project
-  console.log('creating project');
   Models.Project.create({ name: projName })
     .then(project => {
-      console.log('created proj');
+      console.log('created the project');
       userProjectObj.projectId = project.id;
       // create the user => project associations w/ collabs
       if (collabs.length < 1) {
         return project;
       }
-      console.log('passes collab length test', collabs);
       return Models.User.findAll({
         where: {
-          email: ["barry@smith.com"]
+          email: {
+            $any: collabs
+          }
         }
       })
         .then(users => {
-          console.log('found users', users.data)
           let usersData = [];
           usersData = users.map(user => {
             return {
               role: 'pending',
-              userId: userId,
-              projectId: userProjecObj.projectId
+              userId: user.dataValues.id,
+              projectId: userProjectObj.projectId
             }
           })
           usersData.push({
             role: 'author',
             userId: userId,
-            projectId: userProjecObj.projectId
+            projectId: userProjectObj.projectId
           })
-          return Models.userProject.bulkCreate((usersData),
-            { fields: ['role', 'userId', 'projectId'] })
-            .then(userProjects => {
-              console.log('user Projects', userProjects.data);
-              return userProjects;
-            })
+          return usersData.map(user => {
+            Models.UserProject.create(user)
+              .then(res => res.data)
+              .catch(err => console.error(err));
+          })
         })
     })
     .then(project => {
       // create the commit
-      console.log('created the userProject?', project.data);
+      console.log('created the userProject');
       const commitObj = {
         date: date,
         message: message,

@@ -22,11 +22,10 @@ export class Add extends Component {
       collaborators: event.target.collaborators.value // comma delimited string
     }
 
+    // get the file information from the input
     const file = $('#select_file')[0].files[0];
-    console.log(file);
     const fileContents = fs.readFileSync(file.path);
     const extFilename = file.name;
-    fs.unlinkSync(file.path);
 
     // need to verify this?
     const collabs = project_info.collaborators.split(',');
@@ -52,7 +51,7 @@ export class Add extends Component {
     const message = 'first commit';
     const filename = extFilename.split('.')[0];
     const fileHash = FEActions.getSha1Hash(`${filename}${fileContents}`);
-    console.log('file hash', fileHash);22
+    console.log('file hash', fileHash); 22
     const commitHash = FEActions.getSha1Hash(`${filename}${fileContents}${message}`);
     console.log('commit hash', commitHash);
     // Create a commit for the first object
@@ -73,9 +72,15 @@ export class Add extends Component {
     }
     console.log(bodyObj);
 
-    // axios.post(`http://localhost:3000/api/vcontrol/create`, bodyObj)
-    //   .then(res => console.log(res.data))
-    //   .catch(err => console.error(err));
+    axios.post(`http://localhost:3000/api/vcontrol/create`, bodyObj)
+      .then(res => {
+        // delete the file when everything is done and successful
+        fs.unlinkSync(file.path);
+        console.log(res.data);
+        return res.data;
+      })
+      .catch(err => console.error(err));
+
   }
 
   render() {
