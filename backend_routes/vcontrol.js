@@ -72,6 +72,7 @@ router.post('/create', (req, res, next) => {
     })
     .then(commit => {
       // create the blob
+      console.log('creating blob')
       const blobObj = {
         hash: fileHash,
         commitId: commit.id
@@ -85,11 +86,13 @@ router.post('/create', (req, res, next) => {
         file_name: fileName,
         file_contents: fileContents,
       }
+      console.log('creating file file', fileObj);
       return Models.File.create(fileObj);
     })
     .then(file => {
       // create the file
       blobFileObj.fileId = file.id;
+      console.log('creating the blobfile info', blobFileObj);
       return Models.BlobFile.create(blobFileObj);
     })
     .then(response => res.json(response))

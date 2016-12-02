@@ -6,10 +6,11 @@ import { onCollaborator, onPageRender } from '../reducers/mainhome'
 import * as FEActions from '../../utilities/vcfrontend';
 import fs from 'fs';
 import axios from 'axios';
+import { fetchUserProjects } from '../reducers/projects_list';
 
 export class Add extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.onUserSubmit = this.onUserSubmit.bind(this);
   }
 
@@ -24,7 +25,7 @@ export class Add extends Component {
 
     // get the file information from the input
     const file = $('#select_file')[0].files[0];
-    const fileContents = fs.readFileSync(file.path);
+    const fileContents = fs.readFileSync(file.path, 'utf-8');
     const extFilename = file.name;
 
     // need to verify this?
@@ -77,10 +78,10 @@ export class Add extends Component {
         // delete the file when everything is done and successful
         fs.unlinkSync(file.path);
         console.log(res.data);
+        this.props.fetchProjects(this.props.user.id);
         return res.data;
       })
       .catch(err => console.error(err));
-
   }
 
   render() {
@@ -143,7 +144,8 @@ export class Add extends Component {
 /* ---------------- CONTAINER --------------------*/
 function mapStateToProps(state) {
   return {
-    user: state.login
+    user: state.login,
+    projects: state.projects,
   };
 }
 
@@ -154,7 +156,10 @@ function mapDispatchToProps(dispatch) {
     },
     goToPageRender: () => {
       dispatch(onPageRender());
-    }
+    },
+    fetchProjects: (userId) => {
+      dispatch(fetchUserProjects(userId))
+    },
   };
 }
 
