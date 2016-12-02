@@ -43,6 +43,9 @@ const blobs = [
   { authorId: 16, commiterId: 20, hash: 'Conrad7', commitId: 38 },
   { authorId: 16, commiterId: 11, hash: 'Conrad8', commitId: 39 },
   { authorId: 16, commiterId: 12, hash: 'Conrad9', commitId: 40 },
+  { authorId: 2, commiterId: 20, hash: 'Conrad7', commitId: 41 },
+  { authorId: 2, commiterId: 11, hash: 'Conrad8', commitId: 42 },
+  { authorId: 2, commiterId: 12, hash: 'Conrad9', commitId: 43 }
 ];
 
 // MULTIPLE FILES

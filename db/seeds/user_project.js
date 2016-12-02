@@ -48,7 +48,15 @@ const userProjects = [
   { role: 'collaborator', userId: '17', projectId: '6' },
   { role: 'collaborator', userId: '18', projectId: '6' },
   { role: 'collaborator', userId: '19', projectId: '6' },
-  { role: 'collaborator', userId: '20', projectId: '6' }
+  { role: 'collaborator', userId: '20', projectId: '6' },
+  { role: 'author', userId: '2', projectId: '7' },
+  { role: 'pending', userId: '1', projectId: '7' },
+  { role: 'pending', userId: '3', projectId: '7' },
+  { role: 'pending', userId: '4', projectId: '7' },
+  { role: 'collaborator', userId: '17', projectId: '7' },
+  { role: 'collaborator', userId: '18', projectId: '7' },
+  { role: 'collaborator', userId: '19', projectId: '7' },
+  { role: 'collaborator', userId: '20', projectId: '7' }
 ];
 
 

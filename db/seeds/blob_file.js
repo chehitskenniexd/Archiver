@@ -43,6 +43,9 @@ const blobFiles = [
     { blobId: 38, fileId: 38 },
     { blobId: 39, fileId: 39 },
     { blobId: 40, fileId: 40 },
+    { blobId: 41, fileId: 41 },
+    { blobId: 42, fileId: 41 },
+    { blobId: 43, fileId: 41 }
 ];
 
 module.exports = blobFiles;
