@@ -153,7 +153,7 @@ export class UpdateProjectPopup extends React.Component {
       <div>
         <RaisedButton label="Update" primary={true} labelPosition="before" icon={<ActionAndroid />} onTouchTap={this.handleOpen} />
         <Dialog
-          title={'You are updating project ' + (this.props.user ? this.props.user.projects[0].name : '')}
+          title={'You are updating project ' + (this.props.currents && this.props.currents.currentProject ? this.props.currents.currentProject.name : '')}
           actions={actions}
           modal={true}
           open={this.state.open}
