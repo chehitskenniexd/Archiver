@@ -21,7 +21,7 @@ const seedFile = () => db.Promise.each(files, file => db.model('file').create(fi
 const seedUserProject = () => db.Promise.each(userProjects, userProject => db.model('userProject').create(userProject));
 const seedCommit = () => db.Promise.each(commits, commit => db.model('commit').create(commit));
 const seedBlob = () => db.Promise.each(blobs, blob => db.model('blob').create(blob));
-const seedBlobFile = () => db.Promise.each(blobFiles, blobFile => db.model('blobFile').create(blobFile));
+// const seedBlobFile = () => db.Promise.each(blobFiles, blobFile => db.model('blobFile').create(blobFile));
 
 db.didSync
   .then(() => db.sync({ force: true }))
@@ -37,7 +37,7 @@ db.didSync
   .then(commits => console.log(`Seeded ${commits.length} commits OK`))
   .then(seedBlob)
   .then(blobs => console.log(`Seeded ${blobs.length} blobs OK`))
-  .then(seedBlobFile)
-  .then(blobFiles => console.log(`Associated/seeded blobFile files OK`))
+  // .then(seedBlobFile)
+  // .then(blobFiles => console.log(`Associated/seeded blobFile files OK`))
   .catch(error => console.error(error))
   .finally(() => db.close());

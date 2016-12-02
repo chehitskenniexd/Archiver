@@ -8,6 +8,9 @@ import * as FEActions from '../../utilities/vcfrontend';
 import { fetchUserProjects } from '../reducers/projects_list';
 import UpdateProjectPopup from './UpdateProjectPopup';
 import Moment from 'moment';
+// import { fromBufferWithMime } from 'textract';
+// import markdown from 'markdown';
+var md = require('markdown').markdown;
 
 // Additional modules for rendering a file
 import * as fs from 'fs';
@@ -177,7 +180,18 @@ export class PageRender extends Component {
     const col6container = `col 6 ${styles.textContain}`;
     const renderText = this.props.currents && this.props.currents.currentCommit
       ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
-    console.log(this.props.currents)
+
+    const bufferData = this.props.currents && this.props.currents.currentCommit
+      ? this.props.currents.currentCommit.blob.files[0].buffer.data : '';
+    // Because of the way Sequelize outputs the buffer data, you must create another buffer with bufferData
+    const newBuffer = new Buffer(bufferData);
+
+    // Use markdown to create the html content based off of buffer stringified text
+    const htmlContent = md.toHTML(newBuffer.toString());
+
+    // Because htmlContent is now html, use .html to render html directly into React render
+    $("#textRender").html(htmlContent);
+
     return (
       <div className={styles.container} >
         <div className="row">
@@ -204,7 +218,7 @@ export class PageRender extends Component {
             }
           </div>
           {this.props.currents && this.props.currents.currentCommit
-            ? <div className={col6container}>
+            ? <div className="{col6container}">
               <br/>
               <div className="on-commit-border">
                 <h5>{this.props.currents.currentProject && this.props.currents.currentProject.name}</h5>
@@ -212,8 +226,8 @@ export class PageRender extends Component {
                 <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(this.props.currents.currentCommit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${this.props.currents.currentCommit.committer}`}</span></div>
               </div>
               <br />
-              <div id="textContainer" style={{ 'minHeight': `600`, 'maxHeight': `100%`, border: '1px' }}>
-                <div id="textRender" style={{ border: `5px` }}>{renderText}
+              <div id="textContainer" style={{ 'minHeight': `600px`, 'maxHeight': `100%`, border: '1px' }}>
+                <div id="textRender" style={{ border: `5px`, 'textAlign': `left`, 'fontFamily': `Courier`, 'fontSize': `10px` }}>
                 </div>
               </div>
             </div>
