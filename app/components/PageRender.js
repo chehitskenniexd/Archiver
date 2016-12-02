@@ -181,7 +181,6 @@ export class PageRender extends Component {
     return (
       <div className={styles.container} >
         <div className="row">
-          <div className="col 3"></div>
 
           <div className="main-buttons-container">
             {//<UpdateProjectPopup />
@@ -203,19 +202,27 @@ export class PageRender extends Component {
               //</a>
             }
           </div>
+
+
           {this.props.currents && this.props.currents.currentCommit
-            ? <div className={col6container}>
+            ? <div className="col 6">
               <br/>
-              <div className="on-commit-border">
-                <h5>{this.props.currents.currentProject && this.props.currents.currentProject.name}</h5>
-                <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>
-                <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(this.props.currents.currentCommit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${this.props.currents.currentCommit.committer}`}</span></div>
-              </div>
-              <br />
+
+          
+                <div className="on-commit-border">
+                  <h5>{this.props.currents.currentProject && this.props.currents.currentProject.name}</h5>
+                  <div className="commit-message commit-color">{"\"" + this.props.currents.currentCommit.message + "\""}</div>
+                  <div className="item-commit-details"><span className="commit-message commit-info-font commit-date">{`On ${Moment(this.props.currents.currentCommit.date).format('MMMM Do')}`}</span><span className="commit-info-font">{`by ${this.props.currents.currentCommit.committer}`}</span></div>
+                </div>
+        
+
+              <br/>
+
               <div id="textContainer" style={{ 'minHeight': `600`, 'maxHeight': `100%`, border: '1px' }}>
                 <div id="textRender" style={{ border: `5px` }}>{renderText}
                 </div>
               </div>
+
             </div>
             : ''
           }
