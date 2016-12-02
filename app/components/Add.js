@@ -83,6 +83,14 @@ export class Add extends Component {
         return res.data;
       })
       .catch(err => console.error(err));
+
+  }
+
+  componentDidUpdate() {
+    $("#project_name").val('');
+    $("#select_file").val('');
+    $("#message").val('');
+    $("#collaborators").val('');
   }
 
   render() {
