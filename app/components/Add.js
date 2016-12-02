@@ -22,6 +22,12 @@ export class Add extends Component {
       collaborators: event.target.collaborators.value // comma delimited string
     }
 
+    const file = $('#select_file')[0].files[0];
+    console.log(file);
+    const fileContents = fs.readFileSync(file.path);
+    const extFilename = file.name;
+    fs.unlinkSync(file.path);
+
     // need to verify this?
     const collabs = project_info.collaborators.split(',');
     console.log('collaborators', collabs);
@@ -38,15 +44,13 @@ export class Add extends Component {
     fs.mkdirSync(dirPath);
     FEActions.initNewProject(dirPath);
     // Select A File.. Create a File of same name?
-    const filename = project_info.project_name;
     console.log('filename', filename);
-    const filePath = `${dirPath}/${project_info.project_name}`; // change is user wants input
+    const filePath = `${dirPath}/${extFilename}`; // change is user wants input
     console.log('filePath', filePath);
     fs.writeFileSync(filePath, '', 'utf-8');
-    // What will be the contents of the first commit?
-    const fileContents = '';
     // Message (?)
     const message = 'first commit';
+    const filename = extFilename.split('.')[0];
     const fileHash = FEActions.getSha1Hash(`${filename}${fileContents}`);
     console.log('file hash', fileHash);22
     const commitHash = FEActions.getSha1Hash(`${filename}${fileContents}${message}`);
@@ -56,6 +60,7 @@ export class Add extends Component {
     FEActions.commitFileChanges(filePath, message, undefined, currentDate, fileHash, '');
     // Invite Collabs => Create db fields with project Id and their status as pending
     const bodyObj = {
+      userId: this.props.user.id,
       projName: project_info.project_name,
       fileName: project_info.project_name,
       fileContents: fileContents,
@@ -64,12 +69,13 @@ export class Add extends Component {
       fileHash: fileHash,
       commitHash: commitHash,
       committer: author,
+      collabs: collabs,
     }
     console.log(bodyObj);
 
-    axios.post(`http://localhost:3000/api/vcontrol/create`, bodyObj)
-      .then(res => console.log(res.data))
-      .catch(err => console.error(err));
+    // axios.post(`http://localhost:3000/api/vcontrol/create`, bodyObj)
+    //   .then(res => console.log(res.data))
+    //   .catch(err => console.error(err));
   }
 
   render() {
