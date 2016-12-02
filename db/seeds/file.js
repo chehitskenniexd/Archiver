@@ -603,10 +603,10 @@ const files = [
   }
 ];
 
-// files.forEach(prefile => {
-//      prefile.buffer = new Buffer(prefile.file_contents);
-//      prefile.file_contents = "changed stuff";
-// })
+files.forEach(prefile => {
+     prefile.buffer = new Buffer(prefile.file_contents);
+     prefile.file_contents = "changed stuff";
+})
 
 // console.log("FILES", files)
 
