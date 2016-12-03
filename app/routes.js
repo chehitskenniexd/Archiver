@@ -13,6 +13,7 @@ import PageRender from './components/PageRender';
 import UpdateProjectPopup from './components/UpdateProjectPopup';
 import MergeConflictPopup from './components/MergeConflictPopup';
 import Info from './components/Info';
+import Metrics from './components/Metrics';
 
 
 // TODO: Change the IndexRoute back to Home.
@@ -30,6 +31,7 @@ export default (
         <Route path="/updateprojectpopup" component={UpdateProjectPopup} />
         <Route path="/mergeconflictpopup" component={MergeConflictPopup} />
         <Route path="/info" component={Info} />
+        <Route path="/metrics" component={Metrics} />
       </Route>
     </Route>
   </Route>
