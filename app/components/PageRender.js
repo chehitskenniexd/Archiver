@@ -177,16 +177,10 @@ export class PageRender extends Component {
   }
 
   render() {
-    console.log("THIS PROPS", this.props)
-
-
     const col6container = `col 6 ${styles.textContain}`;
     const renderText = this.props.currents && this.props.currents.currentCommit
       ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
     const renderHTML = md.toHTML(renderText);
-
-    console.log("RENDERTEXT", renderHTML)
-
 
     // Because htmlContent is now html, use .html to render html directly into React render
     if (this.props.currents.currentProject.name === 'Alien') {
