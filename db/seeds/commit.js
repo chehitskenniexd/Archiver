@@ -42,7 +42,10 @@ const commits = [
   { date: Date.UTC(2016, 10, 31, 20, 52), message: 'Added more detail', previous_commit: 'Conradcommithash5', hash: 'Conradcommithash6', committer: 'Bruce King', projectId: 6 },
   { date: Date.UTC(2016, 11, 2, 21, 26), message: 'Edited to make mood darker', previous_commit: 'Conradcommithash6', hash: 'Conradcommithash7', committer: 'Brett Adams', projectId: 6 },
   { date: Date.UTC(2016, 11, 3, 18, 29), message: 'Added Kurtz final moments', previous_commit: 'Conradcommithash7', hash: 'Conradcommithash8', committer: 'Bertha Hill', projectId: 6 },
-  { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Ended with self-reflection', previous_commit: 'Conradcommithash8', hash: 'Conradcommithash9', committer: 'Brittany Thomas', projectId: 6 }
+  { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Ended with self-reflection', previous_commit: 'Conradcommithash8', hash: 'Conradcommithash9', committer: 'Brittany Thomas', projectId: 6 },
+  { date: Date.UTC(2016, 11, 2, 21, 26), message: 'Initial start to "Alien". Remember the quotes!', previous_commit: 'Conradcommithash6', hash: 'Conradcommithash7', committer: 'Brett Adams', projectId: 7 },
+  { date: Date.UTC(2016, 11, 3, 18, 29), message: 'Deleted some things', previous_commit: 'Conradcommithash7', hash: 'Conradcommithash8', committer: 'Bertha Hill', projectId: 7 },
+  { date: Date.UTC(2016, 11, 4, 13, 15), message: 'Title changed from "Alien" to "Alien Waaaars"; possibly better for larger market?', previous_commit: 'Conradcommithash8', hash: 'Conradcommithash9', committer: 'Brittany Thomas', projectId: 7 }
 ];
 
 // MULTIPLE FILES PER PROJECT
