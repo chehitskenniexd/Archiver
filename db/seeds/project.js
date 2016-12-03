@@ -8,7 +8,8 @@ const projects = [
     { name: 'The Importance of Being Earnest' },
     { name: 'The Jungle' },
     { name: 'Lord of the Flies' },
-    { name: 'Heart of Darkness' }
+    { name: 'Heart of Darkness' },
+    { name: 'Alien' }
 ];
 
 // MULTIPLE FILES PER PROJECT

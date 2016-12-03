@@ -10,6 +10,9 @@ const File = db.define('file', {
   },
   file_contents: {
     type: Sequelize.TEXT
+  },
+  buffer: {
+    type: Sequelize.BLOB
   }
 }, {});
 
