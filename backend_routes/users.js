@@ -12,14 +12,20 @@ module.exports = router;
 // FIND PROJECTS FOR THE LOGGED IN USER
 
 router.get('/:userId/projects', (req, res, next) => {
-    User.findOne({
-      where: {
-        id: req.params.userId
-      },
-      include: [{
-        all: true
-      }]
+    User.findById(req.params.userId)
+    .then(user => {
+        res.json(user)
     })
+    .catch(next)
+
+    // User.findOne({
+    //   where: {
+    //     id: req.params.userId
+    //   },
+    //   include: [{
+    //     all: true
+    //   }]
+    // })
     // .then(user => {
     //     return UserProject.findAll({
     //       where: {
@@ -33,8 +39,8 @@ router.get('/:userId/projects', (req, res, next) => {
     //         return Project.findById(instance.projectId)
     //     }))
     // })
-    .then(projects => res.json(projects))
-    .catch(next)
+    // .then(projects => res.json(projects))
+    // .catch(next)
 })
 
 router.get('/:userId/invites', (req, res, next) => {

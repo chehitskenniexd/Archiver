@@ -178,20 +178,29 @@ export class PageRender extends Component {
 
   render() {
     console.log("THIS PROPS", this.props)
+
+
     const col6container = `col 6 ${styles.textContain}`;
     const renderText = this.props.currents && this.props.currents.currentCommit
       ? this.props.currents.currentCommit.blob.files[0].file_contents : '';
+    const renderHTML = md.toHTML(renderText);
 
-    const bufferData = this.props.currents && this.props.currents.currentCommit
-      ? this.props.currents.currentCommit.blob.files[0].buffer.data : '';
-    // Because of the way Sequelize outputs the buffer data, you must create another buffer with bufferData
-    const newBuffer = new Buffer(bufferData);
+    console.log("RENDERTEXT", renderHTML)
 
-    // Use markdown to create the html content based off of buffer stringified text
-    const htmlContent = md.toHTML(newBuffer.toString());
 
     // Because htmlContent is now html, use .html to render html directly into React render
-    $("#textRender").html(htmlContent);
+    if (this.props.currents.currentProject.name === 'Alien') {
+      const bufferData = this.props.currents && this.props.currents.currentCommit
+        ? this.props.currents.currentCommit.blob.files[0].buffer.data : '';
+      // Because of the way Sequelize outputs the buffer data, you must create another buffer with bufferData
+      const newBuffer = new Buffer(bufferData);
+
+      // Use markdown to create the html content based off of buffer stringified text
+      const htmlContent = md.toHTML(newBuffer.toString());
+      $("#textRender").html(htmlContent);
+    } else {
+      $("#textRender").html(renderHTML);
+    }
 
     return (
       <div className={styles.container} >

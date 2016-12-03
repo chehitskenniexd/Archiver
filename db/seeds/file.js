@@ -1,26 +1,3 @@
-// var textract = require('textract');
-// var File = require('../db/models/file.js');
-
-// textract.fromFileWithPath(__dirname + '/Alien2.docx', {preserveLineBreaks: true}, function( error, text ) {
-//   if (error) {
-//     console.log("There was an error textracting.", error);
-//   }
-//   let buffer = new Buffer(text);
-
-//   // File.create({
-//   //   where: {
-//   //     file_name: 'ehlo'
-//   //   }
-//   // })
-//   //   .then(createdFile => {
-//   //     console.log("CREATED!", createdFile);
-//   //   })
-//   //   .catch(next);
-
-// // console.log("BUFFER??", buffer);
-// });
-
-
 const files = [
   {
     file_name: 'Inferno',
@@ -603,11 +580,9 @@ const files = [
   }
 ];
 
-files.forEach(prefile => {
-     prefile.buffer = new Buffer(prefile.file_contents);
-     prefile.file_contents = "changed stuff";
-})
-
-// console.log("FILES", files)
+// files.forEach(prefile => {
+//      prefile.buffer = new Buffer(prefile.file_contents);
+//      prefile.file_contents = "changed stuff";
+// })
 
 module.exports = files;

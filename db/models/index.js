@@ -25,12 +25,12 @@ Blob.belongsTo(Commit);
 Blob.belongsToMany(File, { through: BlobFile });
 File.belongsToMany(Blob, { through: BlobFile });
 
-// User.addScope('defaultScope', {
-//   include: [{ model: Project,
-//     include: [{ model: Commit }] }]
-// }, {
-//   override: true
-// });
+User.addScope('defaultScope', {
+  include: [{ model: Project,
+    include: [{ model: Commit }] }]
+}, {
+  override: true
+});
 
 Commit.addScope('defaultScope', {
   include: [{ model: Blob,
