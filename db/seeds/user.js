@@ -9,27 +9,27 @@ const users = [
     password: 'green'
   },
   {
-    first_name: 'Barry',
-    last_name: 'Smith',
-    email: 'barry@smith.com',
+    first_name: 'Tim',
+    last_name: 'Burton',
+    email: 'tim@burton.com',
     password: 'blue'
   },
   {
-    first_name: 'Bernard',
-    last_name: 'Jones',
-    email: 'bernard@jones.com',
+    first_name: 'Dean',
+    last_name: 'Devlin',
+    email: 'dean@devlin.com',
     password: 'purple'
   },
   {
-    first_name: 'Beatrice',
-    last_name: 'Johnson',
-    email: 'beatrice@johnson.com',
+    first_name: 'Roland',
+    last_name: 'Emmerich',
+    email: 'roland@emmerich.com',
     password: 'red'
   },
   {
-    first_name: 'Billy',
-    last_name: 'Browne',
-    email: 'billy@browne.com',
+    first_name: 'Michael',
+    last_name: 'Bay',
+    email: 'michael@bay.com',
     password: 'orange'
   },
   {
@@ -39,39 +39,39 @@ const users = [
     password: 'yellow'
   },
   {
-    first_name: 'Bethany',
-    last_name: 'Davis',
-    email: 'bethany@davis.com',
+    first_name: 'George',
+    last_name: 'Romero',
+    email: 'george@romero.com',
     password: 'black'
   },
   {
-    first_name: 'Brian',
-    last_name: 'Taylor',
-    email: 'brian@taylor.com',
+    first_name: 'George',
+    last_name: 'Lucas',
+    email: 'george@lucas.com',
     password: 'white'
   },
   {
-    first_name: 'Bernadette',
-    last_name: 'Wilson',
-    email: 'bernadette@wilson.com',
+    first_name: 'Lawrence',
+    last_name: 'Kasdan',
+    email: 'lawrence@kasdan.com',
     password: 'brown'
   },
   {
-    first_name: 'Betsy',
-    last_name: 'White',
-    email: 'betsy@white.com',
+    first_name: 'Chris',
+    last_name: 'Karter',
+    email: 'chris@karter.com',
     password: 'indigo'
   },
   {
-    first_name: 'Bertha',
-    last_name: 'Hill',
-    email: 'bertha@hill.com',
+    first_name: 'Gene',
+    last_name: 'Wilder',
+    email: 'gene@wilder.com',
     password: 'pink'
   },
   {
-    first_name: 'Brittany',
-    last_name: 'Thomas',
-    email: 'brittany@thomas.com',
+    first_name: 'Mel',
+    last_name: 'Brooks',
+    email: 'mel@brooks.com',
     password: 'aqua'
   },
   {

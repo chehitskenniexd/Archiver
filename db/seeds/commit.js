@@ -3,10 +3,10 @@
 // ONE FILE PER PROJECT
 
 const commits = [
-  { date: Date.UTC(2016, 10, 6, 21, 30), message: 'Translated the first few lines', previous_commit: '', hash: 'Dantecommithash1', committer: 'Bob Williams', projectId: 1 },
-  { date: Date.UTC(2016, 10, 6, 22, 28), message: 'Added more lines', previous_commit: 'Dantecommithash1', hash: 'Dantecommithash2', committer: 'Barry Smith', projectId: 1 },
-  { date: Date.UTC(2016, 10, 7, 7, 5), message: 'Fixed some of the meter', previous_commit: 'Dantecommithash1', hash: 'Dantecommithash3', committer: 'Bernard Jones', projectId: 1 },
-  { date: Date.UTC(2016, 10, 7, 11, 25), message: "Started on Virgil's dialogue", previous_commit: 'Dantecommithash2, Dantecommithash3', hash: 'Dantecommithash4', committer: 'Beatrice Johnson', projectId: 1 },
+  { date: Date.UTC(2016, 10, 6, 21, 30), message: 'Translated the first few lines', previous_commit: '', hash: 'Independencehash1', committer: 'Bob Williams', projectId: 1 },
+  { date: Date.UTC(2016, 10, 6, 22, 28), message: 'Added more lines', previous_commit: 'Independencehash1', hash: 'Independencehash2', committer: 'Barry Smith', projectId: 1 },
+  { date: Date.UTC(2016, 10, 7, 7, 5), message: 'Fixed some of the meter', previous_commit: 'Independencehash1', hash: 'Dantecommithash3', committer: 'Bernard Jones', projectId: 1 },
+  { date: Date.UTC(2016, 10, 7, 11, 25), message: "Started on Virgil's dialogue", previous_commit: 'Independencehash2, Dantecommithash3', hash: 'Dantecommithash4', committer: 'Beatrice Johnson', projectId: 1 },
   { date: Date.UTC(2016, 10, 7, 14), message: 'Added a few stanzas', previous_commit: 'Dantecommithash4', hash: 'Dantecommithash5', committer: 'Billy Browne', projectId: 1 },
   { date: Date.UTC(2016, 10, 8, 16, 21), message: 'Translated lines 58-71', previous_commit: 'Dantecommithash5', hash: 'Dantecommithash6', committer: 'Bella Miller', projectId: 1 },
   { date: Date.UTC(2016, 10, 10, 10, 24), message: 'Almost through the first canto!', previous_commit: 'Dantecommithash7', hash: 'Dantecommithash7', committer: 'Bethany Davis', projectId: 1 },

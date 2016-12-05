@@ -1,4 +1,3 @@
-
 module.exports = {
   blob: require('./blob'),
   commit: require('./commit'),

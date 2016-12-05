@@ -3,12 +3,12 @@
 // ONE FILE PER PROJECT
 
 const projects = [
-    { name: 'Inferno' },
-    { name: 'Macbeth' },
-    { name: 'The Importance of Being Earnest' },
-    { name: 'The Jungle' },
-    { name: 'Lord of the Flies' },
-    { name: 'Heart of Darkness' },
+    { name: 'Independence Day' },
+    { name: 'The Nightmare Before Christmas' },
+    { name: 'Pulp Fiction' },
+    { name: 'Raiders of the Lost Ark' },
+    { name: 'Jaws' },
+    { name: 'Dawn of the Dead' },
     { name: 'Alien' }
 ];
 
