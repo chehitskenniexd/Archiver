@@ -17,7 +17,7 @@ export class Project_List extends Component {
     }
 
     viewAdd() {
-        hashHistory.push('/metrics')
+        hashHistory.push('/add')
     }
 
     componentWillMount() {
@@ -94,6 +94,14 @@ export class Project_List extends Component {
                                     <span className="icon-height" style={{ float: 'right' }} onClick={(evt) => {
                                         this.props.fetchCollabs(instance);
                                         hashHistory.push('/collabs');
+                                        evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
+                                    } }>
+                                        <i className="small material-icons">supervisor_account</i>
+                                    </span>
+                                </Link>
+                                <Link>
+                                    <span className="icon-height" style={{ float: 'right' }} onClick={(evt) => {
+                                        hashHistory.push('/metrics');
                                         evt.stopPropagation() // **LEAVE THIS HERE!** it makes sure we don't trigger AccordionItemTitle onClick of the icon
                                     } }>
                                         <i className="small material-icons">supervisor_account</i>
